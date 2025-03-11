@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins";
+}
+
+:root {
+    --bg-color: rgb(44, 41, 41);
+    --main-color: #ed145b;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--main-color);
+    
+}
+
+img {
+    width: 2rem;
+}
+
+/* Em nav, vou deixar deixar algumas coisas em cima e outras em baixo, como se fossem 2 andares da tag, o de cima será above e o outro será under, */
+
+#above {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px;
+
+    
+}
+
+#above a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+#above img {
+    vertical-align: middle;
+    
+}
+
+#under a {
+    text-decoration: none;
+    margin-top: 1rem;
+    color: white;
+    font-weight: 600;
+}
+
+
+#under {
+        /* background-color: azure; */
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    gap: 300px;
+    border-top: 1px solid var(--main-color);
+    /* align-items: center; */
+    /* margin: 0 auto; */
+    
+}
+
+
+
+h1 {
+    margin-top: 15rem;
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.section-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section-content div {
+    
+    margin: 1rem;
+    padding: 1rem;
+    background-color: transparent;
+    
+    
+}
+.section-content img {
+    width: 18rem;
+    /* height: 12rem; */
+    border-radius: 10px;
+    margin: 1rem;
+
+    /* background-color: blue; */
+}
+
+footer a{
+    
+    text-decoration: none;
+    color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin-top: 10rem;
+
+}
+
+/* RESPONSIVIDADE */
+
