@@ -1,0 +1,25 @@
+.login-signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem; 
+  margin-top: 5rem;
+}
+
+.login-signup {
+  padding: .5rem;
+  max-width: 18rem;
+  /* background-color: #ccc; */
+  
+}
+
+.forms {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  background-color: black;
+  max-width: 410px;
+  height: 650px; 
+  /* flex-wrap: wrap; */
+
+}

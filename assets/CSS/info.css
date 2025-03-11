@@ -1,0 +1,19 @@
+.container {
+  width: 80%;
+  margin: 20px auto;
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  margin-top: 20rem;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+
+}
+
+.box {
+  width: 30%;
+  background-color: black;
+  margin: 1.25rem;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
