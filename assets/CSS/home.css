@@ -1,108 +1,99 @@
+:root {
+    --bg-color: rgb(44, 41, 41);
+    --main-color: #ed145b;
+    --text-color: #ffffff;
+    --secondary-text: #cccccc;
+    --font-family: 'Poppins', sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins";
-}
-
-:root {
-    --bg-color: rgb(44, 41, 41);
-    --main-color: #ed145b;
+    font-family: var(--font-family);
 }
 
 body {
     background-color: var(--bg-color);
-    color: var(--main-color);
-    
-}
-
-img {
-    width: 2rem;
-}
-
-/* Em nav, vou deixar deixar algumas coisas em cima e outras em baixo, como se fossem 2 andares da tag, o de cima será above e o outro será under, */
-
-#above {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: 10px;
-
-    
-}
-
-#above a {
-    text-decoration: none;
-    color: white;
-    font-weight: 600;
-}
-#above img {
-    vertical-align: middle;
-    
-}
-
-#under a {
-    text-decoration: none;
-    margin-top: 1rem;
-    color: white;
-    font-weight: 600;
-}
-
-
-#under {
-        /* background-color: azure; */
-    display: grid;
-    grid-auto-flow: column;
-    justify-content: center;
-    gap: 300px;
-    border-top: 1px solid var(--main-color);
-    /* align-items: center; */
-    /* margin: 0 auto; */
-    
-}
-
-
-
-header h1 {
-    margin-top: 15rem;
+    color: var(--text-color);
     text-align: center;
-    margin-bottom: 5rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.284);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+    width: 100px;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--main-color);
+}
+
+h1 {
+    margin: 40px 0;
+    font-size: 2rem;
+    font-weight: 700;
 }
 
 .section-content {
     display: flex;
     justify-content: center;
-    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
 }
 
 .section-content div {
-    
-    margin: 1rem;
-    padding: 1rem;
-    background-color: transparent;
-    
-    
-}
-.section-content img {
-    width: 18rem;
-    /* height: 12rem; */
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
     border-radius: 10px;
-    margin: 1rem;
-
-    /* background-color: blue; */
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-footer a{
-    
-    text-decoration: none;
+.section-content div:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.section-content img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 20px;
+ 
+}
+
+footer a {
     color: var(--main-color);
-    display: flex;
-    justify-content: center;
-    align-items: end;
-    margin-top: 10rem;
-
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: color 0.3s;
 }
 
-/* RESPONSIVIDADE */
-
+footer a:hover {
+    color: var(--text-color);
+}
