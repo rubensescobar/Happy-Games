@@ -54,31 +54,46 @@ h1 {
   font-weight: 700;
 }
 
-form {
-  background: #383434;
+.section-content {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  margin: 2rem auto;
 }
 
-input, textarea, button {
-  width: 100%;
-  margin: 8px 0;
+.section-content div {
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
- 
-button {
-  background: #007bff;
-  color: white;
-  cursor: pointer;
-  border: none;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-button:hover {
-  background: #0056b3;
+.section-content div:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.section-content img {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+}
+
+footer {
+  margin-top: 40px;
+  padding: 20px;
+
+}
+
+footer a {
+  color: var(--main-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: var(--text-color);
 }
