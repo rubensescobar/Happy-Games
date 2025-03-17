@@ -1,5 +1,5 @@
 :root {
-    --bg-color: rgb(44, 41, 41);
+    --bg-color: rgb(255, 255, 255);
     --main-color: #ed1431;
     --text-color: #ffffff;
     --secondary-text: #cccccc;
@@ -23,7 +23,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 6px;
-    background-color: rgba(0, 0, 0, 0.284);
+    background-color: rgba(0, 0, 0, 0.778);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -56,7 +56,7 @@ h1 {
     font-weight: 700;
 }
 
-p{
+p, h3{
     text-align: center
 }
 

@@ -7,7 +7,7 @@
 }
 
 .section-content div {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.452);
   padding: 10px;
   border-radius: 10px;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -20,6 +20,15 @@
 
 .section-content img {
   width: 200px;
-  height: auto;
+  height: 120px;
   border-radius: 8px;
+}
+
+.section-content .game-info {
+  width: 13rem;
+  background-color: rgb(88, 88, 88);
+}
+
+.section-content .game-info:hover {
+  background-color: rgba(226, 11, 11, 0.553);
 }
