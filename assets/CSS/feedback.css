@@ -1,25 +1,11 @@
-.section-content {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding: 20px;
+h1{
+  color: black;
 }
 
-.section-content div {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 10px;
-  transition: transform 0.3s, box-shadow 0.3s;
+p{
+  color: rgb(103, 103, 103);
 }
 
-.section-content div:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-}
-
-.section-content img {
-  width: 200px;
-  height: auto;
-  border-radius: 8px;
+.footer-notes a {
+  color: rgb(0, 0, 0);
 }

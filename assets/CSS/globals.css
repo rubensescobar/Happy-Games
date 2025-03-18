@@ -1,5 +1,5 @@
 :root {
-    --bg-color: rgb(44, 41, 41);
+    --bg-color: #e6e6e6;
     --main-color: #ed1431;
     --text-color: #ffffff;
     --secondary-text: #cccccc;
@@ -13,7 +13,16 @@
     font-family: var(--font-family);
 }
 
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+  
 body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-color: var(--bg-color);
     color: var(--text-color);
 }
@@ -23,7 +32,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 6px;
-    background-color: rgba(0, 0, 0, 0.284);
+    background-color: rgba(0, 0, 0, 0.778);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -56,7 +65,7 @@ h1 {
     font-weight: 700;
 }
 
-p{
+p, h3{
     text-align: center
 }
 
@@ -118,6 +127,7 @@ textarea.form-input {
 }
 
 .footer {
+    margin-top: auto;
     position: relative;
     left: 0;
     bottom: 0;
