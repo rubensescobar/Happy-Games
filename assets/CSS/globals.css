@@ -305,3 +305,8 @@ footer.top .socials > a:hover {
         display: block;
     }
 }
+
+.socials li {
+    display: flex;
+    align-items: center;
+}
