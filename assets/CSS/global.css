@@ -34,3 +34,16 @@ body {
     width: 100%;
     border-radius: 1rem;
   }
+  #home-h1 {
+    margin: 2.5rem 0;
+    text-align: center;
+    color: rgb(109, 109, 109);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+
+  .form-check-input:checked {
+    background-color: red;
+    border-color: red;
+  }
