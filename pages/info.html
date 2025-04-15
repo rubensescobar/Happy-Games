@@ -1,123 +1,152 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuscaGames - Equipe</title>
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BuscaGames</title>
-        <link rel="stylesheet" href="/assets/CSS/globals.css">
-        <link rel="stylesheet" href="/assets/CSS/info.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <header>
-            <a href="/">
-                <img src="/assets/images/logo.png" alt="Logo da Empresa" class="logo">
-            </a>
-            <nav id="under">
-                <a href="/">Home</a>
-                <a href="/pages/games.html">Games</a>
-                <a href="/pages/cadastro.html">Cadastro</a>
-            </nav>
-        </header>
-    
-        <div class="container">
-          <h2>Equipe do Projeto</h2>
-            <table>
-                <tr>
-                    <th>Participante</th>
-                    <th>Cargo</th>
-                </tr>
-                <tr><td>Caio</td><td>Gerente de Projeto e Desenvolvedor</td></tr>
-                <tr><td>Rubens</td><td>Desenvolvedor</td></tr>
-                <tr><td>Sergio</td><td>Desenvolvedor</td></tr>
-                <tr><td>Yuri</td><td>UX e Desenvolvedor</td></tr>
-                <tr><td>Gabriel</td><td>Desenvolvedor</td></tr>
-            </table>
-            <div class="team">
-                <div class="member">
-                    <img src="/assets/images/profile1.png" alt="Caio">
-                    <p>Caio</p>
-                </div>
-                <div class="member">
-                    <img src="/assets/images/profile3.png" alt="Rubens">
-                    <p>Rubens</p>
-                </div>
-                <div class="member">
-                    <img src="/assets/images/profile-5.jpeg" alt="Sergio">
-                    <p>Sergio</p>
-                </div>
-                <div class="member">
-                    <img src="/assets/images/profile2.png" alt="Yuri">
-                    <p>Yuri</p>
-                </div>
-                <div class="member">
-                    <img src="/assets/images/profile4.png" alt="Gabriel">
-                    <p>Gabriel</p>
-                </div>
-            </div>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/CSS/global.css">
+ 
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="Logo da Empresa" class="logo" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navLinks">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pages/games.html">Games</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pages/cadastro.html">Cadastro</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Equipe -->
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Equipe do Projeto</h2>
+
+    <!-- Tabela -->
+    <div class="table-responsive mb-5">
+      <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Participante</th>
+            <th>Cargo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Caio</td><td>Gerente de Projeto e Desenvolvedor</td></tr>
+          <tr><td>Rubens</td><td>Desenvolvedor</td></tr>
+          <tr><td>Sergio</td><td>Desenvolvedor</td></tr>
+          <tr><td>Yuri</td><td>UX e Desenvolvedor</td></tr>
+          <tr><td>Gabriel</td><td>Desenvolvedor</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cards dos membros -->
+    <div class="row g-4 justify-content-center">
+      <div class="col-6 col-sm-4 col-md-3 text-center">
+        <div class="member-card">
+          <img src="/assets/images/profile1.png" alt="Caio">
+          <p class="mt-2 fw-semibold">Caio</p>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 text-center">
+        <div class="member-card">
+          <img src="/assets/images/profile3.png" alt="Rubens">
+          <p class="mt-2 fw-semibold">Rubens</p>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 text-center">
+        <div class="member-card">
+          <img src="/assets/images/profile5.png" alt="Sergio">
+          <p class="mt-2 fw-semibold">Sergio</p>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 text-center">
+        <div class="member-card">
+          <img src="/assets/images/profile2.png" alt="Yuri">
+          <p class="mt-2 fw-semibold">Yuri</p>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 text-center">
+        <div class="member-card">
+          <img src="/assets/images/profile4.png" alt="Gabriel">
+          <p class="mt-2 fw-semibold">Gabriel</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-md-4">
+          <img src="/assets/images/logo.png" class="mb-3" height="50" />
+          <p>Explore as melhores ofertas de jogos com a gente.</p>
         </div>
 
-        <section class="footer">
-            <footer class="top">
-                <img src="/assets/images/logo.png" />
-                <div class="links">
-                  <div class="links-column">
-                    <h2>Company</h2>
-                    <a>Sobre nós</a>
-                    <a>Nossos serviços</a>
-                    <a>Parceiros</a>
-                    <a>Programa de Afiliados</a>
-                  </div>
-                  <div class="links-column">
-                      <h2>Fale Conosco</h2>
-                      <form id="form" action="/pages/feedback.html">
-                        <div class="form-row">
-                            <input type="text" class="form-input" id="name" placeholder="Nome" autocomplete="off" required>
-                        </div>
-                        <div class="form-row">
-                            <input type="email" class="form-input" id="email" placeholder="Email" autocomplete="off" required>
-                        </div>
-                        <div class="form-row">
-                            <input type="text" class="form-input" id="assunto" placeholder="Assunto" autocomplete="off" required>
-                        </div>
-                        <div class="form-row">
-                            <textarea class="form-input" id="message" placeholder="Mensagem" rows="3" aria-invalid="false" maxlength="500" autocomplete="off" required></textarea>
-                        </div>
-                        <br>
-                        <div class="form-row d-flex align-items-center justify-content-center">
-                            <div class="col-6 col-md-6">
-                              <button type="submit" class="btn-primary">Enviar</button>
-                            </div>
-                        </div>
-                      </form>
-                  </div>
-                  <div class="links-column socials-column">
-                    <h2>Social Media</h2>
-                    <p>
-                      Siga-nos nas redes sociais para saber as últimas atualizações sobre nosso
-                      progresso.
-                    </p>
-                    <div class="socials">
-                      <a href="#"><i class="fab fa-facebook-f"></i></a>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                      <a href="#"><i class="fab fa-instagram"></i></a>
-                      <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                  </div>
-              </div>
-            </footer>
-            <footer class="bottom">
-                <p class="copyright">© 2025 Busca Games. All rights reserved</p>
-                <div class="legal">
-                  <a> Licença </a>
-                  <a> Termos </a>
-                  <a> Privacidade </a>
-                </div>
-            </footer>
-        </section>
-    </body>
+        <div class="col-md-4">
+          <h5>Fale Conosco</h5>
+          <form action="/pages/feedback.html">
+            <div class="mb-2">
+              <input type="text" class="form-control" placeholder="Nome" required>
+            </div>
+            <div class="mb-2">
+              <input type="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-2">
+              <input type="text" class="form-control" placeholder="Assunto" required>
+            </div>
+            <div class="mb-3">
+              <textarea class="form-control" placeholder="Mensagem" rows="3" maxlength="500" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+          </form>
+        </div>
+
+        <div class="col-md-4">
+          <h5>Social Media</h5>
+          <p>Siga-nos nas redes sociais para saber as últimas atualizações sobre nosso progresso.</p>
+          <div class="socials">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between pt-4 mt-4 border-top">
+        <p class="mb-0">&copy; 2025 Busca Games. Todos os direitos reservados.</p>
+        <div>
+          <a href="#" class="me-3">Licença</a>
+          <a href="#" class="me-3">Termos</a>
+          <a href="#">Privacidade</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

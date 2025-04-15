@@ -1,0 +1,36 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+  }
+  .logo {
+    height: 50px;
+  }
+  .game-card img {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+  }
+  .footer {
+    background-color: #212529;
+    color: white;
+    padding: 40px 0;
+  }
+  .footer a {
+    color: #adb5bd;
+    text-decoration: none;
+  }
+  .footer a:hover {
+    color: white;
+  }
+  .socials a {
+    color: #adb5bd;
+    font-size: 20px;
+    margin-right: 15px;
+  }
+  .socials a:hover {
+    color: white;
+  }
+
+  .member-card img {
+    width: 100%;
+    border-radius: 1rem;
+  }
