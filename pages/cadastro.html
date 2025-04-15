@@ -16,6 +16,10 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="/assets/CSS/global.css">
+
+  <!-- Sripts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/assets/js/script.js"></script>
   
 </head>
 <body>
@@ -55,33 +59,38 @@
           <div class="col-lg-6 mb-5 mb-lg-0">
             <div class="card">
               <div class="card-body py-5 px-md-5">
-                <form>
+                <form id="cadastro">
                   <!-- 2 column grid layout with text inputs for the first and last names -->
                   <div class="row">
-                    <div class="col-md-6 mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <label class="form-label" for="form3Example1">Nome</label>
-                        <input type="text" id="form3Example1" class="form-control" />
-                      </div>
+                    <div class="col-md-6">
+                      <label for="first_name" class="form-label">Nome</label>
+                      <input type="text" class="form-control" id="first_name">
                     </div>
-                    <div class="col-md-6 mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <label class="form-label" for="form3Example2">Sobrenome</label>
-                        <input type="text" id="form3Example2" class="form-control" />
-                      </div>
+                    <div class="col-md-6">
+                      <label for="last_name" class="form-label">Sobrenome</label>
+                      <input type="text" class="form-control" id="last_name">
                     </div>
                   </div>
   
                   <!-- Email input -->
                   <div data-mdb-input-init class="form-outline mb-4">
-                    <label class="form-label" for="form3Example3">Email</label>
-                    <input type="email" id="form3Example3" class="form-control" />
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="example@email.com" onBlur="validarEmail(this)">
                   </div>
-  
-                  <!-- Password input -->
-                  <div data-mdb-input-init class="form-outline mb-4">
-                    <label class="form-label" for="form3Example4">Senha</label>
-                    <input type="password" id="form3Example4" class="form-control" />
+
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Senha</label>
+                    <div class="input-group">
+                      <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Digite uma senha"  maxlength="16" onblur="checkMinCaracteres(this)">
+                      <span class="input-group-text"><i class="far fa-eye-slash" id="verNovaSenha"></i></span>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirme sua senha</label>
+                      <div class="input-group">
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Senha" maxlength="16" onblur="checkMinCaracteres(this)">
+                        <span class="input-group-text"><i class="far fa-eye-slash" id="verConfirmarNovaSenha"></i></span>
+                      </div>
                   </div>
   
                   <!-- Checkbox -->
@@ -93,7 +102,7 @@
                   </div>
   
                   <!-- Submit button -->
-                  <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block mb-4 d-flex mx-auto">
+                  <button type="button" class="btn btn-dark btn-block mb-4 d-flex mx-auto" onclick="validateRegistration()">
                     Registrar
                   </button>
   
@@ -112,7 +121,7 @@
                       <i class="fab fa-twitter text-danger"></i>
                     </button>
   
-                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
                       <i class="fab fa-github text-danger"></i>
                     </button>
                   </div>
