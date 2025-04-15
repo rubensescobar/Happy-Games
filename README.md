@@ -39,6 +39,4 @@ buscagames/
 │   ├── images/               # Game images and logo
 │   └── CSS/
 │       ├── globals.css       # Global custom styles
-│       ├── home.css          # Homepage styles
-│       ├── games.css         # Game list styles
-│       └── feedback.css      # Feedback form styles
+│
