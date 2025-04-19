@@ -124,3 +124,30 @@ function validarEmail(email) {
         }
     }
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    const estouLogado = localStorage.getItem("isLogged");
+    const nome = localStorage.getItem('nomeUsuario');
+    const loginIcon = document.getElementById("loginIcon");
+    const nomeSpan = document.getElementById('nomeUsuario');
+    const loginLink = loginIcon?.closest("a"); // pega o <a> que envolve o ícone
+
+    if (estouLogado === "true") {
+        if (loginIcon) {
+            loginIcon.classList.remove('fa-right-to-bracket');
+            loginIcon.classList.add('fa-user');
+        }
+
+        if (nomeSpan) {
+            nomeSpan.textContent = nome;
+        }
+
+        if (loginLink) {
+            loginLink.setAttribute("href", "#"); // não redireciona
+        }
+    } else {
+        if (loginLink) {
+            loginLink.setAttribute("href", "/pages/login.html"); // redireciona para login
+        }
+    }
+});
