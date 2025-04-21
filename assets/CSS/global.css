@@ -5,10 +5,29 @@ body {
 .logo {
   height: 50px;
 }
+
 .game-card img {
   border-top-left-radius: .5rem;
   border-top-right-radius: .5rem;
 }
+
+.card-title {
+  min-height: .75em;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.button-secondary {
+  background-color: #e6e6e6;
+  color: #212529;
+  border: none;
+}
+
 .footer {
   background-color: #212529;
   color: white;
@@ -50,11 +69,40 @@ body {
 .swal2-modal{
   color: #FFF;
 }
+
+input.form-input{
+  display: block;
+  background: transparent;
+  color: #bbbbbb;
+  width: 100%;
+  height: 34px;
+  outline: none;
+  padding: 6px 10px;
+  font-size: 16px;
+  line-height: 1.42857143;
+  border: none;
+  border-bottom: 1.5px solid #b12323;
+}
+
+textarea.form-input {
+  display: block;
+  background: transparent;
+  color: #bbbbbb;
+  width: 100%;
+  outline: none;
+  padding: 6px 10px;
+  font-size: 16px;
+  line-height: 1.42857143;
+  border: none;
+  border-bottom: 1.5px solid #b12323;
+}
+
 .swal2-modal h2 {
   line-height: 0px;
   margin-top: 6px;
   margin-bottom: 16px;
 }
+
 .swal2-modal .swal2-styled{
   border: none !important;
   background: #ff1a34 !important;
@@ -63,10 +111,12 @@ body {
   border-radius: 2px;
   outline:none;
 }
+
 .swal2-modal{
   border-radius:2px;
   background:#262626 !important;
 }
+
 .swal2-modal .swal2-content{
   color: #fff;
   font-size: 14px;

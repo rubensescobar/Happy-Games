@@ -1,153 +1,232 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const verNovaSenha = document.querySelector("#verNovaSenha");
-    const verConfirmarNovaSenha = document.querySelector("#verConfirmarNovaSenha");
-    const newpassword = document.querySelector("#newPassword");
-    const confirmPassword = document.querySelector("#confirmPassword");
-  
-    if (verNovaSenha) {
-      verNovaSenha.addEventListener("click", function () {
-        const type = newpassword.getAttribute("type") === "password" ? "text" : "password";
-        newpassword.setAttribute("type", type);
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
-      });
+    // Alternar visibilidade das senhas
+    const toggleNewPasswordIcon = document.querySelector("#verNovaSenha");
+    const toggleConfirmPasswordIcon = document.querySelector("#verConfirmarNovaSenha");
+    const newPasswordInput = document.querySelector("#newPassword");
+    const confirmPasswordInput = document.querySelector("#confirmPassword");
+
+    if (toggleNewPasswordIcon) {
+        toggleNewPasswordIcon.addEventListener("click", function () {
+            const type = newPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+            newPasswordInput.setAttribute("type", type);
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+        });
     }
-  
-    if (verConfirmarNovaSenha) {
-      verConfirmarNovaSenha.addEventListener("click", function () {
-        const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
-        confirmPassword.setAttribute("type", type);
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
-      });
+
+    if (toggleConfirmPasswordIcon) {
+        toggleConfirmPasswordIcon.addEventListener("click", function () {
+            const type = confirmPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+            confirmPasswordInput.setAttribute("type", type);
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+        });
+    }
+
+    const isLoggedIn = localStorage.getItem("isLogged");
+    const storedUserName = localStorage.getItem("nomeUsuario");
+    const loginIcon = document.getElementById("loginIcon");
+    const userNameSpan = document.getElementById("nomeUsuario");
+    const loginLink = loginIcon?.closest("a");
+    const loginNavItem = document.getElementById("loginNavItem");
+    const logoutNavItem = document.getElementById("logoutNavItem");
+    const logoutLink = document.getElementById("logoutLink");
+
+    if (isLoggedIn === "true") {
+        if (loginIcon) {
+            loginIcon.classList.remove("fa-right-to-bracket");
+            loginIcon.classList.add("fa-user");
+        }
+
+        if (userNameSpan) {
+            userNameSpan.textContent = storedUserName;
+        }
+
+        if (loginLink) {
+            loginLink.setAttribute("href", "#");
+        }
+
+        if (loginNavItem) loginNavItem.style.display = "block";
+        if (logoutNavItem) logoutNavItem.style.display = "block";
+    } else {
+        if (loginLink) {
+            loginLink.setAttribute("href", "/pages/login.html");
+        }
+
+        if (loginNavItem) loginNavItem.style.display = "block";
+        if (logoutNavItem) logoutNavItem.style.display = "none";
+    }
+
+    if (logoutLink) {
+        logoutLink.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            localStorage.removeItem("isLogged");
+            localStorage.removeItem("nomeUsuario");
+
+            // Atualiza navbar
+            if (loginNavItem) loginNavItem.style.display = "block";
+            if (logoutNavItem) logoutNavItem.style.display = "none";
+
+            if (loginIcon) {
+                loginIcon.classList.remove("fa-user");
+                loginIcon.classList.add("fa-right-to-bracket");
+            }
+
+            if (userNameSpan) {
+                userNameSpan.textContent = "Login";
+            }
+
+            location.reload();
+        });
+    }
+
+    const contactForm = document.getElementById("contactForm");
+
+    if (contactForm) {
+        contactForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById("contactName").value.trim();
+            const email = document.getElementById("contactEmail").value.trim();
+            const subject = document.getElementById("contactSubject").value.trim();
+            const message = document.getElementById("contactMessage").value.trim();
+
+            let validationMessage = "";
+
+            if (!name) validationMessage += "- Nome<br>";
+            if (!email) validationMessage += "- Email<br>";
+            if (!subject) validationMessage += "- Assunto<br>";
+            if (!message) validationMessage += "- Mensagem<br>";
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                validationMessage += "- E-mail inválido<br>";
+            }
+
+            if (validationMessage) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Campos obrigatórios",
+                    html: "Por favor, preencha corretamente os campos:<br><br>" + validationMessage,
+                    customClass: {
+                        confirmButton: "btn btn-danger",
+                    },
+                    buttonsStyling: false,
+                });
+            } else {
+                Swal.fire({
+                    icon: "success",
+                    title: "Mensagem enviada!",
+                    text: "Obrigado pelo contato. Retornaremos em breve!",
+                    customClass: {
+                        confirmButton: "btn btn-danger",
+                    },
+                    buttonsStyling: false,
+                }).then(() => {
+                    contactForm.reset();
+                });
+            }
+        });
     }
 });
 
-function checkMinCaracteres(input){
-    if(input.value != ""){
-        if(input.value.length < 8){
-            const Toast = Swal.mixin({
+// Validações auxiliares
+
+function checkPasswordMinLength(inputElement) {
+    if (inputElement.value !== "") {
+        if (inputElement.value.length < 8) {
+            const toast = Swal.mixin({
                 toast: true,
-                position: 'center',
+                position: "center",
                 showConfirmButton: false,
                 timer: 2000,
                 timerProgressBar: true,
-                didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer);
-                toast.addEventListener('mouseleave', Swal.resumeTimer);
-                }
+                didOpen: (toastInstance) => {
+                    toastInstance.addEventListener("mouseenter", Swal.stopTimer);
+                    toastInstance.addEventListener("mouseleave", Swal.resumeTimer);
+                },
             });
-            Toast.fire({
-                icon: 'error',
-                title: 'A nova senha deve ter no mínimo 8 caracteres!'
+            toast.fire({
+                icon: "error",
+                title: "A nova senha deve ter no mínimo 8 caracteres!",
             });
-            input.value = '';
-            input.focus();
+            inputElement.value = "";
+            inputElement.focus();
         }
     }
 }
 
-function validateRegistration(){
-    var Mensagem = "";
-    var firstName = document.getElementById("first_name").value;
-    var lastName = document.getElementById("last_name").value;
-    var email = document.getElementById("email").value;
-    var newpassword = document.getElementById("newPassword").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
-  
-    if (firstName == "") {
-      Mensagem += "- Nome<br>";
-    }
-    if (lastName == "") {
-        Mensagem += "- Sobrenome<br>";
-    }
-    if (email == "") {
-      Mensagem += "- Email<br>";
-    }
-    if (newpassword == "") {
-      Mensagem += "- Senha<br>";
-    }
-    if (confirmPassword == "") {
-      Mensagem += "- Confirmar Senha<br>";
-    }
-    if (Mensagem !== "") {
-      Swal.fire({
-      icon: 'error',
-      title: 'Dados Incompletos!',
-      html: 'Por favor, preencha os seguintes campos:<br><br>' + Mensagem,
-      customClass: {
-        confirmButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-      })
-    } else {
-      if (newpassword !== confirmPassword) {
+function validateRegistration() {
+    let message = "";
+    const firstNameInput = document.getElementById("first_name");
+    const lastNameInput = document.getElementById("last_name");
+    const emailInput = document.getElementById("email");
+    const newPasswordInput = document.getElementById("newPassword");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+
+    const firstName = firstNameInput?.value || "";
+    const lastName = lastNameInput?.value || "";
+    const email = emailInput?.value || "";
+    const newPassword = newPasswordInput?.value || "";
+    const confirmPassword = confirmPasswordInput?.value || "";
+
+    if (firstName === "") message += "- Nome<br>";
+    if (lastName === "") message += "- Sobrenome<br>";
+    if (email === "") message += "- Email<br>";
+    if (newPassword === "") message += "- Senha<br>";
+    if (confirmPassword === "") message += "- Confirmar Senha<br>";
+
+    if (message !== "") {
         Swal.fire({
-          icon: 'error',
-          title: 'As senhas não coincidem',
-          text: 'A nova senha e a confirmação de senha não são iguais.',
-          customClass: {
-            confirmButton: 'btn btn-danger'
-          },
-          buttonsStyling: false
+            icon: "error",
+            title: "Dados Incompletos!",
+            html: "Por favor, preencha os seguintes campos:<br><br>" + message,
+            customClass: {
+                confirmButton: "btn btn-danger",
+            },
+            buttonsStyling: false,
         });
-      } else {
-        form.submit();
-      }
+    } else if (newPassword !== confirmPassword) {
+        Swal.fire({
+            icon: "error",
+            title: "As senhas não coincidem",
+            text: "A nova senha e a confirmação de senha não são iguais.",
+            customClass: {
+                confirmButton: "btn btn-danger",
+            },
+            buttonsStyling: false,
+        });
+    } else {
+        document.querySelector("form")?.submit();
     }
 }
-  
-function validarEmail(email) {
+
+function validateEmail(inputElement) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-    if(email.value != ''){
-        if (!regex.test(email.value)) {
-            const Toast = Swal.mixin({
+
+    if (inputElement.value !== "") {
+        if (!regex.test(inputElement.value)) {
+            const toast = Swal.mixin({
                 toast: true,
-                position: 'center',
+                position: "center",
                 showConfirmButton: false,
                 timer: 1500,
                 timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                }
+                didOpen: (toastInstance) => {
+                    toastInstance.addEventListener("mouseenter", Swal.stopTimer);
+                    toastInstance.addEventListener("mouseleave", Swal.resumeTimer);
+                },
             });
-            Toast.fire({
-                icon: 'error',
-                title: '<center>E-mail inválido. <br>Insira um e-mail válido!</center>'
+            toast.fire({
+                icon: "error",
+                title: "<center>E-mail inválido. <br>Insira um e-mail válido!</center>",
             });
-            email.value = '';
-            setTimeout(function() {
-                email.focus();
+            inputElement.value = "";
+            setTimeout(() => {
+                inputElement.focus();
             }, 1750);
         }
     }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-    const estouLogado = localStorage.getItem("isLogged");
-    const nome = localStorage.getItem('nomeUsuario');
-    const loginIcon = document.getElementById("loginIcon");
-    const nomeSpan = document.getElementById('nomeUsuario');
-    const loginLink = loginIcon?.closest("a"); // pega o <a> que envolve o ícone
-
-    if (estouLogado === "true") {
-        if (loginIcon) {
-            loginIcon.classList.remove('fa-right-to-bracket');
-            loginIcon.classList.add('fa-user');
-        }
-
-        if (nomeSpan) {
-            nomeSpan.textContent = nome;
-        }
-
-        if (loginLink) {
-            loginLink.setAttribute("href", "#"); // não redireciona
-        }
-    } else {
-        if (loginLink) {
-            loginLink.setAttribute("href", "/pages/login.html"); // redireciona para login
-        }
-    }
-});
+}  

@@ -6,7 +6,7 @@ btnLogin.addEventListener('click', () => {
     if (user.value === '' || senha.value === '') {
         Swal.fire({
             icon: 'error',
-            title: 'Verifique os dados e tente novamente!',
+            title: 'Erro!',
             text: 'Preencha os dados de login',
             customClass: {
               confirmButton: 'btn btn-danger'
@@ -16,7 +16,7 @@ btnLogin.addEventListener('click', () => {
     } else if (senha.value.length < 6) {
         Swal.fire({
             icon: 'error',
-            title: 'Verifique os dados e tente novamente!',
+            title: 'Erro!',
             text: 'A senha deve conter no mínimo 6 caracteres',
             customClass: {
               confirmButton: 'btn btn-danger'
@@ -26,7 +26,7 @@ btnLogin.addEventListener('click', () => {
     } else if (senha.value.length > 16) {
         Swal.fire({
             icon: 'error',
-            title: 'Verifique os dados e tente novamente!',
+            title: 'Erro!',
             text: ' A senha deve conter no máximo 16 caracteres',
             customClass: {
               confirmButton: 'btn btn-danger'
@@ -36,7 +36,7 @@ btnLogin.addEventListener('click', () => {
     } else {
         Swal.fire({
             icon: 'success',
-            text: `LOGIN EFETUADO COM SUCESSO!\n\n Seja Bem-vindo de volta, ${user.value}!`,
+            html: `<strong>Login realiazdo com sucesso!</strong><br><br>Seja bem-vindo de volta, ${user.value}!`,
             customClass: {
               confirmButton: 'btn btn-danger'
             },
