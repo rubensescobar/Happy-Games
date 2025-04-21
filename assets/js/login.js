@@ -36,7 +36,7 @@ btnLogin.addEventListener('click', () => {
     } else {
         Swal.fire({
             icon: 'success',
-            html: `<strong>Login realiazdo com sucesso!</strong><br><br>Seja bem-vindo de volta, ${user.value}!`,
+            html: `<strong>Login realizado com sucesso!</strong><br><br>Seja bem-vindo de volta, ${user.value}!`,
             customClass: {
               confirmButton: 'btn btn-danger'
             },
