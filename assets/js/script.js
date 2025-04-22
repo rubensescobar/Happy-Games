@@ -23,62 +23,53 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    const isLoggedIn = localStorage.getItem("isLogged");
-    const storedUserName = localStorage.getItem("nomeUsuario");
-    const loginIcon = document.getElementById("loginIcon");
-    const userNameSpan = document.getElementById("nomeUsuario");
-    const loginLink = loginIcon?.closest("a");
-    const loginNavItem = document.getElementById("loginNavItem");
-    const logoutNavItem = document.getElementById("logoutNavItem");
-    const logoutLink = document.getElementById("logoutLink");
-
-    if (isLoggedIn === "true") {
-        if (loginIcon) {
-            loginIcon.classList.remove("fa-right-to-bracket");
-            loginIcon.classList.add("fa-user");
-        }
-
-        if (userNameSpan) {
-            userNameSpan.textContent = storedUserName;
-        }
-
-        if (loginLink) {
-            loginLink.setAttribute("href", "#");
-        }
-
-        if (loginNavItem) loginNavItem.style.display = "block";
-        if (logoutNavItem) logoutNavItem.style.display = "block";
-    } else {
-        if (loginLink) {
-            loginLink.setAttribute("href", "/pages/login.html");
-        }
-
-        if (loginNavItem) loginNavItem.style.display = "block";
-        if (logoutNavItem) logoutNavItem.style.display = "none";
+    const isLoggedIn      = localStorage.getItem("isLogged") === "true";
+    const storedUserName  = localStorage.getItem("nomeUsuario");
+    const loginIcon       = document.getElementById("loginIcon");
+    const userNameSpan    = document.getElementById("nomeUsuario");
+    const loginNavItem    = document.getElementById("loginNavItem");
+    const logoutNavItem   = document.getElementById("logoutNavItem");
+    const logoutLink      = document.getElementById("logoutLink");
+    const loginLink       = loginIcon?.closest("a");
+  
+    function getLoginHref() {
+      const path = window.location.pathname;
+      if (path === "/" || path.endsWith("index.html")) {
+        return "pages/login.html";
+      }
+      return "login.html";
     }
-
+  
+    if (loginLink) {
+      loginLink.setAttribute("href", getLoginHref());
+    }
+  
+    if (isLoggedIn) {
+      loginIcon?.classList.replace("fa-right-to-bracket", "fa-user");
+      if (userNameSpan) {
+        userNameSpan.textContent = storedUserName;
+      }
+      loginNavItem && (loginNavItem.style.display = "block");
+      logoutNavItem && (logoutNavItem.style.display = "block");
+    } else {
+      loginIcon?.classList.replace("fa-user", "fa-right-to-bracket");
+      
+      if (userNameSpan) {
+        userNameSpan.textContent = "Login";
+      }
+      loginNavItem && (loginNavItem.style.display = "block");
+      logoutNavItem && (logoutNavItem.style.display = "none");
+    }
+  
     if (logoutLink) {
-        logoutLink.addEventListener("click", function (e) {
-            e.preventDefault();
+      logoutLink.addEventListener("click", e => {
+        e.preventDefault();
 
-            localStorage.removeItem("isLogged");
-            localStorage.removeItem("nomeUsuario");
+        localStorage.removeItem("isLogged");
+        localStorage.removeItem("nomeUsuario");
 
-            // Atualiza navbar
-            if (loginNavItem) loginNavItem.style.display = "block";
-            if (logoutNavItem) logoutNavItem.style.display = "none";
-
-            if (loginIcon) {
-                loginIcon.classList.remove("fa-user");
-                loginIcon.classList.add("fa-right-to-bracket");
-            }
-
-            if (userNameSpan) {
-                userNameSpan.textContent = "Login";
-            }
-
-            location.reload();
-        });
+        location.reload();
+      });
     }
 
     const contactForm = document.getElementById("contactForm");
