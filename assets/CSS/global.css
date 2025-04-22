@@ -1,3 +1,19 @@
+:root {
+  --color-white: #f7fcfe;
+  --color-dark: #1e191f;
+  --color-green:#00ac48;
+  --color-pink: #a21849;
+  --color-purple: #54367e;
+  --color-purple-pink: #6f2a61;
+  --color-blue: #2d579f;
+  --pink-dark: #5c0e45;
+  --blue-dark: #211a5e;
+  --purple-dark: #280142;
+  --purple-light: #8835fd;
+  --pink-light: #ff3078;
+  --blue-light: #2d7aff; 
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #f8f9fa;
