@@ -1,25 +1,51 @@
 :root {
-  --color-white: #f7fcfe;
-  --color-dark: #1e191f;
-  --color-green:#00ac48;
-  --color-pink: #a21849;
-  --color-purple: #54367e;
-  --color-purple-pink: #6f2a61;
-  --color-blue: #2d579f;
-  --pink-dark: #5c0e45;
-  --blue-dark: #211a5e;
-  --purple-dark: #280142;
-  --purple-light: #8835fd;
-  --pink-light: #ff3078;
-  --blue-light: #2d7aff; 
+  --color-white-cottom: #f2f2f2; /*Remete a cor do cultivo de algodão */
+  --color-dark: #1c1c1c; /*Proteção espiritual, ancestralidade africana e poder dos elementos.*/
+  --color-green-forest:#1E5631; /*Inspiração na mata atlântica, Amazônia, e as ervas sagradas nos terreiros e aldeias.*/
+  --color-green:#14853a; /* Variação de verde inspirado na mata*/
+  --color-green-glow:#4CAF50; /* Variação de verde inspirado na mata*/
+  --color-purple: #6B3FA0; /*Essa cor remete à ancestralidade, força espiritual e conexão com o sagrado.*/
+  --color-acai: #601848; /*Remete ao fruto do açaí, fruta originária da terra */
+  --color-blue: #002B45; 
+  --blue-light: #4A90E2; /*Inspiração: O céu, os rios e a espiritualidade (como Ogum, Oxum e Iemanjá nos orixás).*/
+  --color-yellow: #FFB400; /*Inspiração: O sol como símbolo de energia, divindade e tempo nos rituais de matriz africana e na vida indígena.*/
+  --color-redish: #8B3400;/*Inspiração: Solo de barro, ocre usado em pinturas corporais indígenas e cerâmicas afro-brasileiras. */
+  --red-land: #8B1A1A; /*Remete a cor do sangue dos indígenas e as fortes cores das terras indígenas */
 }
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--color-acai);
 }
 .logo {
   height: 50px;
+}
+
+.navbar {
+  background: var(--color-dark);
+}
+
+.nav-link {
+  color: var(--color-white-cottom);
+}
+.nav-link:hover {
+  color: var(--color-white-cottom);
+  transform: scale(1.1);
+  transition: .3s;
+}
+
+.gamebtn {
+  background: var(--color-green-forest);
+  color: var(--color-white-cottom);
+}
+.gamebtn:hover {
+  box-shadow: 1px 1px 20px var(--color-green-glow);
+  background: var(--color-green);
+  color: var(--color-white-cottom);
+}
+
+.badge {
+  background: var(--color-blue);
 }
 
 .game-card img {
@@ -39,14 +65,20 @@ body {
 }
 
 .button-secondary {
-  background-color: #e6e6e6;
-  color: #212529;
+  background-color: var(--color-white-cottom);
+  color: var(--color-acai);
+  border: none;
+}
+.button-secondary:hover {
+  box-shadow: 1px 1px 20px var(--blue-light);
+  background-color: var(--color-white-cottom);
+  color: var(--color-acai);
   border: none;
 }
 
 .footer {
-  background-color: #212529;
-  color: white;
+  background-color: var(--color-dark);
+  color: var(--color-white-cottom);
   padding: 40px 0;
 }
 .footer a {
@@ -72,14 +104,18 @@ body {
 #home-h1 {
   margin: 2.5rem 0;
   text-align: center;
-  color: rgb(109, 109, 109);
+  color: var(--color-white-cottom);
   text-transform: uppercase;
   font-weight: 700;
 }
 
+h1 {
+  color: var(--color-white-cottom);
+}
+
 .form-check-input:checked {
-  background-color: red;
-  border-color: red;
+  background-color: var(--blue-light);
+  border-color: var(--blue-light);
 }
 
 .swal2-modal{

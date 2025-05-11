@@ -1,0 +1,15 @@
+body {
+    background: var(--color-redish);
+}
+.nomes {
+    color: var(--color-white-cottom);
+}
+
+.equipe {
+    color: var(--color-white-cottom);
+    font-size: 4rem;
+}
+
+.fotoequipe {
+    border: 3px solid var(--color-yellow);
+}
