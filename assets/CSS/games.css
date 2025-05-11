@@ -1,0 +1,96 @@
+.navbar {
+  background: var(--color-dark);
+}
+
+.logo {
+  height: 50px;
+}
+
+/* Sidebar oculta inicialmente em telas pequenas */
+.sidebar {
+  position: fixed;
+  top: 56px;
+  /* altura da navbar */
+  left: 0;
+  width: 100%;
+  /* ocupa 100% da largura em telas pequenas */
+  height: 100vh;
+  /* altura total da tela */
+  background-color: var(--color-dark);
+  /* Cor de fundo */
+  color: white;
+  z-index: 1050;
+  /* sobrepõe o conteúdo */
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  /* Esconde a sidebar fora da tela */
+}
+
+/* Estilos específicos para telas grandes (desktop) */
+@media (min-width: 992px) {
+  .sidebar {
+    display: block;
+    /* A sidebar é visível por padrão em telas grandes */
+    width: 250px;
+    /* Largura normal em telas grandes */
+    height: calc(100vh - 56px);
+    /* Altura ajustada para ocupar a tela sem a navbar */
+    transform: translateX(0);
+    /* Garante que a sidebar esteja visível */
+  }
+
+  /* Conteúdo principal com margem para a sidebar */
+  .main-content {
+    margin-left: 250px;
+    /* Aumenta a margem para dar espaço à sidebar */
+    margin-top: 56px;
+    /* Previne que o conteúdo sobreponha a navbar */
+    padding: 20px;
+  }
+}
+
+/* Sidebar visível em telas pequenas (quando a classe .show é adicionada) */
+.sidebar.show {
+  display: block !important;
+  /* Torna a sidebar visível */
+  transform: translateX(0);
+  /* Exibe a sidebar deslizando */
+}
+
+/* Estilos para os links da sidebar */
+.sidebar a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: var(--color-white-cottom);
+  /* Cor personalizada para os links */
+  transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  /* Efeito de hover nos links */
+}
+
+/* Adiciona margem superior ao título "Categorias de Games" na sidebar */
+.sidebar h5 {
+  margin-top: 20px;
+  /* Ajuste a margem conforme necessário */
+}
+
+
+.txtMain {
+  color: var(--color-white-cottom);
+}
+
+.cateGames {
+  color: var(--color-white-cottom);
+}
+
+.list-group-item {
+  background: var(--color-dark);
+  color: var(--color-white-cottom);
+  border: none;
+  padding: 1rem;
+}

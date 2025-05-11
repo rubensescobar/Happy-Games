@@ -1,22 +1,161 @@
 :root {
-  --color-white-cottom: #f2f2f2; /*Remete a cor do cultivo de algodão */
-  --color-dark: #1c1c1c; /*Proteção espiritual, ancestralidade africana e poder dos elementos.*/
-  --color-green-forest:#1E5631; /*Inspiração na mata atlântica, Amazônia, e as ervas sagradas nos terreiros e aldeias.*/
-  --color-green:#14853a; /* Variação de verde inspirado na mata*/
-  --color-green-glow:#4CAF50; /* Variação de verde inspirado na mata*/
-  --color-purple: #6B3FA0; /*Essa cor remete à ancestralidade, força espiritual e conexão com o sagrado.*/
-  --color-acai: #601848; /*Remete ao fruto do açaí, fruta originária da terra */
-  --color-blue: #002B45; 
-  --blue-light: #4A90E2; /*Inspiração: O céu, os rios e a espiritualidade (como Ogum, Oxum e Iemanjá nos orixás).*/
-  --color-yellow: #FFB400; /*Inspiração: O sol como símbolo de energia, divindade e tempo nos rituais de matriz africana e na vida indígena.*/
-  --color-redish: #8B3400;/*Inspiração: Solo de barro, ocre usado em pinturas corporais indígenas e cerâmicas afro-brasileiras. */
-  --red-land: #8B1A1A; /*Remete a cor do sangue dos indígenas e as fortes cores das terras indígenas */
+  --color-white-cottom: #f2f2f2;
+  /*Remete a cor do cultivo de algodão */
+  --color-dark: #1c1c1c;
+  /*Proteção espiritual, ancestralidade africana e poder dos elementos.*/
+  --color-green-forest: #1E5631;
+  /*Inspiração na mata atlântica, Amazônia, e as ervas sagradas nos terreiros e aldeias.*/
+  --color-green: #14853a;
+  /* Variação de verde inspirado na mata*/
+  --color-green-glow: #4CAF50;
+  /* Variação de verde inspirado na mata*/
+  --color-purple: #6B3FA0;
+  /*Essa cor remete à ancestralidade, força espiritual e conexão com o sagrado.*/
+  --color-acai: #601848;
+  /*Remete ao fruto do açaí, fruta originária da terra */
+  --color-blue: #002B45;
+  --blue-light: #4A90E2;
+  /*Inspiração: O céu, os rios e a espiritualidade (como Ogum, Oxum e Iemanjá nos orixás).*/
+  --color-yellow: #FFB400;
+  /*Inspiração: O sol como símbolo de energia, divindade e tempo nos rituais de matriz africana e na vida indígena.*/
+  --color-redish: #8B3400;
+  /*Inspiração: Solo de barro, ocre usado em pinturas corporais indígenas e cerâmicas afro-brasileiras. */
+  --red-land: #8B1A1A;
+  /*Remete a cor do sangue dos indígenas e as fortes cores das terras indígenas */
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--color-acai);
 }
+
+.hero {
+  background-image: linear-gradient(rgb(0, 0, 0, 0.5), var(--color-acai)),
+    url(../images/freepik__expand__92115.png);
+  min-height: 50vh;
+  padding: 8rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 span {
+  color: var(--blue-light);
+}
+
+.lead {
+  color: var(--color-white-cottom);
+}
+
+.card-custom {
+  background-color: #270b49;
+  color: var(--color-white-cottom);
+  border: none;
+  border-radius: 12px;
+}
+
+.card-custom:hover {
+  transform: scale(1.1);
+  transition: .3s;
+}
+
+.btn-custom {
+  background-color: var(--color-green);
+  color: var(--color-white-cottom);
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+}
+
+.btn-custom:hover {
+  background-color: #008d3a;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  /* ou use right: 10px para o outro canto */
+  padding: 8px 12px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  border-radius: 8px;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  background: var(--color-green);
+}
+
+.discount-badge-card {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  /* ou use right: 10px para o outro canto */
+  padding: 8px 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  background: var(--color-green);
+  color: var(--color-white-cottom);
+}
+
+.discount-badge-games {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  /* ou use right: 10px para o outro canto */
+  padding: 8px 12px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-radius: 8px;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  background: var(--color-green);
+  color: var(--color-white-cottom);
+}
+
+.btn-intro {
+  background: var(--color-green);
+  color: var(--color-white-cottom);
+}
+
+.btn-intro:hover {
+  background: var(--color-green);
+  color: var(--color-white-cottom);
+  transform: scale(1.2);
+  transition: .5s;
+}
+
+.logo {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.menu-item {
+  padding: 12px;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+  background-color: #3a3a3a;
+}
+
+.menu-item.active {
+  background-color: #444;
+}
+
+.content {
+  padding: 30px;
+  flex: 1;
+}
+
 .logo {
   height: 50px;
 }
@@ -28,6 +167,7 @@ body {
 .nav-link {
   color: var(--color-white-cottom);
 }
+
 .nav-link:hover {
   color: var(--color-white-cottom);
   transform: scale(1.1);
@@ -38,13 +178,14 @@ body {
   background: var(--color-green-forest);
   color: var(--color-white-cottom);
 }
+
 .gamebtn:hover {
   box-shadow: 1px 1px 20px var(--color-green-glow);
   background: var(--color-green);
   color: var(--color-white-cottom);
 }
 
-.badge {
+.badge-games {
   background: var(--color-blue);
 }
 
@@ -53,8 +194,12 @@ body {
   border-top-right-radius: .5rem;
 }
 
+.card {
+  min-height: 1rem;
+}
+
 .card-title {
-  min-height: .75em;
+  min-height: 1rem;
 }
 
 .card-body {
@@ -69,6 +214,7 @@ body {
   color: var(--color-acai);
   border: none;
 }
+
 .button-secondary:hover {
   box-shadow: 1px 1px 20px var(--blue-light);
   background-color: var(--color-white-cottom);
@@ -81,18 +227,22 @@ body {
   color: var(--color-white-cottom);
   padding: 40px 0;
 }
+
 .footer a {
   color: #adb5bd;
   text-decoration: none;
 }
+
 .footer a:hover {
   color: white;
 }
+
 .socials a {
   color: #adb5bd;
   font-size: 20px;
   margin-right: 15px;
 }
+
 .socials a:hover {
   color: white;
 }
@@ -101,6 +251,7 @@ body {
   width: 100%;
   border-radius: 1rem;
 }
+
 #home-h1 {
   margin: 2.5rem 0;
   text-align: center;
@@ -118,11 +269,11 @@ h1 {
   border-color: var(--blue-light);
 }
 
-.swal2-modal{
+.swal2-modal {
   color: #FFF;
 }
 
-input.form-input{
+input.form-input {
   display: block;
   background: transparent;
   color: #bbbbbb;
@@ -155,23 +306,32 @@ textarea.form-input {
   margin-bottom: 16px;
 }
 
-.swal2-modal .swal2-styled{
+.swal2-modal .swal2-styled {
   border: none !important;
   background: #ff1a34 !important;
   padding: 5px 30px;
   font-size: 16px;
   border-radius: 2px;
-  outline:none;
+  outline: none;
 }
 
-.swal2-modal{
-  border-radius:2px;
-  background:#262626 !important;
+.swal2-modal {
+  border-radius: 2px;
+  background: #262626 !important;
 }
 
-.swal2-modal .swal2-content{
+.swal2-modal .swal2-content {
   color: #fff;
   font-size: 14px;
   line-height: 24px;
   margin-top: 20px;
+}
+
+.game-card {
+  background-size: cover;
+  background-position: center;
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  color: white;
 }
