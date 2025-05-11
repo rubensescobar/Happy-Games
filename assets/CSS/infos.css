@@ -1,0 +1,70 @@
+body {
+    background: var(--color-redish);
+}
+
+.bloco-sobrenos {
+    background-image: linear-gradient(rgb(0, 0, 0, 0.3), rgb(0, 0, 0, 0.6), var(--color-redish)),
+     url(../images/freepik__expand__92115.png);
+}
+
+.nomes {
+    color: var(--color-white-cottom);
+}
+
+.equipe {
+    color: var(--color-white-cottom);
+    font-size: 1rem;
+    min-height: 50%;
+}
+
+.card-text {
+    font-size: 1.15rem;
+}
+.card-text-rm {
+    font-size: 1.3rem;
+    font-weight: 600 ;
+}
+
+.card-text-funcao {
+    font-size: 1.3rem;
+    font-weight: 900;
+    background: var(--color-acai);
+    color: var(--color-white-cottom);
+    border-radius: 10px;
+}
+
+.icon-social {
+    font-size: 2rem;
+    color: var(--blue-light);
+    transition: .5s;
+}
+.icon-social:hover {
+    transform: scale(1.3);
+}
+.my-title {
+    font-size: 3.5rem;
+    color: var(--color-white-cottom);
+}
+
+.my-title2 {
+    font-size: 3.5rem;
+    color: var(--color-white-cottom);
+    font-weight: 650;
+}
+.paragrafo {
+    color: var(--color-white-cottom);
+}
+
+.list-sobrenos {
+    list-style: none;
+}
+
+.sobrenos-item {
+    font-size: 1.2rem;
+    color: var(--color-white-cottom);
+}
+
+.imagem {
+  max-width: 100%;
+  height: auto;
+}

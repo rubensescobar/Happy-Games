@@ -1,0 +1,38 @@
+body {
+    background:var(--color-white-cottom) ;
+}
+
+/* .bloco {
+    box-shadow: 1px 1px 20px var(--color-yellow);
+} */
+h1 {
+    color: var(--color-blue);
+}
+.txtSpan {
+    color: var(--color-purple);
+}
+
+.cadastro,
+.login {
+    color: var(--color-purple);
+}
+
+.registrar {
+    background: var(--red-land);
+    color: var(--color-white-cottom);
+}
+.registrar:hover {
+    background: var(--red-land);
+    color: var(--color-white-cottom);
+    transform: scale(1.1);
+    transition: .3s;
+}
+
+.btn-link {
+    color: var(--red-land);
+}
+.btn-link:hover {
+    background: var(--red-land);
+    color: var(--color-white-cottom);
+    transform: scale(1.1);
+}

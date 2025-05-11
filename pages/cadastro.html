@@ -13,6 +13,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="../assets/CSS/global.css">
+    <link rel="stylesheet" href="../assets/CSS/login&cadastro.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
 
     <!-- Sripts -->
@@ -23,7 +24,7 @@
   <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg">
       <a class="navbar-brand ms-4" href="../index.html">
         <img src="../assets/images/logo.png" alt="Logo da Empresa" class="logo">
       </a>
@@ -56,19 +57,19 @@
 
     <section class="">
       <!-- Jumbotron -->
-      <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+      <div class="px-4 py-5 px-md-5 text-center text-lg-start">
         <div class="container">
           <div class="row gx-lg-5 align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
               <h1 class="my-4 display-3 fw-bold ls-tight">
                 As melhores ofertas <br />
-                <span class="text-danger">para seus jogos</span>
+                <span class="txtSpan">para seus jogos</span>
               </h1>
 
             </div>
 
             <div class="col-lg-6 mb-5 mb-lg-0">
-              <div class="card">
+              <div class="bloco card">
                 <div class="card-body py-5 px-md-5">
                   <form id="cadastro">
                     <!-- 2 column grid layout with text inputs for the first and last names -->
@@ -118,11 +119,11 @@
 
                     <div class="d-flex align-items-center justify-content-center">
                       <p class="mt-3 me-1 text">Já possui um login?</p>
-                      <a href="login.html" class="text-decoration-none text-danger">Login</a>
+                      <a href="login.html" class="login text-decoration-none">Login</a>
                     </div>
 
                     <!-- Submit button -->
-                    <button type="button" class="btn btn-dark btn-block mb-4 d-flex mx-auto"
+                    <button type="button" class="registrar btn btn-block mb-4 d-flex mx-auto"
                       onclick="validateRegistration()">
                       Registrar
                     </button>
