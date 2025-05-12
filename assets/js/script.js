@@ -1,3 +1,83 @@
+// script.js - Basic functionality for the BuscaGames site
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if user is logged in
+  checkUserLogin();
+  
+  // Setup logout functionality
+  setupLogout();
+});
+
+// Check if user is logged in
+function checkUserLogin() {
+  const loginNavItem = document.getElementById('loginNavItem');
+  const logoutNavItem = document.getElementById('logoutNavItem');
+  const userLevelContainer = document.getElementById('userLevelContainer');
+  
+  // Check local storage for login state (this would typically use a server-side check)
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  
+  if (isLoggedIn) {
+    // User is logged in
+    const userName = localStorage.getItem('userName') || 'Usuário';
+    
+    // Update display
+    if (loginNavItem) loginNavItem.classList.add('d-none');
+    if (logoutNavItem) {
+      logoutNavItem.classList.remove('d-none');
+      const userMenuName = logoutNavItem.querySelector('#userMenuName');
+      if (userMenuName) userMenuName.textContent = userName;
+    }
+    
+    // Show XP level info
+    if (userLevelContainer) userLevelContainer.classList.remove('d-none');
+  } else {
+    // User is not logged in
+    if (loginNavItem) loginNavItem.classList.remove('d-none');
+    if (logoutNavItem) logoutNavItem.classList.add('d-none');
+    
+    // Hide XP level info
+    if (userLevelContainer) userLevelContainer.classList.add('d-none');
+  }
+}
+
+// Setup logout functionality
+function setupLogout() {
+  const logoutLink = document.getElementById('logoutLink');
+  
+  if (logoutLink) {
+    logoutLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Clear login state
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userEmail');
+      
+      // Show confirmation
+      alert('Você saiu da sua conta com sucesso!');
+      
+      // Refresh the page or redirect
+      window.location.href = 'index.html';
+    });
+  }
+}
+
+// Function to save the game image as the Steam banner
+function saveAsSteamBanner(gameId) {
+  console.log(`Saving game ${gameId} banner for Steam`);
+  // This would typically use a server-side API call
+  alert('Imagem salva como banner do Steam!');
+}
+
+// Utility function to format currency
+function formatCurrency(value) {
+  return new Intl.NumberFormat('pt-BR', { 
+    style: 'currency', 
+    currency: 'BRL' 
+  }).format(value);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     // Toggle password visibility
     const toggleNewPasswordIcon = document.querySelector("#verNovaSenha");

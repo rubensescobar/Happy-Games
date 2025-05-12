@@ -29,6 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
   loadUserData();
   initializeCart();
   
+  // Animate elements when they enter the viewport
+  animateOnLoad();
+  
+  // Navbar scroll effect
+  handleNavbarScroll();
+  
+  // Back to top button
+  handleBackToTop();
+  
+  // Initialize achievement bars
+  initAchievementBars();
+  
   // Animate items on page load
   setTimeout(() => {
     document.querySelectorAll('.animate-on-load').forEach(item => {
@@ -1322,4 +1334,182 @@ function removeFromCart(itemId) {
   
   // Show notification
   showNotification('Item removido do carrinho', 'info');
+}
+
+// Immersive.js - Adds interactions and animations to the immersive game shop experience
+
+// Animate elements with the animate-on-load class
+function animateOnLoad() {
+  const animatedElements = document.querySelectorAll('.animate-on-load');
+  
+  // Make elements visible immediately if JavaScript is disabled
+  setTimeout(() => {
+    animatedElements.forEach(element => {
+      element.classList.add('active');
+    });
+  }, 100);
+  
+  // Use Intersection Observer for scroll animations
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.animate-on-scroll').forEach(element => {
+      observer.observe(element);
+    });
+  } else {
+    // Fallback for browsers that don't support Intersection Observer
+    document.querySelectorAll('.animate-on-scroll').forEach(element => {
+      element.classList.add('active');
+    });
+  }
+}
+
+// Add scroll effect to navbar
+function handleNavbarScroll() {
+  const navbar = document.querySelector('.navbar-immersive');
+  
+  if (navbar) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  }
+}
+
+// Handle back to top button
+function handleBackToTop() {
+  const backToTopButton = document.getElementById('backToTop');
+  
+  if (backToTopButton) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+    
+    backToTopButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+}
+
+// Initialize achievement progress bars
+function initAchievementBars() {
+  const achievementBars = document.querySelectorAll('.achievement-bar');
+  
+  if (achievementBars.length > 0) {
+    setTimeout(() => {
+      achievementBars.forEach(bar => {
+        const progress = bar.getAttribute('data-progress') || 0;
+        bar.style.width = `${progress}%`;
+      });
+    }, 500);
+  }
+}
+
+// Handle game cards hover effect
+document.querySelectorAll('.game-card-immersive').forEach(card => {
+  card.addEventListener('mouseenter', function() {
+    this.classList.add('hover');
+  });
+  
+  card.addEventListener('mouseleave', function() {
+    this.classList.remove('hover');
+  });
+  
+  // Handle add to cart button
+  const addToCartBtn = card.querySelector('.add-to-cart');
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Get game details
+      const gameId = card.getAttribute('data-game-id');
+      const gameTitle = card.querySelector('.game-card-title').textContent;
+      const gamePrice = card.querySelector('.price-current').getAttribute('data-price');
+      
+      // Animation effect
+      this.innerHTML = '<i class="fas fa-check me-2"></i> Adicionado';
+      this.classList.add('added');
+      
+      // Update cart count
+      const cartCount = document.querySelector('.cart-count');
+      if (cartCount) {
+        cartCount.textContent = parseInt(cartCount.textContent) + 1;
+      }
+      
+      // Reset button after animation
+      setTimeout(() => {
+        this.innerHTML = '<i class="fas fa-shopping-cart me-2"></i> Adicionar';
+        this.classList.remove('added');
+      }, 2000);
+      
+      // Add to cart logic would go here
+      console.log(`Added to cart: ${gameTitle} (ID: ${gameId}) - Price: ${gamePrice}`);
+    });
+  }
+});
+
+// Handle wishlist functionality
+document.querySelectorAll('.wishlist-button').forEach(button => {
+  button.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Toggle wishlist state
+    const icon = this.querySelector('i');
+    if (icon.classList.contains('far')) {
+      icon.classList.remove('far');
+      icon.classList.add('fas');
+      // Add to wishlist logic would go here
+    } else {
+      icon.classList.remove('fas');
+      icon.classList.add('far');
+      // Remove from wishlist logic would go here
+    }
+  });
+});
+
+// Update quest timer
+const questTimer = document.getElementById('questTimer');
+if (questTimer) {
+  let hours = 23;
+  let minutes = 45;
+  let seconds = 30;
+  
+  setInterval(function() {
+    seconds--;
+    
+    if (seconds < 0) {
+      seconds = 59;
+      minutes--;
+      
+      if (minutes < 0) {
+        minutes = 59;
+        hours--;
+        
+        if (hours < 0) {
+          hours = 23; // Reset for demo purposes
+        }
+      }
+    }
+    
+    questTimer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }, 1000);
 } 
