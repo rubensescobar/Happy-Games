@@ -17,6 +17,7 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="assets/CSS/global.css">
+  <link rel="stylesheet" href="./assets/CSS/cards.css">
   <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -53,6 +54,7 @@
       </ul>
     </div>
   </nav>
+  <!-- FIM navbar -->
 
   <section class="hero container-fluid">
     <h1 class="display-4 fw-bold mb-3"><i class="fa-solid fa-gamepad-modern"></i> Bem-vindo ao <span>BuscaGames</span>
@@ -146,71 +148,138 @@
 
   <h1 class="text-center my-4">Semana do Consumidor!!!</h1>
   <div class="container">
-    <div class="row">
-      <!-- CARD -->
-      <!-- Repetir estrutura abaixo para todos os jogos -->
-      <div class="col-md-3 col-lg-2 mb-3">
-        <div class="card d-flex justify-content-center h-100">
-          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-50%</span>
-            <img src="assets/images/game5.png" class="card-img-top" alt="">
-            <div class="card-body">
-              <h5 class="card-title">RDR 2</h5>
-              <a href="#" class="btn gamebtn d-flex justify-content-center">Carrinho</a>
+    <div id="gameCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+      <div class="carousel-inner">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <div class="row">
+            <!-- Card 1 -->
+            <div class="col-md-4 mb-4">
+              <div class="game-card position-relative rounded overflow-hidden">
+                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-67%</span>
+                <img src="./assets/images/game14.png" class="w-100 h-100 object-fit-cover" alt="Mortal Kombat 1">
+                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+                  <div>
+                    <h5 class="text-white mb-1">Mortal Kombat 1</h5>
+                    <p class="mb-2">
+                      <span class="text-white-50 text-decoration-line-through">R$ 229,99</span><br>
+                      <span class="text-info fw-bold fs-5">R$ 75,89</span>
+                    </p>
+                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col-md-4 mb-4">
+              <div class="game-card position-relative rounded overflow-hidden">
+                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-60%</span>
+                <img src="./assets/images/game4.png" class="w-100 h-100 object-fit-cover" alt="The Witcher 3">
+                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+                  <div>
+                    <h5 class="text-white mb-1">The Witcher 3</h5>
+                    <p class="mb-2">
+                      <span class="text-white-50 text-decoration-line-through">R$ 199,99</span><br>
+                      <span class="text-info fw-bold fs-5">R$ 79,99</span>
+                    </p>
+                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col-md-4 mb-4">
+              <div class="game-card position-relative rounded overflow-hidden">
+                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-50%</span>
+                <img src="./assets/images/game12.png" class="w-100 h-100 object-fit-cover" alt="God of War">
+                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+                  <div>
+                    <h5 class="text-white mb-1">God of War Ragnarok</h5>
+                    <p class="mb-2">
+                      <span class="text-white-50 text-decoration-line-through">R$ 249,90</span><br>
+                      <span class="text-info fw-bold fs-5">R$ 124,95</span>
+                    </p>
+                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-      </div>
+        </div>
 
-      <!-- Repita esse bloco acima para os outros cards com apenas troca de imagem e título -->
-      <div class="col-md-3 col-lg-2 mb-3">
-        <div class="card d-flex justify-content-center h-100">
-          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-60%</span>
-          <img src="assets/images/game4.png" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">The Witcher 3</h5>
-            <a href="#" class="btn gamebtn d-flex justify-content-center">Carrinho</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-lg-2 mb-3">
-        <div class="card position-relative h-100">
-          <img src="assets/images/game8.png" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">GhostRunner</h5>
-            <a href="#" class="btn gamebtn d-flex justify-content-center">Carrinho</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-lg-2 mb-3">
-        <div class="card d-flex justify-content-center h-100">
-          <img src="assets/images/game10.png" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Tomb Raider</h5>
-            <a href="#" class="btn gamebtn d-flex justify-content-center">Carrinho</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-lg-2 mb-3">
-        <div class="position-relative">
-          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-50%</span>
-          <div class="card d-flex justify-content-center h-100">
-            <img src="assets/images/game12.png" class="card-img-top" alt="">
-            <div class="card-body">
-              <h5 class="card-title">GoW Ragnarok</h5>
-              <a href="#" class="btn gamebtn d-flex justify-content-center">Carrinho</a>
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <div class="row">
+            <!-- Card 4 -->
+            <div class="col-md-4 mb-4">
+              <div class="game-card position-relative rounded overflow-hidden">
+                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-20%</span>
+                <img src="./assets/images/game5.png" class="w-100 h-100 object-fit-cover" alt="Red Dead 2">
+                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+                  <div>
+                    <h5 class="text-white mb-1">Red Dead Redemption 2</h5>
+                    <p class="mb-2">
+                      <span class="text-white-50 text-decoration-line-through">R$ 299,90</span><br>
+                      <span class="text-info fw-bold fs-5">R$ 239,92</span>
+                    </p>
+                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <!-- Card 5 -->
+            <div class="col-md-4 mb-4">
+              <div class="game-card position-relative rounded overflow-hidden">
+                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-75%</span>
+                <img src="./assets/images/game13.png" class="w-100 h-100 object-fit-cover" alt="Ghost of Tsushima">
+                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+                  <div>
+                    <h5 class="text-white mb-1">Ghost of Tsushima</h5>
+                    <p class="mb-2">
+                      <span class="text-white-50 text-decoration-line-through">R$ 199,99</span><br>
+                      <span class="text-info fw-bold fs-5">R$ 49,99</span>
+                    </p>
+                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="col-md-4 mb-4">
+              <div class="game-card position-relative rounded overflow-hidden">
+                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-30%</span>
+                <img src="./assets/images/game11.png" class="w-100 h-100 object-fit-cover" alt="Red Dead 2">
+                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+                  <div>
+                    <h5 class="text-white mb-1">The Last of Us Part I</h5>
+                    <p class="mb-2">
+                      <span class="text-white-50 text-decoration-line-through">R$ 249,90</span><br>
+                      <span class="text-info fw-bold fs-5">R$ 174,93</span>
+                    </p>
+                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
           </div>
         </div>
+
       </div>
-      <div class="col-md-3 col-lg-2 mb-3">
-        <div class="card d-flex justify-content-center h-100">
-          <img src="assets/images/game3.png" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">GTA 5</h5>
-            <a href="#" class="btn gamebtn d-flex justify-content-center">Carrinho</a>
-          </div>
-        </div>
-      </div>
+
+      <!-- Controles -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#gameCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#gameCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+        <span class="visually-hidden">Próximo</span>
+      </button>
     </div>
   </div>
 
@@ -219,6 +288,92 @@
       Ver a lista completa
     </a>
   </div>
+
+
+  <!-- <h1 class="text-center my-4">Semana do Consumidor!!!</h1>
+  <div class="container">
+    <div class="row"> -->
+
+      <!-- CARD -->
+      <!-- Repetir estrutura abaixo para todos os jogos -->
+      <!-- <div class="col-md-4 col-lg-3 mb-4">
+        <div class="game-card position-relative rounded overflow-hidden">
+          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-67%</span>
+          <img src="./assets/images/game14.png" class="w-100 h-100 object-fit-cover" alt="Nome do Jogo">
+
+          <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+            <div>
+              <h5 class="text-white mb-1">Mortal Kombat 1</h5>
+              <p class="mb-2">
+                <span class="text-white-50 text-decoration-line-through">R$ 229,99</span><br>
+                <span class="text-info fw-bold fs-5">R$ 75,89</span>
+              </p>
+              <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- Repita esse bloco acima para os outros cards com apenas troca de imagem e título -->
+
+      <!-- <div class="col-md-4 col-lg-3 mb-4">
+        <div class="game-card position-relative rounded overflow-hidden">
+          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-60%</span>
+          <img src="./assets/images/game4.png" class="w-100 h-100 object-fit-cover" alt="Nome do Jogo">
+
+          <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+            <div>
+              <h5 class="text-white mb-1">The Witcher 3</h5>
+              <p class="mb-2">
+                <span class="text-white-50 text-decoration-line-through">R$ 199,99</span><br>
+                <span class="text-info fw-bold fs-5">R$ 79,99</span>
+              </p>
+              <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 mb-4">
+        <div class="game-card position-relative rounded overflow-hidden">
+          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-50%</span>
+          <img src="./assets/images/game12.png" class="w-100 h-100 object-fit-cover" alt="Nome do Jogo">
+          <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+            <div>
+              <h5 class="text-white mb-1">God of War Ragnarok</h5>
+              <p class="mb-2">
+                <span class="text-white-50 text-decoration-line-through">R$ 249,90</span><br>
+                <span class="text-info fw-bold fs-5">R$ 124,95</span>
+              </p>
+              <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-3 mb-4">
+        <div class="game-card position-relative rounded overflow-hidden">
+          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-20%</span>
+          <img src="./assets/images/game5.png" class="w-100 h-100 object-fit-cover" alt="Nome do Jogo">
+          <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
+            <div>
+              <h5 class="text-white mb-1">Red Dead Redemption 2</h5>
+              <p class="mb-2">
+                <span class="text-white-50 text-decoration-line-through">R$ 299,90</span><br>
+                <span class="text-info fw-bold fs-5">R$ 239,92</span>
+              </p>
+              <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div> -->
+
+  <!-- <div class="text-center mt-4">
+    <a href="pages/games.html" class="btn button-secondary fw-semibold px-4 py-2">
+      Ver a lista completa
+    </a>
+  </div> -->
 
   <!-- footer -->
   <footer class="footer mt-4">
