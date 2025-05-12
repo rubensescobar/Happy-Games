@@ -7,6 +7,7 @@
   --color-green: #14853a;
   --color-green-glow: #4CAF50;
   --color-purple: #6b3fa0;
+  --color-purpledark: #1d0029;
   --color-acai: #601848;
   --color-blue: #002B45;
   --blue-light: #4A90E2;
@@ -58,7 +59,7 @@
 /* Body styling */
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: var(--color-dark);
+  background-color: var(--color-acai);
   color: var(--color-white-cottom);
   overflow-x: hidden;
   position: relative;
@@ -149,7 +150,7 @@ body::before {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(rgb(0,0,0,0.2), rgb(0,0,0,0.6)),
+  background: linear-gradient(rgb(0, 0, 0, 0.3), rgb(0, 0, 0, 0.6), var(--color-redish)),
   url(../images/freepik__expand__92115.png);
 }
 
@@ -621,7 +622,7 @@ body::before {
 /* Countdown Section */
 .countdown-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, rgba(6, 13, 23, 0.9), rgba(96, 24, 72, 0.3)), url('../images/countdown-bg.jpg') center/cover no-repeat;
+  background: linear-gradient(var(--color-redish), var(--color-dark));
   position: relative;
 }
 
@@ -698,7 +699,7 @@ body::before {
 }
 
 .countdown-button {
-  background: linear-gradient(90deg, #FFB400, #FF8800);
+  background: var(--color-yellow);
   color: white;
   font-weight: 600;
   padding: 0.8rem 2rem;
@@ -723,7 +724,7 @@ body::before {
 /* Achievements Section */
 .achievements-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, rgba(10, 30, 44, 0.95), rgba(4, 19, 37, 0.98));
+  background: linear-gradient(var(--color-dark), var(--color-acai));
   position: relative;
 }
 
@@ -770,7 +771,7 @@ body::before {
 }
 
 .achievement-card {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--color-purpledark);
   border-radius: 15px;
   padding: 2rem;
   height: 100%;
@@ -1007,7 +1008,7 @@ body::before {
 /* Daily Quest Section */
 .daily-quest-section {
   padding: 3rem 0;
-  background: linear-gradient(135deg, rgba(139, 20, 20, 0.1), rgba(96, 24, 72, 0.1));
+  background: linear-gradient(var(--color-purpledark),var(--color-purple));
 }
 
 .daily-quest-container {
@@ -1115,7 +1116,7 @@ body::before {
 /* Newsletter Section */
 .newsletter-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, rgba(0, 43, 69, 0.9), rgba(0, 43, 69, 0.6)), url('../images/newsletter-bg.jpg') center/cover no-repeat;
+  background: var(--color-purple);
 }
 
 .newsletter-container {
@@ -1178,8 +1179,26 @@ body::before {
 
 /* Game Type Section */
 .game-type-section {
-  background: rgba(7, 14, 22, 0.95);
+  background: var(--color-purpledark);
   position: relative;
+}
+
+/* Featured Games Footer */
+.featured-games-footer {
+  margin-top: 1.5rem;
+  padding: 1rem 0 2rem 0;
+  position: relative;
+  background: linear-gradient(90deg, rgba(107, 63, 160, 0.1), rgba(74, 144, 226, 0.1), rgba(107, 63, 160, 0.1));
+  border-radius: 0 0 15px 15px;
+}
+
+.featured-games-footer .game-hub-btn {
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.featured-games-footer .game-hub-btn:hover {
+  transform: translateY(-5px);
 }
 
 .game-type-card {

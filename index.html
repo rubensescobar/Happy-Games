@@ -100,10 +100,15 @@
           
           <!-- User Menu -->
           <div class="dropdown" id="loginNavItem">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-              <i class="fas fa-user-circle me-1" id="loginIcon"></i>
-              <span id="nomeUsuario">Login</span>
-            </a>
+            <div class="d-flex align-items-center">
+              <a class="nav-link me-1" href="pages/login.html">
+                <i class="fas fa-user-circle me-1" id="loginIcon"></i>
+                <span id="nomeUsuario">Login</span>
+              </a>
+              <a class="nav-link dropdown-toggle dropdown-toggle-split p-0 ps-1" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </a>
+            </div>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="pages/login.html"><i class="fas fa-sign-in me-2"></i> Login</a></li>
               <li><a class="dropdown-item" href="pages/cadastro.html"><i class="fas fa-user-plus me-2"></i> Cadastrar</a></li>
@@ -112,10 +117,15 @@
           
           <!-- Logout (Hidden by default) -->
           <div class="dropdown d-none" id="logoutNavItem">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-              <i class="fas fa-user-circle me-1"></i>
-              <span id="userMenuName">Usuário</span>
-            </a>
+            <div class="d-flex align-items-center">
+              <a class="nav-link me-1" href="pages/profile.html">
+                <i class="fas fa-user-circle me-1"></i>
+                <span id="userMenuName">Usuário</span>
+              </a>
+              <a class="nav-link dropdown-toggle dropdown-toggle-split p-0 ps-1" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </a>
+            </div>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="pages/profile.html"><i class="fas fa-user me-2"></i> Perfil</a></li>
               <li><a class="dropdown-item" href="pages/wishlist.html"><i class="fas fa-heart me-2"></i> Favoritos</a></li>
@@ -169,32 +179,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured Game Banner -->
-  <section class="featured-games-horizontal py-4">
-    <div class="container">
-      <div class="horizontal-card">
-        <div class="card-image">
-          <img src="assets/images/granblue-fantasy.jpg" alt="Granblue Fantasy Versus: Rising">
-          <div class="discount-badge">-61%</div>
-          <button class="wishlist-button">
-            <i class="far fa-heart"></i>
-          </button>
-        </div>
-        <div class="card-content">
-          <h3 class="game-title">Granblue Fantasy Versus: Rising</h3>
-          <p class="game-description">São mais de 20 personagens do universo de Granblue Fantasy!</p>
-          <div class="card-pricing">
-            <span class="original-price">R$ 179,90</span>
-            <span class="current-price">R$ 70,16</span>
-          </div>
-          <button class="buy-button">
-            <i class="fas fa-shopping-cart me-2"></i> Comprar
-          </button>
         </div>
       </div>
     </div>
@@ -542,7 +526,7 @@
         </div>
       </div>
       
-      <div class="text-center mt-5">
+      <div class="text-center featured-games-footer">
         <a href="pages/games.html" class="game-hub-btn">
           <i class="fas fa-gamepad me-2"></i> Ver Todos os Jogos
         </a>
@@ -560,7 +544,7 @@
           <div class="col-md-4 mb-4">
             <div class="game-type-card" data-category="rpg">
               <div class="game-type-image">
-                <img src="assets/images/category-rpg.jpg" alt="RPG Games">
+                <img src="./assets/images/RPG.png" alt="RPG Games">
                 <div class="game-type-overlay"></div>
               </div>
               <div class="game-type-content">
@@ -574,7 +558,7 @@
           <div class="col-md-4 mb-4">
             <div class="game-type-card" data-category="action">
               <div class="game-type-image">
-                <img src="assets/images/category-action.jpg" alt="Action Games">
+                <img src="./assets/images/Ação.png" alt="Action Games">
                 <div class="game-type-overlay"></div>
               </div>
               <div class="game-type-content">
@@ -588,7 +572,7 @@
           <div class="col-md-4 mb-4">
             <div class="game-type-card" data-category="strategy">
               <div class="game-type-image">
-                <img src="assets/images/category-strategy.jpg" alt="Strategy Games">
+                <img src="./assets/images/estrategia.jpg" alt="Strategy Games">
                 <div class="game-type-overlay"></div>
               </div>
               <div class="game-type-content">

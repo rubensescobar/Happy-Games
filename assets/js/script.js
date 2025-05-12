@@ -14,12 +14,12 @@ function checkUserLogin() {
   const logoutNavItem = document.getElementById('logoutNavItem');
   const userLevelContainer = document.getElementById('userLevelContainer');
   
-  // Check local storage for login state (this would typically use a server-side check)
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  // Check local storage for login state using isLogged key
+  const isLoggedIn = localStorage.getItem('isLogged') === 'true';
   
   if (isLoggedIn) {
     // User is logged in
-    const userName = localStorage.getItem('userName') || 'Usuário';
+    const userName = localStorage.getItem('nomeUsuario') || 'Usuário';
     
     // Update display
     if (loginNavItem) loginNavItem.classList.add('d-none');
@@ -50,8 +50,8 @@ function setupLogout() {
       e.preventDefault();
       
       // Clear login state
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('userName');
+      localStorage.removeItem('isLogged');
+      localStorage.removeItem('nomeUsuario');
       localStorage.removeItem('userEmail');
       
       // Show confirmation
@@ -120,7 +120,7 @@ function checkLoginStatus() {
     const logoutNavItem = document.getElementById("logoutNavItem");
     const userLevelContainer = document.getElementById("userLevelContainer");
     const logoutLink = document.getElementById("logoutLink");
-    const loginLink = loginIcon?.closest("a");
+    const loginLink = loginIcon ? loginIcon.closest("a") : null;
 
     // Get login href based on current path
     function getLoginHref() {
