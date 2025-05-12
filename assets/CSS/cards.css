@@ -1,0 +1,79 @@
+.game-card {
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.game-card img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.game-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.6),
+      var(--color-acai));
+  z-index: 2;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 1rem;
+  transition: background 0.3s;
+  pointer-events: none;
+}
+
+.game-card-overlay * {
+  pointer-events: auto;
+}
+
+.discount-badge-games {
+  z-index: 3;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 0.4rem 0.6rem;
+  background-color: var(--color-green);
+  color: white;
+}
+
+/* Estilos do carousel */
+#gameCarousel {
+  position: relative;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+.carousel-control-prev {
+  left: -40px;
+  /* Ajuste a distância conforme necessário */
+}
+
+.carousel-control-next {
+  right: -40px;
+  /* Ajuste a distância conforme necessário */
+}
+
+/* Estilos dos ícones de navegação */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #000;
+  border-radius: 50%;
+  padding: 10px;
+}
