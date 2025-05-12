@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BuscaGames</title>
+  <title>BuscaGames - Experiência Imersiva</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,410 +13,767 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="assets/CSS/global.css">
-  <link rel="stylesheet" href="./assets/CSS/cards.css">
-  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+  <link rel="stylesheet" href="assets/CSS/immersive.css">
+  <link rel="stylesheet" href="assets/CSS/immersive-cards.css">
+  
+  <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-  <!-- navbar -->
-  <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand ms-4" href="index.html">
-      <img src="assets/images/logo.png" alt="Logo da Empresa" class="logo">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navLinks">
-      <ul class="navbar-nav">
-        <li class="nav-item px-1"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item px-1"><a class="nav-link" href="pages/games.html">Games</a></li>
-        <li class="nav-item px-1"><a class="nav-link" href="pages/info.html">Informações</a></li>
-      </ul>
-
-      <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
-        <li class="nav-item" id="loginNavItem">
-          <a class="nav-link text-light align-content-end" href="login.html">
-            <i class="fa-solid fa-right-to-bracket mx-2" id="loginIcon"></i>
-            <span id="nomeUsuario" class="fw-bold">Login</span>
+  <!-- Immersive Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-immersive fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <div class="logo-container">
+          <img src="assets/images/logo.png" alt="BuscaGames" class="logo">
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <i class="fas fa-bars text-light"></i>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">
+              <i class="fas fa-home me-1"></i> Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages/games.html">
+              <i class="fas fa-gamepad me-1"></i> Games
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages/quests.html">
+              <i class="fas fa-tasks me-1"></i> Quests
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages/info.html">
+              <i class="fas fa-info-circle me-1"></i> Informações
+            </a>
+          </li>
+        </ul>
+        
+        <div class="navbar-nav ms-auto">
+          <!-- User Level -->
+          <div class="user-level d-none d-lg-flex align-items-center me-3" id="userLevelContainer">
+            <div class="level-badge">
+              <span id="userLevel">1</span>
+            </div>
+            <div class="level-progress ms-2">
+              <div class="xp-bar">
+                <div class="xp-fill" id="userXpBar" style="width: 25%"></div>
+              </div>
+              <div class="xp-text" id="userXpText">75 XP para o próximo nível</div>
+            </div>
+          </div>
+        
+          <!-- Cart -->
+          <a href="pages/cart.html" class="nav-link position-relative me-3">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-count">0</span>
           </a>
-        </li>
-        <li class="nav-item" id="logoutNavItem">
-          <a class="nav-link text-light" href="#" id="logoutLink">
-            <i class="fa-solid fa-left-from-bracket mx-2"></i>
-            <span class="fw-bold">Logout</span>
-          </a>
-        </li>
-      </ul>
+          
+          <!-- User Menu -->
+          <div class="dropdown" id="loginNavItem">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user-circle me-1" id="loginIcon"></i>
+              <span id="nomeUsuario">Login</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="pages/login.html"><i class="fas fa-sign-in me-2"></i> Login</a></li>
+              <li><a class="dropdown-item" href="pages/cadastro.html"><i class="fas fa-user-plus me-2"></i> Cadastrar</a></li>
+            </ul>
+          </div>
+          
+          <!-- Logout (Hidden by default) -->
+          <div class="dropdown d-none" id="logoutNavItem">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user-circle me-1"></i>
+              <span id="userMenuName">Usuário</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="pages/profile.html"><i class="fas fa-user me-2"></i> Perfil</a></li>
+              <li><a class="dropdown-item" href="pages/wishlist.html"><i class="fas fa-heart me-2"></i> Favoritos</a></li>
+              <li><a class="dropdown-item" href="pages/library.html"><i class="fas fa-gamepad me-2"></i> Biblioteca</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#" id="logoutLink"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
-  <!-- FIM navbar -->
 
-  <section class="hero container-fluid">
-    <h1 class="display-4 fw-bold mb-3"><i class="fa-solid fa-gamepad-modern"></i> Bem-vindo ao <span>BuscaGames</span>
-    </h1>
-    <p class="lead mb-5">
-      Encontramos as melhores ofertas de jogos nas principais lojas online.<br>
-      Compare preços, descubra descontos incríveis e economize agora mesmo!
-    </p>
-
-    <div class="row justify-content-center g-4 mb-5">
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5 class="text-info fw-bold">+ de 10 lojas analisadas</h5>
-          <p>Steam, Epic, Nuuvem e muito mais</p>
+  <!-- Hero Section -->
+  <section class="hero-immersive">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 hero-content animate-on-load">
+          <h1 class="hero-title">
+            Descubra <span>as Melhores</span> Ofertas de Jogos
+          </h1>
+          <p class="hero-subtitle">
+            Compare preços, encontre descontos exclusivos e desbloqueie conquistas enquanto compra seus jogos favoritos em um só lugar.
+          </p>
+          <a href="pages/games.html" class="game-hub-btn">
+            <i class="fas fa-rocket me-2"></i> Explorar Hub de Games
+          </a>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5 class="text-info fw-bold">Filtros inteligentes</h5>
-          <p>Plataforma, gênero, preço e mais</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-custom p-4 h-100">
-          <h5 class="text-info fw-bold">Ofertas atualizadas</h5>
-          <p>Novas promoções todos os dias</p>
+        
+        <div class="col-lg-6 d-none d-lg-block">
+          <!-- 3D Rotating Cube -->
+          <div class="cube-container animate-on-load">
+            <div class="cube">
+              <div class="cube-face cube-face-front">
+                <img src="assets/images/game12.png" alt="Game 1">
+              </div>
+              <div class="cube-face cube-face-back">
+                <img src="assets/images/game2.png" alt="Game 2">
+              </div>
+              <div class="cube-face cube-face-right">
+                <img src="assets/images/game3.png" alt="Game 3">
+              </div>
+              <div class="cube-face cube-face-left">
+                <img src="assets/images/game4.png" alt="Game 4">
+              </div>
+              <div class="cube-face cube-face-top">
+                <img src="assets/images/game5.png" alt="Game 5">
+              </div>
+              <div class="cube-face cube-face-bottom">
+                <img src="assets/images/game6.png" alt="Game 6">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
-    <a href="./pages/games.html" class="btn gamebtn btn-lg fw-semibold px-4 py-2"><i
-        class="fa-solid fa-magnifying-glass me-2"></i> Ver ofertas agora</a>
   </section>
 
-  <div class="container">
-    <h1 id="home-h1">Ofertas em Destaque!</h1>
-    <div id="carouselExampleCaptions" class="carousel slide">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-          aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-          aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-          aria-label="Slide 3"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="assets/images/game11.png" class="d-block w-100 img-thumbnail" alt="The Last of Us Part I">
-
-          <!-- Selo de desconto -->
-          <span class="badge discount-badge">-30%</span>
-
-          <div class="carousel-caption d-none d-md-block">
-            <h5>The Last of Us Part I</h5>
-            <p>Jogo de Sobrevivência, Ação e Zumbis</p>
+  <!-- Game Release Countdown -->
+  <section class="countdown-section">
+    <div class="container">
+      <div class="countdown-container">
+        <div class="countdown-content">
+          <div class="countdown-label animate-on-load">LANÇAMENTO EM</div>
+          <div class="countdown-timer animate-on-load" id="releaseCountdown">
+            <div class="countdown-item">
+              <div class="countdown-number" id="countDays">00</div>
+              <div class="countdown-text">Dias</div>
+            </div>
+            <div class="countdown-divider">:</div>
+            <div class="countdown-item">
+              <div class="countdown-number" id="countHours">00</div>
+              <div class="countdown-text">Horas</div>
+            </div>
+            <div class="countdown-divider">:</div>
+            <div class="countdown-item">
+              <div class="countdown-number" id="countMinutes">00</div>
+              <div class="countdown-text">Minutos</div>
+            </div>
+            <div class="countdown-divider">:</div>
+            <div class="countdown-item">
+              <div class="countdown-number" id="countSeconds">00</div>
+              <div class="countdown-text">Segundos</div>
+            </div>
           </div>
-        </div>
-        <div class="carousel-item">
-          <img src="assets/images/game13.png" class="d-block w-100 img-thumbnail" alt="Ghost of Tsushima">
-          <span class="badge discount-badge">-75%</span>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Ghost of Tsushima</h5>
-            <p>Jogo de Ação no Japão Feudal</p>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="assets/images/game12.png" class="d-block w-100 img-thumbnail" alt="God of War Ragnarok">
-          <span class="badge discount-badge">-50%</span>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>God of War Ragnarok</h5>
-            <p>Jogo de ação, mundo aberto e história</p>
-          </div>
+          <h2 class="countdown-title animate-on-load" data-text="STARFIELD 2">STARFIELD 2</h2>
+          <a href="#" class="countdown-button animate-on-load">Pré-Compra com 15% OFF</a>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
     </div>
-    <div class="col-md-6">
+  </section>
 
-    </div>
-
-  </div>
-
-  <h1 class="text-center my-4">Semana do Consumidor!!!</h1>
-  <div class="container">
-    <div id="gameCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-      <div class="carousel-inner">
-
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-          <div class="row">
-            <!-- Card 1 -->
-            <div class="col-md-4 mb-4">
-              <div class="game-card position-relative rounded overflow-hidden">
-                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-67%</span>
-                <img src="./assets/images/game14.png" class="w-100 h-100 object-fit-cover" alt="Mortal Kombat 1">
-                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-                  <div>
-                    <h5 class="text-white mb-1">Mortal Kombat 1</h5>
-                    <p class="mb-2">
-                      <span class="text-white-50 text-decoration-line-through">R$ 229,99</span><br>
-                      <span class="text-info fw-bold fs-5">R$ 75,89</span>
-                    </p>
-                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
-                  </div>
-                </div>
-              </div>
+  <!-- Game Achievement Section -->
+  <section class="achievements-section">
+    <div class="container">
+      <div class="section-header text-center mb-5">
+        <h6 class="neon-text">SISTEMA DE CONQUISTAS</h6>
+        <h2 class="section-title">Desbloqueie Vantagens Exclusivas</h2>
+        <p class="section-subtitle">
+          Ganhe experiência, suba de nível e destrave recompensas conforme explora nossa plataforma!
+        </p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="achievement-card animate-on-load">
+            <div class="achievement-icon">
+              <i class="fas fa-shopping-cart"></i>
             </div>
-            <!-- Card 2 -->
-            <div class="col-md-4 mb-4">
-              <div class="game-card position-relative rounded overflow-hidden">
-                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-60%</span>
-                <img src="./assets/images/game4.png" class="w-100 h-100 object-fit-cover" alt="The Witcher 3">
-                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-                  <div>
-                    <h5 class="text-white mb-1">The Witcher 3</h5>
-                    <p class="mb-2">
-                      <span class="text-white-50 text-decoration-line-through">R$ 199,99</span><br>
-                      <span class="text-info fw-bold fs-5">R$ 79,99</span>
-                    </p>
-                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
-                  </div>
-                </div>
-              </div>
+            <h3 class="achievement-title">Primeiro Pedido</h3>
+            <p>Complete seu primeiro pedido para ganhar descontos exclusivos.</p>
+            <div class="achievement-progress">
+              <div class="achievement-bar" data-progress="60" style="width: 0%"></div>
             </div>
-            <!-- Card 3 -->
-            <div class="col-md-4 mb-4">
-              <div class="game-card position-relative rounded overflow-hidden">
-                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-50%</span>
-                <img src="./assets/images/game12.png" class="w-100 h-100 object-fit-cover" alt="God of War">
-                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-                  <div>
-                    <h5 class="text-white mb-1">God of War Ragnarok</h5>
-                    <p class="mb-2">
-                      <span class="text-white-50 text-decoration-line-through">R$ 249,90</span><br>
-                      <span class="text-info fw-bold fs-5">R$ 124,95</span>
-                    </p>
-                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="achievement-stats">60% Completo</div>
           </div>
         </div>
-
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-          <div class="row">
-            <!-- Card 4 -->
-            <div class="col-md-4 mb-4">
-              <div class="game-card position-relative rounded overflow-hidden">
-                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-20%</span>
-                <img src="./assets/images/game5.png" class="w-100 h-100 object-fit-cover" alt="Red Dead 2">
-                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-                  <div>
-                    <h5 class="text-white mb-1">Red Dead Redemption 2</h5>
-                    <p class="mb-2">
-                      <span class="text-white-50 text-decoration-line-through">R$ 299,90</span><br>
-                      <span class="text-info fw-bold fs-5">R$ 239,92</span>
-                    </p>
-                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
-                  </div>
-                </div>
-              </div>
+        
+        <div class="col-md-6 col-lg-3">
+          <div class="achievement-card animate-on-load">
+            <div class="achievement-icon">
+              <i class="fas fa-heart"></i>
             </div>
-
-            <!-- Card 5 -->
-            <div class="col-md-4 mb-4">
-              <div class="game-card position-relative rounded overflow-hidden">
-                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-75%</span>
-                <img src="./assets/images/game13.png" class="w-100 h-100 object-fit-cover" alt="Ghost of Tsushima">
-                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-                  <div>
-                    <h5 class="text-white mb-1">Ghost of Tsushima</h5>
-                    <p class="mb-2">
-                      <span class="text-white-50 text-decoration-line-through">R$ 199,99</span><br>
-                      <span class="text-info fw-bold fs-5">R$ 49,99</span>
-                    </p>
-                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
-                  </div>
-                </div>
-              </div>
+            <h3 class="achievement-title">Colecionador</h3>
+            <p>Adicione 10 jogos à sua lista de desejos para ganhar XP bônus.</p>
+            <div class="achievement-progress">
+              <div class="achievement-bar" data-progress="40" style="width: 0%"></div>
             </div>
-
-            <!-- Card 6 -->
-            <div class="col-md-4 mb-4">
-              <div class="game-card position-relative rounded overflow-hidden">
-                <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-30%</span>
-                <img src="./assets/images/game11.png" class="w-100 h-100 object-fit-cover" alt="Red Dead 2">
-                <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-                  <div>
-                    <h5 class="text-white mb-1">The Last of Us Part I</h5>
-                    <p class="mb-2">
-                      <span class="text-white-50 text-decoration-line-through">R$ 249,90</span><br>
-                      <span class="text-info fw-bold fs-5">R$ 174,93</span>
-                    </p>
-                    <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
-                  </div>
-                </div>
-              </div>
+            <div class="achievement-stats">40% Completo</div>
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+          <div class="achievement-card animate-on-load">
+            <div class="achievement-icon">
+              <i class="fas fa-user-friends"></i>
             </div>
+            <h3 class="achievement-title">Indicações</h3>
+            <p>Convide amigos e ganhe créditos para suas próximas compras.</p>
+            <div class="achievement-progress">
+              <div class="achievement-bar" data-progress="25" style="width: 0%"></div>
+            </div>
+            <div class="achievement-stats">25% Completo</div>
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+          <div class="achievement-card animate-on-load">
+            <div class="achievement-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <h3 class="achievement-title">Avaliações</h3>
+            <p>Avalie jogos para desbloquear acesso a promoções antecipadas.</p>
+            <div class="achievement-progress">
+              <div class="achievement-bar" data-progress="75" style="width: 0%"></div>
+            </div>
+            <div class="achievement-stats">75% Completo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- Featured Games Section -->
+  <section class="featured-games-section">
+    <div class="container">
+      <div class="section-header text-center mb-5">
+        <h6 class="neon-text">OFERTAS EM DESTAQUE</h6>
+        <h2 class="section-title">Jogos Imperdíveis</h2>
+        <p class="section-subtitle">
+          Explore nossas principais ofertas com descontos exclusivos por tempo limitado!
+        </p>
+      </div>
+      
+      <div class="game-library" id="featuredGames">
+        <!-- Game Card 1 -->
+        <div class="game-card-immersive" data-game-id="1">
+          <div class="game-card-image-container">
+            <img src="assets/images/game12.png" alt="God of War Ragnarok" class="game-card-image">
+            <div class="game-card-glare"></div>
+          </div>
+          
+          <div class="discount-tag">-50%</div>
+          
+          <div class="game-badges">
+            <div class="game-badge featured"><i class="fas fa-star"></i> Destaque</div>
+            <div class="game-badge bestseller"><i class="fas fa-award"></i> Mais Vendido</div>
+          </div>
+          
+          <div class="game-card-overlay">
+            <h3 class="game-card-title">God of War Ragnarok</h3>
             
+            <div class="game-card-platform">
+              <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+              <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+            </div>
+            
+            <div class="genre-tags">
+              <span class="genre-tag">Ação</span>
+              <span class="genre-tag">Aventura</span>
+              <span class="genre-tag">RPG</span>
+            </div>
+            
+            <div class="game-card-rating">
+              <div class="rating-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <span class="rating-number">4.5</span>
+            </div>
+            
+            <div class="game-card-price">
+              <span class="price-original">R$ 249.90</span>
+              <span class="price-current" data-price="124.95">R$ 124.95</span>
+            </div>
+            
+            <div class="game-card-actions">
+              <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+              <button class="action-button-secondary wishlist-button">
+                <i class="far fa-heart"></i>
+              </button>
+              <button class="action-button-secondary preview-button">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
           </div>
         </div>
-
+        
+        <!-- Game Card 2 -->
+        <div class="game-card-immersive" data-game-id="2">
+          <div class="game-card-image-container">
+            <img src="assets/images/game13.png" alt="Ghost of Tsushima" class="game-card-image">
+            <div class="game-card-glare"></div>
+          </div>
+          
+          <div class="discount-tag">-75%</div>
+          
+          <div class="game-badges">
+            <div class="game-badge new"><i class="fas fa-certificate"></i> Novo</div>
+          </div>
+          
+          <div class="game-card-overlay">
+            <h3 class="game-card-title">Ghost of Tsushima</h3>
+            
+            <div class="game-card-platform">
+              <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+              <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+            </div>
+            
+            <div class="genre-tags">
+              <span class="genre-tag">Ação</span>
+              <span class="genre-tag">Mundo Aberto</span>
+              <span class="genre-tag">Samurai</span>
+            </div>
+            
+            <div class="game-card-rating">
+              <div class="rating-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <span class="rating-number">4.9</span>
+            </div>
+            
+            <div class="game-card-price">
+              <span class="price-original">R$ 199.99</span>
+              <span class="price-current" data-price="49.99">R$ 49.99</span>
+            </div>
+            
+            <div class="game-card-actions">
+              <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+              <button class="action-button-secondary wishlist-button">
+                <i class="far fa-heart"></i>
+              </button>
+              <button class="action-button-secondary preview-button">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Game Card 3 -->
+        <div class="game-card-immersive" data-game-id="3">
+          <div class="game-card-image-container">
+            <img src="assets/images/game4.png" alt="The Witcher 3" class="game-card-image">
+            <div class="game-card-glare"></div>
+          </div>
+          
+          <div class="discount-tag">-60%</div>
+          
+          <div class="game-badges">
+            <div class="game-badge bestseller"><i class="fas fa-award"></i> Mais Vendido</div>
+          </div>
+          
+          <div class="game-card-overlay">
+            <h3 class="game-card-title">The Witcher 3: Wild Hunt</h3>
+            
+            <div class="game-card-platform">
+              <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+              <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+              <span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>
+            </div>
+            
+            <div class="genre-tags">
+              <span class="genre-tag">RPG</span>
+              <span class="genre-tag">Fantasia</span>
+              <span class="genre-tag">Aventura</span>
+            </div>
+            
+            <div class="game-card-rating">
+              <div class="rating-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <span class="rating-number">5.0</span>
+            </div>
+            
+            <div class="game-card-price">
+              <span class="price-original">R$ 199.99</span>
+              <span class="price-current" data-price="79.99">R$ 79.99</span>
+            </div>
+            
+            <div class="game-card-actions">
+              <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+              <button class="action-button-secondary wishlist-button">
+                <i class="far fa-heart"></i>
+              </button>
+              <button class="action-button-secondary preview-button">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Game Card 4 -->
+        <div class="game-card-immersive" data-game-id="4">
+          <div class="game-card-image-container">
+            <img src="assets/images/game14.png" alt="Mortal Kombat 1" class="game-card-image">
+            <div class="game-card-glare"></div>
+          </div>
+          
+          <div class="discount-tag">-67%</div>
+          
+          <div class="game-badges">
+            <div class="game-badge featured"><i class="fas fa-star"></i> Destaque</div>
+            <div class="game-badge new"><i class="fas fa-certificate"></i> Novo</div>
+          </div>
+          
+          <div class="game-card-overlay">
+            <h3 class="game-card-title">Mortal Kombat 1</h3>
+            
+            <div class="game-card-platform">
+              <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+              <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+              <span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>
+            </div>
+            
+            <div class="genre-tags">
+              <span class="genre-tag">Luta</span>
+              <span class="genre-tag">Ação</span>
+              <span class="genre-tag">Violência</span>
+            </div>
+            
+            <div class="game-card-rating">
+              <div class="rating-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <span class="rating-number">4.7</span>
+            </div>
+            
+            <div class="game-card-price">
+              <span class="price-original">R$ 299.90</span>
+              <span class="price-current" data-price="99.90">R$ 99.90</span>
+            </div>
+            
+            <div class="game-card-actions">
+              <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar ao carrinho</button>
+              <button class="action-button-secondary wishlist-button">
+                <i class="far fa-heart"></i>
+              </button>
+              <button class="action-button-secondary preview-button">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <!-- Controles -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#gameCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#gameCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
-        <span class="visually-hidden">Próximo</span>
-      </button>
+      
+      <div class="text-center mt-5">
+        <a href="pages/games.html" class="game-hub-btn">
+          <i class="fas fa-gamepad me-2"></i> Ver Todos os Jogos
+        </a>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div class="text-center mt-4">
-    <a href="pages/games.html" class="btn button-secondary fw-semibold px-4 py-2">
-      Ver a lista completa
-    </a>
-  </div>
-
-
-  <!-- <h1 class="text-center my-4">Semana do Consumidor!!!</h1>
-  <div class="container">
-    <div class="row"> -->
-
-      <!-- CARD -->
-      <!-- Repetir estrutura abaixo para todos os jogos -->
-      <!-- <div class="col-md-4 col-lg-3 mb-4">
-        <div class="game-card position-relative rounded overflow-hidden">
-          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-67%</span>
-          <img src="./assets/images/game14.png" class="w-100 h-100 object-fit-cover" alt="Nome do Jogo">
-
-          <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-            <div>
-              <h5 class="text-white mb-1">Mortal Kombat 1</h5>
-              <p class="mb-2">
-                <span class="text-white-50 text-decoration-line-through">R$ 229,99</span><br>
-                <span class="text-info fw-bold fs-5">R$ 75,89</span>
-              </p>
-              <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+  <!-- Find Your Game Type Section -->
+  <section class="game-type-section py-5">
+    <div class="container">
+      <h2 class="section-title text-center mb-5">Encontre Seu Tipo de Jogo</h2>
+      
+      <div class="game-type-slider">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <div class="game-type-card" data-category="rpg">
+              <div class="game-type-image">
+                <img src="assets/images/category-rpg.jpg" alt="RPG Games">
+                <div class="game-type-overlay"></div>
+              </div>
+              <div class="game-type-content">
+                <h3 class="game-type-title">RPG</h3>
+                <p class="game-type-description">Embarque em jornadas épicas e desenvolva seu personagem em mundos fantásticos.</p>
+                <a href="pages/games.html?category=rpg" class="game-type-link">Explorar <i class="fas fa-arrow-right"></i></a>
+              </div>
             </div>
           </div>
-        </div>
-      </div> -->
-      <!-- Repita esse bloco acima para os outros cards com apenas troca de imagem e título -->
-
-      <!-- <div class="col-md-4 col-lg-3 mb-4">
-        <div class="game-card position-relative rounded overflow-hidden">
-          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-60%</span>
-          <img src="./assets/images/game4.png" class="w-100 h-100 object-fit-cover" alt="Nome do Jogo">
-
-          <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-            <div>
-              <h5 class="text-white mb-1">The Witcher 3</h5>
-              <p class="mb-2">
-                <span class="text-white-50 text-decoration-line-through">R$ 199,99</span><br>
-                <span class="text-info fw-bold fs-5">R$ 79,99</span>
-              </p>
-              <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+          
+          <div class="col-md-4 mb-4">
+            <div class="game-type-card" data-category="action">
+              <div class="game-type-image">
+                <img src="assets/images/category-action.jpg" alt="Action Games">
+                <div class="game-type-overlay"></div>
+              </div>
+              <div class="game-type-content">
+                <h3 class="game-type-title">Ação</h3>
+                <p class="game-type-description">Teste seus reflexos em aventuras cheias de adrenalina e combates intensos.</p>
+                <a href="pages/games.html?category=action" class="game-type-link">Explorar <i class="fas fa-arrow-right"></i></a>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 col-lg-3 mb-4">
-        <div class="game-card position-relative rounded overflow-hidden">
-          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-50%</span>
-          <img src="./assets/images/game12.png" class="w-100 h-100 object-fit-cover" alt="Nome do Jogo">
-          <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-            <div>
-              <h5 class="text-white mb-1">God of War Ragnarok</h5>
-              <p class="mb-2">
-                <span class="text-white-50 text-decoration-line-through">R$ 249,90</span><br>
-                <span class="text-info fw-bold fs-5">R$ 124,95</span>
-              </p>
-              <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
+          
+          <div class="col-md-4 mb-4">
+            <div class="game-type-card" data-category="strategy">
+              <div class="game-type-image">
+                <img src="assets/images/category-strategy.jpg" alt="Strategy Games">
+                <div class="game-type-overlay"></div>
+              </div>
+              <div class="game-type-content">
+                <h3 class="game-type-title">Estratégia</h3>
+                <p class="game-type-description">Planeje, construa e conquiste com inteligência e pensamento tático.</p>
+                <a href="pages/games.html?category=strategy" class="game-type-link">Explorar <i class="fas fa-arrow-right"></i></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="col-md-4 col-lg-3 mb-4">
-        <div class="game-card position-relative rounded overflow-hidden">
-          <span class="position-absolute top-0 start-0 m-2 badge discount-badge-games">-20%</span>
-          <img src="./assets/images/game5.png" class="w-100 h-100 object-fit-cover" alt="Nome do Jogo">
-          <div class="game-card-overlay d-flex flex-column justify-content-end p-3">
-            <div>
-              <h5 class="text-white mb-1">Red Dead Redemption 2</h5>
-              <p class="mb-2">
-                <span class="text-white-50 text-decoration-line-through">R$ 299,90</span><br>
-                <span class="text-info fw-bold fs-5">R$ 239,92</span>
-              </p>
-              <a href="#" class="btn btn-sm gamebtn w-100 fw-bold">Adicionar ao carrinho</a>
-            </div>
-          </div>
-        </div>
+      
+      <div class="text-center mt-4">
+        <a href="pages/games.html" class="btn-view-all">Ver todas categorias <i class="fas fa-chevron-right ms-2"></i></a>
       </div>
-
     </div>
-  </div> -->
+  </section>
 
-  <!-- <div class="text-center mt-4">
-    <a href="pages/games.html" class="btn button-secondary fw-semibold px-4 py-2">
-      Ver a lista completa
-    </a>
-  </div> -->
+  <!-- Daily Quest Section -->
+  <section class="daily-quest-section">
+    <div class="container">
+      <div class="daily-quest-container">
+        <div class="daily-quest-header">
+          <div class="quest-icon"><i class="fas fa-calendar-day"></i></div>
+          <h3 class="quest-title">Missão Diária</h3>
+          <div class="quest-timer" id="questTimer">23:45:30</div>
+        </div>
+        
+        <div class="daily-quest-body">
+          <div class="quest-description">
+            <p>Adicione 3 jogos à sua lista de desejos hoje e ganhe <span class="quest-reward">50 XP</span> + um cupom de desconto!</p>
+          </div>
+          
+          <div class="quest-progress">
+            <div class="quest-progress-bar">
+              <div class="quest-progress-fill" style="width: 33%"></div>
+            </div>
+            <div class="quest-progress-text">1/3 Completo</div>
+          </div>
+        </div>
+        
+        <div class="daily-quest-footer">
+          <a href="pages/games.html" class="quest-button">Iniciar Missão</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- footer -->
-  <footer class="footer mt-4">
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h2 class="newsletter-title">Inscreva-se para Ofertas Exclusivas</h2>
+            <p class="newsletter-subtitle">
+              Receba alertas de promoções, códigos de desconto e novidades diretamente no seu email.
+            </p>
+            <ul class="newsletter-benefits">
+              <li><i class="fas fa-check-circle"></i> Alertas de descontos em sua lista de desejos</li>
+              <li><i class="fas fa-check-circle"></i> Cupons exclusivos para assinantes</li>
+              <li><i class="fas fa-check-circle"></i> Recompensa de 100 XP ao se inscrever</li>
+            </ul>
+          </div>
+          <div class="col-lg-6">
+            <div class="newsletter-form">
+              <form id="subscribeForm">
+                <div class="form-group mb-3">
+                  <input type="text" class="form-control" placeholder="Seu nome" required>
+                </div>
+                <div class="form-group mb-3">
+                  <input type="email" class="form-control" placeholder="Seu email" required>
+                </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                  <label class="form-check-label" for="agreeTerms">
+                    Concordo em receber emails promocionais
+                  </label>
+                </div>
+                <button type="submit" class="btn newsletter-button w-100">
+                  <i class="fas fa-envelope me-2"></i> Inscrever-se
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Immersive Footer -->
+  <footer class="footer-immersive">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 mb-3">
-          <img src="assets/images/logo.png" alt="Logo" class="mb-3" height="50">
-          <p>Explore as melhores ofertas de jogos com a gente.</p>
+        <div class="col-md-3 mb-4">
+          <img src="assets/images/logo.png" alt="BuscaGames" class="footer-logo mb-3">
+          <p class="footer-description">
+            Sua plataforma gamificada para encontrar as melhores ofertas de jogos e acumular recompensas!
+          </p>
+          <div class="footer-social mt-3">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+          </div>
         </div>
-        <div class="col-md-4 mb-3">
-          <h5>Links úteis</h5>
-          <ul class="list-unstyled">
-            <li><a href="pages/info.html">Sobre nós</a></li>
-            <li><a href="#">Nossos serviços</a></li>
-            <li><a href="#">Parceiros</a></li>
-            <li><a href="#">Programa de Afiliados</a></li>
+        
+        <div class="col-md-3 mb-4">
+          <h4 class="footer-title">Navegação</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Home</a></li>
+            <li><a href="pages/games.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Games</a></li>
+            <li><a href="pages/quests.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Quests</a></li>
+            <li><a href="pages/info.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Informações</a></li>
+            <li><a href="pages/profile.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Perfil</a></li>
           </ul>
         </div>
-        <div class="col-md-4 mb-3">
-          <h5>Redes Sociais</h5>
-          <p>Siga-nos nas redes sociais para novidades e promoções.</p>
-          <div class="socials text-center">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        
+        <div class="col-md-3 mb-4">
+          <h4 class="footer-title">Categorias</h4>
+          <ul class="footer-links">
+            <li><a href="pages/games.html?category=rpg" class="footer-link"><i class="fas fa-angle-right me-2"></i> RPG</a></li>
+            <li><a href="pages/games.html?category=action" class="footer-link"><i class="fas fa-angle-right me-2"></i> Ação</a></li>
+            <li><a href="pages/games.html?category=adventure" class="footer-link"><i class="fas fa-angle-right me-2"></i> Aventura</a></li>
+            <li><a href="pages/games.html?category=strategy" class="footer-link"><i class="fas fa-angle-right me-2"></i> Estratégia</a></li>
+            <li><a href="pages/games.html?category=all" class="footer-link"><i class="fas fa-angle-right me-2"></i> Ver Todas</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <h4 class="footer-title">Contato</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-envelope me-2"></i> contato@buscagames.com</li>
+            <li><i class="fas fa-phone me-2"></i> (11) 99123-4567</li>
+            <li><i class="fas fa-map-marker-alt me-2"></i> São Paulo, SP - Brasil</li>
+          </ul>
+          <div class="footer-store-badges mt-3">
+            <img src="assets/images/app-store-badge.png" alt="App Store" class="store-badge">
+            <img src="assets/images/play-store-badge.png" alt="Play Store" class="store-badge">
           </div>
         </div>
       </div>
-
-      <div class="d-flex justify-content-between pt-4 mt-4 border-top">
-        <p class="mb-0">&copy; 2025 Busca Games. Todos os direitos reservados.</p>
-        <div>
-          <a href="#" class="me-3">Licença</a>
-          <a href="#" class="me-3">Termos</a>
-          <a href="#">Privacidade</a>
+      
+      <div class="footer-bottom mt-4 pt-4 border-top border-secondary">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="mb-0">&copy; 2025 BuscaGames. Todos os direitos reservados.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="footer-bottom-link me-3">Política de Privacidade</a>
+            <a href="#" class="footer-bottom-link me-3">Termos de Uso</a>
+            <a href="#" class="footer-bottom-link">Ajuda</a>
+          </div>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <!-- Scripts -->
   <script src="assets/js/script.js"></script>
-  <script src="assets/js/teste.js"></script>
+  <script src="assets/js/immersive.js"></script>
+  
+  <!-- Initialize countdown -->
+  <script>
+    // Set countdown date (3 months from today)
+    const releaseDate = new Date();
+    releaseDate.setMonth(releaseDate.getMonth() + 3);
+    
+    // Update countdown every second
+    const countdownTimer = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = releaseDate - now;
+      
+      // Time calculations
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      // Display results
+      document.getElementById("countDays").innerHTML = days.toString().padStart(2, '0');
+      document.getElementById("countHours").innerHTML = hours.toString().padStart(2, '0');
+      document.getElementById("countMinutes").innerHTML = minutes.toString().padStart(2, '0');
+      document.getElementById("countSeconds").innerHTML = seconds.toString().padStart(2, '0');
+      
+      // If countdown is finished
+      if (distance < 0) {
+        clearInterval(countdownTimer);
+        document.getElementById("releaseCountdown").innerHTML = '<div class="released-tag">LANÇADO!</div>';
+        
+        // Update button text and style
+        const countdownButton = document.querySelector('.countdown-button');
+        if (countdownButton) {
+          countdownButton.innerHTML = 'COMPRAR AGORA';
+          countdownButton.classList.add('released');
+        }
+      }
+    }, 1000);
+  </script>
+
+  <script>
+    // Add hover effects to game type cards
+    document.querySelectorAll('.game-type-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.classList.add('hover');
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.classList.remove('hover');
+      });
+      
+      // Add click event to navigate to category page
+      card.addEventListener('click', function(e) {
+        // Only navigate if the click wasn't on the link itself
+        if (!e.target.closest('.game-type-link')) {
+          const category = this.getAttribute('data-category');
+          window.location.href = `pages/games.html?category=${category}`;
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

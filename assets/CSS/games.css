@@ -94,3 +94,320 @@
   border: none;
   padding: 1rem;
 }
+
+/* GAMES PAGE STYLES */
+
+/* Page Header */
+.page-header {
+  background: linear-gradient(135deg, var(--color-acai), var(--color-blue));
+  padding: 8rem 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/grid-pattern.png');
+  background-size: 100px 100px;
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.page-title {
+  color: var(--color-white-cottom);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.page-subtitle {
+  color: var(--color-white-cottom);
+  opacity: 0.8;
+  position: relative;
+  z-index: 2;
+}
+
+/* Games Section */
+.games-section {
+  padding: 3rem 0;
+  background-color: var(--color-dark);
+  min-height: 70vh;
+}
+
+/* Game Sidebar */
+.game-sidebar {
+  background: linear-gradient(145deg, #232323, #1a1a1a);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(74, 144, 226, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-header h3 {
+  color: var(--color-white-cottom);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.sidebar-content {
+  padding: 1.5rem;
+}
+
+/* Category List */
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: var(--color-white-cottom);
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.category-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(5px);
+}
+
+.category-item.active {
+  background: rgba(74, 144, 226, 0.1);
+  color: var(--blue-light);
+  border-left: 3px solid var(--blue-light);
+}
+
+/* Filter Styles */
+.filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.filter-label {
+  display: block;
+  color: var(--color-white-cottom);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.range-slider-container {
+  padding: 0 0.5rem;
+}
+
+.range-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.range-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background: var(--blue-light);
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.range-values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  color: var(--color-white-cottom);
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+
+.filter-options {
+  margin-top: 0.5rem;
+}
+
+.form-check {
+  margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.form-check-input:checked {
+  background-color: var(--blue-light);
+  border-color: var(--blue-light);
+}
+
+.form-check-label {
+  color: var(--color-white-cottom);
+  font-size: 0.875rem;
+}
+
+.filter-button {
+  background: var(--color-green-forest);
+  color: var(--color-white-cottom);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.filter-button:hover {
+  background: var(--color-green);
+  box-shadow: 0 0 10px rgba(20, 133, 58, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Games Controls */
+.games-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.games-search {
+  flex: 1;
+}
+
+.games-search .form-control {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-white-cottom);
+}
+
+.games-search .form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
+  border-color: rgba(74, 144, 226, 0.5);
+}
+
+.games-search .btn-primary {
+  background-color: var(--blue-light);
+  border-color: var(--blue-light);
+}
+
+.games-sort {
+  width: 200px;
+}
+
+.form-select {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-white-cottom);
+}
+
+.form-select:focus {
+  box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
+  border-color: rgba(74, 144, 226, 0.5);
+}
+
+/* Badge Styling */
+.badge-games {
+  background-color: var(--color-acai);
+  border: 1px solid rgba(107, 63, 160, 0.6);
+  color: var(--color-white-cottom);
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding: 0.35em 0.65em;
+  transition: all 0.3s ease;
+}
+
+.badge-games:hover {
+  background-color: var(--color-purple);
+  box-shadow: 0 0 5px rgba(107, 63, 160, 0.6);
+}
+
+/* Load More Button */
+.game-hub-btn {
+  background: linear-gradient(90deg, var(--color-acai), var(--color-blue));
+  color: var(--color-white-cottom);
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(107, 63, 160, 0.4);
+}
+
+.game-hub-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+
+.game-hub-btn:hover {
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(107, 63, 160, 0.6);
+}
+
+.game-hub-btn:hover::before {
+  left: 100%;
+}
+
+/* Media Queries */
+@media (max-width: 992px) {
+  .game-sidebar {
+    margin-bottom: 2rem;
+  }
+  
+  .games-controls {
+    flex-direction: column;
+  }
+  
+  .games-sort {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-title {
+    font-size: 2rem;
+  }
+}
