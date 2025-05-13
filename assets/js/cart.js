@@ -975,32 +975,30 @@ function addActivity(type, message, icon) {
 
 // Show notification
 function showNotification(message, type = 'info') {
-  // Check if parent script has showNotification function
-  if (typeof window.showNotification === 'function') {
-    window.showNotification(message, type);
-    return;
-  }
-  
-  // Fallback implementation
   const notification = document.createElement('div');
   notification.className = `game-notification ${type}`;
   notification.innerHTML = `
-    <div class="notification-content">${message}</div>
-    <button class="notification-close"><i class="fas fa-times"></i></button>
+    <div class="notification-content">
+      <div class="notification-body">
+        <span class="notification-icon">✔️</span>
+        <span class="notification-message">${message}</span>
+      </div>
+      <button class="notification-close"><i class="fas fa-times"></i></button>
+    </div>
   `;
-  
+
   document.body.appendChild(notification);
-  
-  // Show notification
-  setTimeout(() => notification.classList.add('show'), 10);
-  
-  // Auto-hide after 5 seconds
+
+  // Mostrar com transição
+  setTimeout(() => notification.classList.add('show'), 100);
+
+  // Fechar automático após 5s
   setTimeout(() => {
     notification.classList.remove('show');
     setTimeout(() => notification.remove(), 300);
   }, 5000);
-  
-  // Add close event
+
+  // Fechar manual
   const closeBtn = notification.querySelector('.notification-close');
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
@@ -1008,4 +1006,4 @@ function showNotification(message, type = 'info') {
       setTimeout(() => notification.remove(), 300);
     });
   }
-} 
+}

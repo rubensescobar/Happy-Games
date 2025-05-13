@@ -507,12 +507,12 @@ body::before {
 /* Custom alert/notification */
 .game-notification {
   position: fixed;
-  top: 20px;
+  top: 5em;
   right: 20px;
   background: rgba(28, 28, 28, 0.9);
   backdrop-filter: blur(10px);
   border-left: 4px solid var(--blue-light);
-  padding: 1rem;
+  padding: .75rem;
   border-radius: 4px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1000;
@@ -521,6 +521,8 @@ body::before {
 }
 
 .game-notification.show {
+  display: flex;
+  gap: 1em;
   transform: translateX(0);
 }
 
