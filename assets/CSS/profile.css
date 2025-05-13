@@ -393,20 +393,20 @@
 }
 
 .btn-explore {
-  display: inline-block;
-  padding: 0.5rem 1.5rem;
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 500;
+  background: var(--color-green-glow);
+  color: var(--color-dark);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .btn-explore:hover {
-  background: var(--color-green);
-  color: var(--color-white-cottom);
-  transform: translateY(-2px);
+  background: var(--color-green-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
 }
 
 /* Achievements Preview */
@@ -568,20 +568,20 @@
 }
 
 .form-button {
-  padding: 0.75rem 1.5rem;
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
   border: none;
+  padding: 0.75rem 1.5rem;
   border-radius: 5px;
   font-weight: 600;
-  cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .form-button:hover {
-  background: var(--color-green);
-  transform: translateY(-2px);
+  background: var(--color-green-glow);
+  transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
 }
 
 /* Media Queries */
@@ -749,7 +749,7 @@
 .wishlist-game-card .game-price {
   font-size: 1.2rem;
   font-weight: bold;
-  color: var(--color-green-forest);
+  color: var(--color-green-glow);
   margin-bottom: 0.5rem;
 }
 
@@ -759,19 +759,20 @@
 }
 
 .wishlist-game-card .btn-add-cart {
-  background: var(--color-green-forest);
-  color: white;
+  background: var(--color-green-glow);
+  color: var(--color-dark);
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
-  flex: 1;
 }
 
 .wishlist-game-card .btn-add-cart:hover {
-  background: var(--color-green);
+  background: var(--color-green-glow);
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(20, 133, 58, 0.2);
+  color: var(--color-dark);
 }
 
 .wishlist-game-card .btn-remove-wishlist {
@@ -817,7 +818,7 @@
 }
 
 .task-complete i {
-  color: var(--color-green-forest);
+  color: var(--color-green-glow);
 }
 
 .task-incomplete i {

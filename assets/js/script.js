@@ -3,9 +3,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Check if user is logged in
   checkUserLogin();
-  
-  // Setup logout functionality
-  setupLogout();
 });
 
 // Check if user is logged in
@@ -24,9 +21,9 @@ function checkUserLogin() {
     // Update display
     if (loginNavItem) loginNavItem.classList.add('d-none');
     if (logoutNavItem) {
-      logoutNavItem.classList.remove('d-none');
-      const userMenuName = logoutNavItem.querySelector('#userMenuName');
-      if (userMenuName) userMenuName.textContent = userName;
+    logoutNavItem.classList.remove('d-none');
+    const userMenuName = logoutNavItem.querySelector('#userMenuName');
+    if (userMenuName) userMenuName.textContent = userName;
     }
     
     // Show XP level info
@@ -38,28 +35,6 @@ function checkUserLogin() {
     
     // Hide XP level info
     if (userLevelContainer) userLevelContainer.classList.add('d-none');
-  }
-}
-
-// Setup logout functionality
-function setupLogout() {
-  const logoutLink = document.getElementById('logoutLink');
-  
-  if (logoutLink) {
-    logoutLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Clear login state
-      localStorage.removeItem('isLogged');
-      localStorage.removeItem('nomeUsuario');
-      localStorage.removeItem('userEmail');
-      
-      // Show confirmation
-      alert('Você saiu da sua conta com sucesso!');
-      
-      // Refresh the page or redirect
-      window.location.href = 'index.html';
-    });
   }
 }
 
@@ -178,12 +153,13 @@ function checkLoginStatus() {
 
             localStorage.removeItem("isLogged");
             localStorage.removeItem("nomeUsuario");
+            localStorage.removeItem("userEmail");
 
             // Show success message using SweetAlert if available
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Logout realizado com sucesso!',
+                    title: 'Logout Executed Successfully',
                     timer: 1500,
                     showConfirmButton: false,
                     customClass: {
@@ -193,6 +169,7 @@ function checkLoginStatus() {
                     location.reload();
                 });
             } else {
+                alert('Logout Executed Successfully');
                 location.reload();
             }
         });

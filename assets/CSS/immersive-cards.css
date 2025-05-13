@@ -201,8 +201,8 @@
 }
 
 .action-button {
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 5px;
@@ -214,8 +214,9 @@
 }
 
 .action-button:hover {
-  background: var(--color-green);
+  background: var(--color-green-glow);
   box-shadow: 0 0 10px rgba(20, 133, 58, 0.5);
+  color: var(--color-dark);
 }
 
 .action-button-secondary {
@@ -858,8 +859,8 @@
 }
 
 .filter-button {
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 5px;
@@ -868,8 +869,10 @@
 }
 
 .filter-button:hover {
-  background: var(--color-green);
-  box-shadow: 0 0 10px rgba(20, 133, 58, 0.5);
+  background: var(--color-green-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
 }
 
 .filter-reset {
@@ -1197,22 +1200,22 @@
 }
 
 .btn-checkout {
-  flex: 1;
-  padding: 0.75rem;
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
   border: none;
+  padding: 1rem 2rem;
   border-radius: 5px;
-  font-weight: 600;
-  text-align: center;
-  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  width: 100%;
   transition: all 0.3s ease;
 }
 
 .btn-checkout:hover {
-  background: var(--color-green);
-  box-shadow: 0 0 15px rgba(20, 133, 58, 0.3);
-  transform: translateY(-2px);
+  background: var(--color-green-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
 }
 
 .btn-continue-shopping {

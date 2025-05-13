@@ -352,21 +352,20 @@
 }
 
 .claim-btn {
-  padding: 0.5rem 1rem;
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
   border: none;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
   font-weight: 600;
   transition: all 0.3s ease;
-  cursor: pointer;
-  font-size: 0.875rem;
-  text-decoration: none;
 }
 
 .claim-btn:hover {
-  background: var(--color-green);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
 }
 
 .claim-btn.locked {
@@ -755,21 +754,20 @@
 }
 
 .quest-button {
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
-  border-radius: 100px;
+  background: var(--color-green-glow);
+  color: var(--color-dark);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
   font-weight: 600;
-  text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .quest-button:hover {
-  background: var(--color-green);
-  color: var(--color-white-cottom);
-  transform: translateY(-2px);
+  background: var(--color-green-glow);
+  transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
 }
 
 /* CTA Section */
@@ -831,15 +829,14 @@
 }
 
 .cta-button.primary {
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
 }
 
 .cta-button.primary:hover {
-  background: var(--color-green);
-  color: var(--color-white-cottom);
-  transform: translateY(-2px);
+  background: var(--color-green-glow);
   box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
 }
 
 .cta-button.secondary {
