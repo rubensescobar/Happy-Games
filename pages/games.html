@@ -4,27 +4,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BuscaGames - Explore uma biblioteca completa de jogos com descontos exclusivos">
   <title>BuscaGames - Explorar Jogos</title>
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="../assets/images/logo.png" as="image">
+  <link rel="preload" href="../assets/CSS/global.css" as="style">
+  <link rel="preload" href="../assets/CSS/cards.css" as="style">
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
 
-  <!-- Styles -->
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../assets/CSS/global.css">
+  <link rel="stylesheet" href="../assets/CSS/cards.css">
   <link rel="stylesheet" href="../assets/CSS/immersive.css">
   <link rel="stylesheet" href="../assets/CSS/immersive-cards.css">
   <link rel="stylesheet" href="../assets/CSS/games.css">
   
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!-- Bootstrap JS (deferred) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  
+  <!-- Additional Styles to Match Homepage Cards -->
+  <style>
+    /* Ensure game cards in game library have the right layout */
+    .game-library {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 2rem;
+    }
+    
+    /* Match card hover effects from the homepage */
+    .game-card-immersive {
+      height: 380px;
+      perspective: 1000px;
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .game-card-immersive:hover {
+      transform: translateY(-10px) scale(1.02);
+    }
+    
+    .game-card-immersive:hover .game-card-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .game-card-immersive:hover .game-card-glare {
+      opacity: 0.15;
+    }
+    
+    /* Cart animation */
+    .cart-bounce {
+      animation: cartBounce 0.5s ease;
+    }
+    
+    @keyframes cartBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+    }
+    
+    /* Preview image in modal */
+    .game-preview-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Mobile Optimization */
+    @media (max-width: 767px) {
+      .game-library {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+      
+      .game-card-immersive {
+        height: 320px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -224,7 +296,7 @@
           <!-- Games Grid -->
           <div class="game-library" id="gamesGrid">
             <!-- Game Card 1 -->
-            <div class="game-card-immersive" data-game-id="8" data-generos="Ação,Aventura,Mundo Aberto">
+            <div class="game-card-immersive" data-game-id="1" data-generos="Ação,Aventura,Mundo Aberto">
               <div class="game-card-image-container">
                 <img src="../assets/images/game8.png" alt="GhostRunner" class="game-card-image">
                 <div class="game-card-glare"></div>
@@ -263,7 +335,7 @@
                 </div>
                 
                 <div class="game-card-actions">
-                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar ao carrinho</button>
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
                   <button class="action-button-secondary wishlist-button">
                     <i class="far fa-heart"></i>
                   </button>
@@ -299,7 +371,6 @@
                 <div class="genre-tags">
                   <span class="genre-tag">Futurista</span>
                   <span class="genre-tag">Ficção Científica</span>
-                  <span class="genre-tag">RPG</span>
                 </div>
                 
                 <div class="game-card-rating">
@@ -319,7 +390,7 @@
                 </div>
                 
                 <div class="game-card-actions">
-                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar ao carrinho</button>
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
                   <button class="action-button-secondary wishlist-button">
                     <i class="far fa-heart"></i>
                   </button>
@@ -354,8 +425,8 @@
                 
                 <div class="genre-tags">
                   <span class="genre-tag">Ação</span>
+                  <span class="genre-tag">Faça o que Quiser</span>
                   <span class="genre-tag">Mundo Aberto</span>
-                  <span class="genre-tag">Crime</span>
                 </div>
                 
                 <div class="game-card-rating">
@@ -375,7 +446,7 @@
                 </div>
                 
                 <div class="game-card-actions">
-                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar ao carrinho</button>
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
                   <button class="action-button-secondary wishlist-button">
                     <i class="far fa-heart"></i>
                   </button>
@@ -386,7 +457,497 @@
               </div>
             </div>
             
-            <!-- More game cards would continue here -->
+            <!-- Game Card 4 -->
+            <div class="game-card-immersive" data-game-id="4" data-generos="Ação,Aventura,RPG,Mundo Aberto">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game4.png" alt="The Witcher 3: Wild Hunt" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="discount-tag">-60%</div>
+              
+              <div class="game-badges">
+                <div class="game-badge bestseller"><i class="fas fa-award"></i> Mais Vendido</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">The Witcher 3: Wild Hunt</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                  <span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">Ação</span>
+                  <span class="genre-tag">Aventura</span>
+                  <span class="genre-tag">Mundo Aberto</span>
+                  <span class="genre-tag">RPG</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="rating-number">4.9</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-original">R$ 199.90</span>
+                  <span class="price-current" data-price="79.90">R$ 79.90</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Game Card 5 -->
+            <div class="game-card-immersive" data-game-id="5" data-generos="Velho Oeste,Mundo Aberto,Ação">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game5.png" alt="Red Dead Redemption 2: Ultimate Edition" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="discount-tag">-20%</div>
+              
+              <div class="game-badges">
+                <div class="game-badge featured"><i class="fas fa-star"></i> Destaque</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">Red Dead Redemption 2: Ultimate Edition</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                  <span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">Boa Trama</span>
+                  <span class="genre-tag">Velho Oeste</span>
+                  <span class="genre-tag">Mundo Aberto</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="rating-number">5.0</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-original">R$ 249.90</span>
+                  <span class="price-current" data-price="199.90">R$ 199.90</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Game Card 6 -->
+            <div class="game-card-immersive" data-game-id="6" data-generos="Simulação,Agricultura,Primeira Pessoa">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game6.png" alt="Farming Simulator 22: Premium Edition" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="game-badges">
+                <div class="game-badge new"><i class="fas fa-certificate"></i> Novo</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">Farming Simulator 22: Premium Edition</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                  <span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">Simulação</span>
+                  <span class="genre-tag">Agricultura</span>
+                  <span class="genre-tag">Primeira Pessoa</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                  <span class="rating-number">4.0</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-current" data-price="149.90">R$ 149.90</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Game Card 7 -->
+            <div class="game-card-immersive" data-game-id="7" data-generos="Tiro em Primeira Pessoa,eSports">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game7.png" alt="Tom Clancy's Rainbow Six® Siege" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="game-badges">
+                <div class="game-badge bestseller"><i class="fas fa-award"></i> Mais Vendido</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">Tom Clancy's Rainbow Six® Siege</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                  <span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">Tiro em Primeira Pessoa</span>
+                  <span class="genre-tag">eSports</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <span class="rating-number">4.5</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-current" data-price="89.90">R$ 89.90</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Game Card 8 -->
+            <div class="game-card-immersive" data-game-id="8" data-generos="Tiro em Primeira Pessoa,Franco-Atirador">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game9.png" alt="Sniper Ghost Warrior Contracts 2" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="game-badges">
+                <div class="game-badge new"><i class="fas fa-certificate"></i> Novo</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">Sniper Ghost Warrior Contracts 2</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                  <span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">Tiro em Primeira Pessoa</span>
+                  <span class="genre-tag">Franco-Atirador</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </div>
+                  <span class="rating-number">4.0</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-current" data-price="119.90">R$ 119.90</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Game Card 9 -->
+            <div class="game-card-immersive" data-game-id="9" data-generos="Sobrevivência,Ação,Zumbis">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game11.png" alt="The Last of Us Part I" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="discount-tag">-30%</div>
+              
+              <div class="game-badges">
+                <div class="game-badge featured"><i class="fas fa-star"></i> Destaque</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">The Last of Us Part I</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">Sobrevivência</span>
+                  <span class="genre-tag">Ação</span>
+                  <span class="genre-tag">Zumbis</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="rating-number">4.9</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-original">R$ 299.90</span>
+                  <span class="price-current" data-price="209.90">R$ 209.90</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Game Card 10 -->
+            <div class="game-card-immersive" data-game-id="10" data-generos="RPG,Ação,Aventura">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game12.png" alt="God of War Ragnarok" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="discount-tag">-50%</div>
+              
+              <div class="game-badges">
+                <div class="game-badge bestseller"><i class="fas fa-award"></i> Mais Vendido</div>
+                <div class="game-badge featured"><i class="fas fa-star"></i> Destaque</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">God of War Ragnarok</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">RPG</span>
+                  <span class="genre-tag">Ação</span>
+                  <span class="genre-tag">Aventura</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="rating-number">5.0</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-original">R$ 249.90</span>
+                  <span class="price-current" data-price="124.95">R$ 124.95</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Game Card 11 -->
+            <div class="game-card-immersive" data-game-id="11" data-generos="Mundo Aberto,Ação,Boa Trama">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game13.png" alt="Ghost of Tsushima" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="discount-tag">-75%</div>
+              
+              <div class="game-badges">
+                <div class="game-badge new"><i class="fas fa-certificate"></i> Novo</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">Ghost of Tsushima</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                  <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">Mundo Aberto</span>
+                  <span class="genre-tag">Ação</span>
+                  <span class="genre-tag">Boa Trama</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <span class="rating-number">4.9</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-original">R$ 199.99</span>
+                  <span class="price-current" data-price="49.99">R$ 49.99</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Game Card 12 -->
+            <div class="game-card-immersive" data-game-id="12" data-generos="Luta,Ação,Violência Detalhada">
+              <div class="game-card-image-container">
+                <img src="../assets/images/game14.png" alt="Mortal Kombat 1" class="game-card-image">
+                <div class="game-card-glare"></div>
+              </div>
+              
+              <div class="discount-tag">-67%</div>
+              
+              <div class="game-badges">
+                <div class="game-badge featured"><i class="fas fa-star"></i> Destaque</div>
+                <div class="game-badge new"><i class="fas fa-certificate"></i> Novo</div>
+              </div>
+              
+              <div class="game-card-overlay">
+                <h3 class="game-card-title">Mortal Kombat 1</h3>
+                
+                <div class="game-card-platform">
+                  <span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>
+                  <span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>
+                  <span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>
+                </div>
+                
+                <div class="genre-tags">
+                  <span class="genre-tag">Luta</span>
+                  <span class="genre-tag">Ação</span>
+                  <span class="genre-tag">Violência Detalhada</span>
+                </div>
+                
+                <div class="game-card-rating">
+                  <div class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <span class="rating-number">4.7</span>
+                </div>
+                
+                <div class="game-card-price">
+                  <span class="price-original">R$ 299.90</span>
+                  <span class="price-current" data-price="99.90">R$ 99.90</span>
+                </div>
+                
+                <div class="game-card-actions">
+                  <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+                  <button class="action-button-secondary wishlist-button">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="action-button-secondary preview-button">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           
           <!-- Load More Button -->
@@ -503,6 +1064,260 @@
         console.log(`Filtering by category: ${category}`);
         // Actual filtering would happen here
       });
+    });
+    
+    // Initialize game cards with hover effects and interactions
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up glare effect for game cards
+      const gameCards = document.querySelectorAll('.game-card-immersive');
+      
+      gameCards.forEach(card => {
+        // Add hover effect for game cards with glare
+        card.addEventListener('mousemove', function(e) {
+          const glare = this.querySelector('.game-card-glare');
+          if (glare) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            glare.style.setProperty('--x', `${x}px`);
+            glare.style.setProperty('--y', `${y}px`);
+          }
+        });
+        
+        // Handle wishlist button clicks
+        const wishlistBtn = card.querySelector('.wishlist-button');
+        if (wishlistBtn) {
+          wishlistBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('far')) {
+              icon.classList.remove('far');
+              icon.classList.add('fas');
+              // Add XP for adding to wishlist
+              updateXP(10);
+              // Show success message
+              Swal.fire({
+                title: 'Adicionado aos favoritos!',
+                text: 'Jogo adicionado à sua lista de desejos.',
+                icon: 'success',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+            } else {
+              icon.classList.remove('fas');
+              icon.classList.add('far');
+              // Show removal message
+              Swal.fire({
+                title: 'Removido dos favoritos!',
+                text: 'Jogo removido da sua lista de desejos.',
+                icon: 'info',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+            }
+          });
+        }
+        
+        // Handle add to cart button clicks
+        const addToCartBtn = card.querySelector('.add-to-cart');
+        if (addToCartBtn) {
+          addToCartBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Get game information
+            const gameCard = this.closest('.game-card-immersive');
+            const gameTitle = gameCard.querySelector('.game-card-title').textContent;
+            const gamePrice = gameCard.querySelector('.price-current').getAttribute('data-price');
+            const gameImage = gameCard.querySelector('.game-card-image').src;
+            
+            // Add XP for adding to cart
+            updateXP(25);
+            
+            // Update cart count
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+              cartCount.textContent = parseInt(cartCount.textContent) + 1;
+            }
+            
+            // Add to cart animation
+            const cartIcon = document.querySelector('.cart-icon');
+            if (cartIcon) {
+              cartIcon.classList.add('cart-bounce');
+              setTimeout(() => {
+                cartIcon.classList.remove('cart-bounce');
+              }, 1000);
+            }
+            
+            // Save to localStorage (simplified cart system)
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({
+              id: gameCard.getAttribute('data-game-id'),
+              title: gameTitle,
+              price: gamePrice,
+              image: gameImage,
+              quantity: 1
+            });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Show success message
+            Swal.fire({
+              title: 'Adicionado ao carrinho!',
+              text: `${gameTitle} foi adicionado ao seu carrinho.`,
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            });
+          });
+        }
+        
+        // Handle preview button clicks
+        const previewBtn = card.querySelector('.preview-button');
+        if (previewBtn) {
+          previewBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const gameCard = this.closest('.game-card-immersive');
+            const gameTitle = gameCard.querySelector('.game-card-title').textContent;
+            const gameImage = gameCard.querySelector('.game-card-image').src;
+            const gamePrice = gameCard.querySelector('.price-current').textContent;
+            const genreTags = Array.from(gameCard.querySelectorAll('.genre-tag')).map(tag => tag.textContent);
+            const gameRating = gameCard.querySelector('.rating-number').textContent;
+            
+            // Add XP for viewing details
+            updateXP(5);
+            
+            // Create and show game preview modal with more details
+            Swal.fire({
+              title: gameTitle,
+              html: `
+                <div class="game-preview">
+                  <img src="${gameImage}" alt="${gameTitle}" class="game-preview-image mb-3">
+                  <div class="game-preview-details text-start">
+                    <div class="mb-2"><strong>Preço:</strong> ${gamePrice}</div>
+                    <div class="mb-2"><strong>Gêneros:</strong> ${genreTags.join(', ')}</div>
+                    <div class="mb-2"><strong>Avaliação:</strong> ${gameRating}/5.0</div>
+                    <div class="mb-3"><strong>Requisitos mínimos:</strong> Windows 10, Intel i5, 8GB RAM, 100GB HD</div>
+                    <div class="d-flex justify-content-center mt-3">
+                      <button class="btn btn-primary me-2 view-details-btn">Ver detalhes completos</button>
+                      <button class="btn btn-success quick-add-btn">Comprar agora</button>
+                    </div>
+                  </div>
+                </div>
+              `,
+              showCloseButton: true,
+              showConfirmButton: false,
+              width: '600px',
+              backdrop: true,
+              didOpen: (modal) => {
+                // Add event listener to the "Comprar agora" button
+                const quickAddBtn = modal.querySelector('.quick-add-btn');
+                if (quickAddBtn) {
+                  quickAddBtn.addEventListener('click', function() {
+                    // Trigger add to cart functionality
+                    const addToCartBtn = gameCard.querySelector('.add-to-cart');
+                    if (addToCartBtn) {
+                      addToCartBtn.click();
+                    }
+                    Swal.close();
+                  });
+                }
+              }
+            });
+          });
+        }
+      });
+    });
+    
+    // Function to update XP (simplified)
+    function updateXP(amount) {
+      // Get current XP from localStorage or default to zero
+      let currentXP = parseInt(localStorage.getItem('userXP')) || 0;
+      let currentLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+      
+      // Calculate XP needed for next level (simple formula: 100 * current level)
+      const xpNeeded = 100 * currentLevel;
+      
+      // Add XP
+      currentXP += amount;
+      
+      // Check if level up
+      if (currentXP >= xpNeeded) {
+        currentLevel++;
+        currentXP -= xpNeeded;
+        
+        // Show level up notification
+        Swal.fire({
+          title: 'Nível Aumentado!',
+          text: `Parabéns! Você alcançou o nível ${currentLevel}!`,
+          icon: 'success',
+          confirmButtonText: 'Continuar'
+        });
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('userXP', currentXP);
+      localStorage.setItem('userLevel', currentLevel);
+      
+      // Update UI elements if they exist
+      const userLevelElement = document.getElementById('userLevel');
+      const userXpBar = document.getElementById('userXpBar');
+      const userXpText = document.getElementById('userXpText');
+      
+      if (userLevelElement) {
+        userLevelElement.textContent = currentLevel;
+      }
+      
+      if (userXpBar) {
+        const percentage = (currentXP / xpNeeded) * 100;
+        userXpBar.style.width = `${percentage}%`;
+      }
+      
+      if (userXpText) {
+        userXpText.textContent = `${xpNeeded - currentXP} XP para o próximo nível`;
+      }
+    }
+    
+    // Load initial cart count and XP data on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize cart count
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartCount = document.querySelector('.cart-count');
+      if (cartCount) {
+        cartCount.textContent = cart.length;
+      }
+      
+      // Initialize user level and XP
+      const currentLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+      const currentXP = parseInt(localStorage.getItem('userXP')) || 0;
+      const xpNeeded = 100 * currentLevel;
+      
+      const userLevelElement = document.getElementById('userLevel');
+      const userXpBar = document.getElementById('userXpBar');
+      const userXpText = document.getElementById('userXpText');
+      const userLevelContainer = document.getElementById('userLevelContainer');
+      
+      if (userLevelElement) {
+        userLevelElement.textContent = currentLevel;
+      }
+      
+      if (userXpBar) {
+        const percentage = (currentXP / xpNeeded) * 100;
+        userXpBar.style.width = `${percentage}%`;
+      }
+      
+      if (userXpText) {
+        userXpText.textContent = `${xpNeeded - currentXP} XP para o próximo nível`;
+      }
+      
+      // Show user level container if user is logged in
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (isLoggedIn && userLevelContainer) {
+        userLevelContainer.classList.remove('d-none');
+      }
     });
   </script>
 </body>

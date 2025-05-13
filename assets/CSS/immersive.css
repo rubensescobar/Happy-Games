@@ -521,7 +521,7 @@ body::before {
   transition: transform 0.3s ease;
 }
 
-.game-notification.show {
+.game-notification.show { 
   display: flex;
   gap: 1em;
   transform: translateX(0);
