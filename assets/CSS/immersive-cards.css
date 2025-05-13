@@ -167,6 +167,7 @@
   text-shadow: 0 0 5px rgba(74, 144, 226, 0.8);
 }
 
+/* Discount Tag - Modification to make visible by default and hide on hover */
 .discount-tag {
   background: var(--color-green);
   color: var(--color-white-cottom);
@@ -178,13 +179,15 @@
   top: 1rem;
   right: 1rem;
   z-index: 2;
-  transform: rotate(3deg) scale(0);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: rotate(3deg) scale(1); /* Initially visible */
+  opacity: 1; /* Initially visible */
+  transition: all 0.3s ease; /* Smooth transition */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .game-card-immersive:hover .discount-tag {
-  transform: rotate(3deg) scale(1);
+  transform: rotate(3deg) scale(0); /* Hide on hover */
+  opacity: 0; /* Hide on hover */
 }
 
 .game-card-actions {
@@ -237,7 +240,7 @@
   box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
 }
 
-/* Game Card badges */
+/* Game Card badges - Modification to make visible by default and hide on hover */
 .game-badges {
   position: absolute;
   top: 1rem;
@@ -246,22 +249,23 @@
   flex-direction: column;
   gap: 0.5rem;
   z-index: 2;
+  transition: all 0.3s ease; /* Smooth transition */
 }
 
 .game-badge {
   background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
   color: var(--color-white-cottom);
   padding: 0.25rem 0.5rem;
-  border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: all 0.3s ease;
+  opacity: 1; /* Initially visible */
+  transform: translateX(0); /* Initially no transform */
+  transition: all 0.3s ease; /* Smooth transition */
 }
 
 .game-badge.featured {
@@ -277,20 +281,15 @@
 }
 
 .game-card-immersive:hover .game-badge {
-  opacity: 1;
-  transform: translateX(0);
+  opacity: 0; /* Hide on hover */
+  transform: translateX(-20px); /* Animate out on hover */
 }
 
-.game-card-immersive:hover .game-badge:nth-child(1) {
-  transition-delay: 0.1s;
-}
-
-.game-card-immersive:hover .game-badge:nth-child(2) {
-  transition-delay: 0.2s;
-}
-
+/* Remove the hover sequence delays for badges since we're hiding them on hover */
+.game-card-immersive:hover .game-badge:nth-child(1),
+.game-card-immersive:hover .game-badge:nth-child(2),
 .game-card-immersive:hover .game-badge:nth-child(3) {
-  transition-delay: 0.3s;
+  transition-delay: 0s;
 }
 
 /* Genre Tags */

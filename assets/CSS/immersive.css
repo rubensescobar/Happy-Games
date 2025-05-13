@@ -508,7 +508,7 @@ body::before {
 /* Custom alert/notification */
 .game-notification {
   position: fixed;
-  top: 5em;
+  top: 6em;
   right: 20px;
   background: rgba(28, 28, 28, 0.9);
   backdrop-filter: blur(10px);
@@ -519,12 +519,44 @@ body::before {
   z-index: 1000;
   transform: translateX(150%);
   transition: transform 0.3s ease;
+  max-width: 300px;
+  min-width: 200px;
 }
 
-.game-notification.show { 
-  display: flex;
-  gap: 1em;
+.game-notification.show {
   transform: translateX(0);
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.notification-body {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.notification-icon {
+  font-size: 1.25rem;
+  color: var(--blue-light);
+}
+
+.notification-message {
+  color: #fff;
+  word-break: break-word;
+}
+
+.notification-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 /* Glitch Effect */

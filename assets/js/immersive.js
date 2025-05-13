@@ -778,9 +778,13 @@ function showNotification(message, type = 'info') {
   if (type === 'warning') icon = 'exclamation-triangle';
   
   notification.innerHTML = `
-    <div class="notification-icon"><i class="fas fa-${icon}"></i></div>
-    <div class="notification-content">${message}</div>
-    <div class="notification-close"><i class="fas fa-times"></i></div>
+    <div class="notification-content">
+      <div class="notification-body">
+        <span class="notification-icon"><i class="fas fa-${icon}"></i></span>
+        <span class="notification-message">${message}</span>
+      </div>
+      <button class="notification-close"><i class="fas fa-times"></i></button>
+    </div>
   `;
   
   // Add to DOM

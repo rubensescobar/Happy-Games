@@ -982,39 +982,52 @@ function animateGameCards() {
 
 // Show notification
 function showNotification(message, type = 'info') {
-  // Check if parent script has showNotification function
-  if (typeof window.showNotification === 'function') {
-    window.showNotification(message, type);
-    return;
+  // Check if there's already a notification
+  const existingNotification = document.querySelector('.game-notification');
+  if (existingNotification) {
+    existingNotification.remove();
   }
   
-  // Fallback implementation
+  // Create notification
   const notification = document.createElement('div');
-  notification.className = `game-notification ${type}`;
+  notification.className = 'game-notification';
+  
+  // Set icon based on type
+  let icon = 'info-circle';
+  if (type === 'success') icon = 'check-circle';
+  if (type === 'error') icon = 'exclamation-circle';
+  if (type === 'warning') icon = 'exclamation-triangle';
+  
   notification.innerHTML = `
-    <div class="notification-content">${message}</div>
-    <button class="notification-close"><i class="fas fa-times"></i></button>
+    <div class="notification-content">
+      <div class="notification-body">
+        <span class="notification-icon"><i class="fas fa-${icon}"></i></span>
+        <span class="notification-message">${message}</span>
+      </div>
+      <button class="notification-close"><i class="fas fa-times"></i></button>
+    </div>
   `;
   
+  // Add to DOM
   document.body.appendChild(notification);
   
   // Show notification
   setTimeout(() => notification.classList.add('show'), 10);
   
-  // Auto-hide after 5 seconds
-  setTimeout(() => {
-    notification.classList.remove('show');
-    setTimeout(() => notification.remove(), 300);
-  }, 5000);
-  
   // Add close event
   const closeBtn = notification.querySelector('.notification-close');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
+  closeBtn.addEventListener('click', () => {
+    notification.classList.remove('show');
+    setTimeout(() => notification.remove(), 300);
+  });
+  
+  // Auto-hide after 5 seconds
+  setTimeout(() => {
+    if (document.body.contains(notification)) {
       notification.classList.remove('show');
       setTimeout(() => notification.remove(), 300);
-    });
-  }
+    }
+  }, 5000);
 }
 
 // Update game display (for initial load and category changes)

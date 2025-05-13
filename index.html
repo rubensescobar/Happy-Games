@@ -25,6 +25,25 @@
   <link rel="stylesheet" href="assets/CSS/cards.css">
   <link rel="stylesheet" href="assets/CSS/immersive.css">
   <link rel="stylesheet" href="assets/CSS/immersive-cards.css">
+  <link rel="stylesheet" href="assets/CSS/icon-styles.css">
+  
+  <!-- Additional card style for hover behavior -->
+  <style>
+    /* Ensure transitions are smooth for all elements */
+    .game-card-immersive * {
+      transition: all 0.3s ease;
+    }
+    
+    /* Force overlay to stay at bottom until hover */
+    .game-card-overlay {
+      transform: translateY(70%);
+      transition: transform 0.3s ease;
+    }
+    
+    .game-card-immersive:hover .game-card-overlay {
+      transform: translateY(0);
+    }
+  </style>
 
   <title>BuscaGames - As melhores ofertas de jogos em um só lugar</title>
 
@@ -741,6 +760,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="assets/js/script.js"></script>
   <script src="assets/js/immersive.js"></script>
+  <script src="assets/js/favorites.js"></script>
+  <script src="assets/js/cart.js"></script>
 
   <script>
     // Initialize game cards with hover effects
@@ -758,7 +779,106 @@
             glare.style.setProperty('--y', `${y}px`);
           }
         });
+        
+        // Handle preview button clicks
+        const previewBtn = card.querySelector('.preview-button');
+        if (previewBtn) {
+          previewBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Use existing logic to handle game preview
+            // Add XP for viewing details
+            updateXP(5);
+          });
+        }
       });
+    });
+    
+    // Function to update XP (simplified)
+    function updateXP(amount) {
+      // Get current XP from localStorage or default to zero
+      let currentXP = parseInt(localStorage.getItem('userXP')) || 0;
+      let currentLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+      
+      // Calculate XP needed for next level (simple formula: 100 * current level)
+      const xpNeeded = 100 * currentLevel;
+      
+      // Add XP
+      currentXP += amount;
+      
+      // Check if level up
+      if (currentXP >= xpNeeded) {
+        currentLevel++;
+        currentXP -= xpNeeded;
+        
+        // Show level up notification
+        Swal.fire({
+          title: 'Nível Aumentado!',
+          text: `Parabéns! Você alcançou o nível ${currentLevel}!`,
+          icon: 'success',
+          confirmButtonText: 'Continuar'
+        });
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('userXP', currentXP);
+      localStorage.setItem('userLevel', currentLevel);
+      
+      // Update UI elements if they exist
+      const userLevelElement = document.getElementById('userLevel');
+      const userXpBar = document.getElementById('userXpBar');
+      const userXpText = document.getElementById('userXpText');
+      
+      if (userLevelElement) {
+        userLevelElement.textContent = currentLevel;
+      }
+      
+      if (userXpBar) {
+        const percentage = (currentXP / xpNeeded) * 100;
+        userXpBar.style.width = `${percentage}%`;
+      }
+      
+      if (userXpText) {
+        userXpText.textContent = `${xpNeeded - currentXP} XP para o próximo nível`;
+      }
+    }
+    
+    // Load initial cart count and XP data on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize cart count
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartCount = document.querySelector('.cart-count');
+      if (cartCount) {
+        cartCount.textContent = cart.length;
+      }
+      
+      // Initialize user level and XP
+      const currentLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+      const currentXP = parseInt(localStorage.getItem('userXP')) || 0;
+      const xpNeeded = 100 * currentLevel;
+      
+      const userLevelElement = document.getElementById('userLevel');
+      const userXpBar = document.getElementById('userXpBar');
+      const userXpText = document.getElementById('userXpText');
+      const userLevelContainer = document.getElementById('userLevelContainer');
+      
+      if (userLevelElement) {
+        userLevelElement.textContent = currentLevel;
+      }
+      
+      if (userXpBar) {
+        const percentage = (currentXP / xpNeeded) * 100;
+        userXpBar.style.width = `${percentage}%`;
+      }
+      
+      if (userXpText) {
+        userXpText.textContent = `${xpNeeded - currentXP} XP para o próximo nível`;
+      }
+      
+      // Show user level container if user is logged in
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (isLoggedIn && userLevelContainer) {
+        userLevelContainer.classList.remove('d-none');
+      }
     });
   </script>
 

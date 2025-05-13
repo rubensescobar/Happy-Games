@@ -975,35 +975,114 @@ function addActivity(type, message, icon) {
 
 // Show notification
 function showNotification(message, type = 'info') {
+  // Check if there's already a notification
+  const existingNotification = document.querySelector('.game-notification');
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  
+  // Create notification
   const notification = document.createElement('div');
-  notification.className = `game-notification ${type}`;
+  notification.className = 'game-notification';
+  
+  // Set icon based on type
+  let icon = 'info-circle';
+  if (type === 'success') icon = 'check-circle';
+  if (type === 'error') icon = 'exclamation-circle';
+  if (type === 'warning') icon = 'exclamation-triangle';
+  
   notification.innerHTML = `
     <div class="notification-content">
       <div class="notification-body">
-        <span class="notification-icon">✔️</span>
+        <span class="notification-icon"><i class="fas fa-${icon}"></i></span>
         <span class="notification-message">${message}</span>
       </div>
       <button class="notification-close"><i class="fas fa-times"></i></button>
     </div>
   `;
-
+  
+  // Add to DOM
   document.body.appendChild(notification);
-
-  // Mostrar com transição
-  setTimeout(() => notification.classList.add('show'), 100);
-
-  // Fechar automático após 5s
-  setTimeout(() => {
+  
+  // Show notification
+  setTimeout(() => notification.classList.add('show'), 10);
+  
+  // Add close event
+  const closeBtn = notification.querySelector('.notification-close');
+  closeBtn.addEventListener('click', () => {
     notification.classList.remove('show');
     setTimeout(() => notification.remove(), 300);
-  }, 5000);
-
-  // Fechar manual
-  const closeBtn = notification.querySelector('.notification-close');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
+  });
+  
+  // Auto-hide after 5 seconds
+  setTimeout(() => {
+    if (document.body.contains(notification)) {
       notification.classList.remove('show');
       setTimeout(() => notification.remove(), 300);
-    });
+    }
+  }, 5000);
+}
+
+/**
+ * Cart Management for Happy-Games
+ * This file provides consistent cart functionality across the site
+ */
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize cart UI from localStorage
+  initializeCart();
+});
+
+// Initialize cart from localStorage
+function initializeCart() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const cartCount = document.querySelector('.cart-count');
+  
+  if (cartCount) {
+    cartCount.textContent = cart.length;
   }
+  
+  // Add event listeners to add-to-cart buttons
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation();
+      // Get game information
+      const gameCard = this.closest('.game-card-immersive');
+      const gameTitle = gameCard.querySelector('.game-card-title').textContent;
+      const gamePrice = gameCard.querySelector('.price-current').getAttribute('data-price');
+      const gameImage = gameCard.querySelector('.game-card-image').src;
+      const gameId = gameCard.getAttribute('data-game-id');
+      
+      // Add XP for adding to cart if updateXP function exists
+      if (typeof updateXP === 'function') {
+        updateXP(25);
+      }
+      
+      // Update cart count
+      if (cartCount) {
+        cartCount.textContent = parseInt(cartCount.textContent) + 1;
+      }
+      
+      // Add to cart animation
+      const cartIcon = document.querySelector('.cart-icon');
+      if (cartIcon) {
+        cartIcon.classList.add('cart-bounce');
+        setTimeout(() => {
+          cartIcon.classList.remove('cart-bounce');
+        }, 1000);
+      }
+      
+      // Save to localStorage (simplified cart system)
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({
+        id: gameId,
+        title: gameTitle,
+        price: gamePrice,
+        image: gameImage,
+        quantity: 1
+      });
+      localStorage.setItem('cart', JSON.stringify(cart));
+    });
+  });
 }
