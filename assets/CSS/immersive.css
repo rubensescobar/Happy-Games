@@ -150,7 +150,7 @@ body::before {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(rgb(0, 0, 0, 0.3), rgb(0, 0, 0, 0.6), var(--color-redish)),
+  background: linear-gradient(rgb(0, 0, 0, 0.3), rgb(0, 0, 0, 0.6), var(--color-purpledark)),
   url(../images/freepik__expand__92115.png);
 }
 
