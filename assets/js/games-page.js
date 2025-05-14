@@ -187,12 +187,9 @@ function renderGameCard(game, container) {
   
   const wishlistBtn = gameCard.querySelector('.wishlist-button');
   if (wishlistBtn) {
-    wishlistBtn.addEventListener('click', () => {
-      if (window.toggleWishlist) {
-        window.toggleWishlist(game.id);
-      } else {
-        console.error('Wishlist functionality not available');
-      }
+    wishlistBtn.addEventListener('click', function() {
+      // Use the unified toggleFavorite function from favorites.js
+      window.toggleFavorite(this);
     });
   }
   

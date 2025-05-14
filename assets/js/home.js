@@ -54,6 +54,11 @@ function loadFeaturedGames() {
   
   // Add animation to cards
   animateGameCards();
+
+  // Initialize favorite buttons after rendering games
+  if (window.initializeFavorites) {
+    window.initializeFavorites();
+  }
 }
 
 /**
@@ -177,17 +182,6 @@ function renderGameCard(game, container) {
         window.addToCart(game.id);
       } else {
         console.error('Cart functionality not available');
-      }
-    });
-  }
-  
-  const wishlistBtn = gameCard.querySelector('.wishlist-button');
-  if (wishlistBtn) {
-    wishlistBtn.addEventListener('click', () => {
-      if (window.toggleWishlist) {
-        window.toggleWishlist(game.id);
-      } else {
-        console.error('Wishlist functionality not available');
       }
     });
   }

@@ -10,8 +10,7 @@ const AUTH_KEYS = {
   LOGIN_EXPIRATION: 'loginExpiration',
   USER_LEVEL: 'userLevel',
   USER_XP: 'userXP',
-  CART: 'gameCart',
-  WISHLIST: 'userWishlist'
+  CART: 'gameCart'
 };
 
 // Initialize auth functionality
