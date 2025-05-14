@@ -8,6 +8,11 @@
   overflow: hidden;
 }
 
+/* Light theme override for quest-header */
+:root:not([data-theme="dark"]) .quest-header {
+  background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+}
+
 .quest-header::before {
   content: '';
   position: absolute;
@@ -30,6 +35,11 @@
   z-index: 2;
 }
 
+/* Light theme override for quest-title */
+:root:not([data-theme="dark"]) .quest-title {
+  color: var(--color-purpledark);
+}
+
 .quest-subtitle {
   color: var(--color-white-cottom);
   font-size: 1.2rem;
@@ -37,6 +47,11 @@
   max-width: 600px;
   position: relative;
   z-index: 2;
+}
+
+/* Light theme override for quest-subtitle */
+:root:not([data-theme="dark"]) .quest-subtitle {
+  color: var(--color-white-cottom);
 }
 
 /* Player Progress */
@@ -48,6 +63,12 @@
   z-index: 2;
   border: 1px solid rgba(74, 144, 226, 0.3);
   backdrop-filter: blur(10px);
+}
+
+/* Light theme override for player-progress */
+:root:not([data-theme="dark"]) .player-progress {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
 }
 
 .player-level {
@@ -102,6 +123,11 @@
   margin-bottom: 0.5rem;
 }
 
+/* Light theme override for level-name */
+:root:not([data-theme="dark"]) .level-name {
+  color: var(--color-purpledark);
+}
+
 .level-progress-bar {
   height: 10px;
   background: rgba(0, 0, 0, 0.3);
@@ -141,6 +167,11 @@
   opacity: 0.9;
 }
 
+/* Light theme override for level-progress-text */
+:root:not([data-theme="dark"]) .level-progress-text {
+  color: var(--color-purpledark);
+}
+
 /* Quest Sections */
 .daily-quests-section,
 .weekly-challenges-section,
@@ -149,6 +180,18 @@
   padding: 4rem 0;
   background-color: var(--color-dark);
   position: relative;
+}
+
+/* Light theme override for daily-quests-section */
+:root:not([data-theme="dark"]) .daily-quests-section {
+  background-color: var(--border-color);
+}
+
+/* Light theme override for other quest sections */
+:root:not([data-theme="dark"]) .weekly-challenges-section,
+:root:not([data-theme="dark"]) .achievement-rewards-section,
+:root:not([data-theme="dark"]) .leaderboards-section {
+  background-color: var(--border-color);
 }
 
 .daily-quests-section::before,
@@ -215,6 +258,14 @@
   height: 100%;
 }
 
+/* Light theme override for quest-card */
+:root:not([data-theme="dark"]) .quest-card {
+  background: var(--color-white-cottom);
+  background-image: none;
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
 .quest-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -273,6 +324,12 @@
   margin-bottom: 1rem;
 }
 
+/* Light theme override for quest-icon */
+:root:not([data-theme="dark"]) .quest-icon {
+  color: var(--color-purpledark);
+  background: rgba(90, 46, 152, 0.1);
+}
+
 .quest-card.premium .quest-icon {
   background: rgba(107, 63, 160, 0.2);
   color: var(--color-purple);
@@ -280,6 +337,14 @@
 
 .quest-content {
   flex-grow: 1;
+}
+
+/* Light theme override for quest-content and its children */
+:root:not([data-theme="dark"]) .quest-content,
+:root:not([data-theme="dark"]) .quest-name,
+:root:not([data-theme="dark"]) .quest-description,
+:root:not([data-theme="dark"]) .quest-progress-text {
+  color: var(--color-purpledark);
 }
 
 .quest-name {
@@ -397,6 +462,21 @@
   z-index: 1;
 }
 
+/* Light theme override for achievement-timeline */
+:root:not([data-theme="dark"]) .achievement-timeline {
+  position: relative;
+}
+
+/* Light theme override for achievement-timeline::before - this is the vertical line */
+:root:not([data-theme="dark"]) .achievement-timeline::before {
+  left: 50px; /* Keep it in the same position */
+  width: 4px; /* Make it slightly thicker */
+  background: var(--accent-secondary);
+  opacity: 1;
+  box-shadow: none;
+  z-index: 1;
+}
+
 .achievement-milestone {
   position: relative;
   margin-bottom: 3rem;
@@ -404,9 +484,20 @@
   display: flex;
 }
 
+/* Remove the background color in light mode */
+:root:not([data-theme="dark"]) .achievement-milestone {
+  background-color: transparent;
+}
+
 .achievement-milestone.active .milestone-level {
   background: var(--blue-light);
   box-shadow: 0 0 15px rgba(74, 144, 226, 0.7);
+}
+
+/* Light theme active milestone styling */
+:root:not([data-theme="dark"]) .achievement-milestone.active .milestone-level {
+  background: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(90, 46, 152, 0.5);
 }
 
 .milestone-level {
@@ -425,6 +516,15 @@
   border: 2px solid var(--color-dark);
 }
 
+/* Light theme override for milestone-level - these are the circles */
+:root:not([data-theme="dark"]) .milestone-level {
+  background: var(--border-color);
+  color: var(--color-purpledark);
+  border: 2px solid var(--accent-secondary);
+  z-index: 3;
+  box-shadow: 0 0 5px rgba(90, 46, 152, 0.3);
+}
+
 .milestone-line {
   flex-grow: 0;
   width: 50px;
@@ -432,6 +532,11 @@
   background: var(--blue-light);
   margin: 0 1rem;
   align-self: center;
+}
+
+/* Light theme override for milestone-line */
+:root:not([data-theme="dark"]) .milestone-line {
+  background: var(--accent-secondary);
 }
 
 .milestone-content {
@@ -442,6 +547,13 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Light theme override for milestone-content */
+:root:not([data-theme="dark"]) .milestone-content {
+  color: var(--color-purpledark);
+  background: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
 .milestone-title {
   color: var(--color-white-cottom);
   font-size: 1.25rem;
@@ -449,11 +561,22 @@
   margin-bottom: 0.5rem;
 }
 
+/* Light theme override for milestone-title */
+:root:not([data-theme="dark"]) .milestone-title {
+  color: var(--color-purpledark);
+}
+
 .milestone-description {
   color: var(--color-white-cottom);
   opacity: 0.7;
   font-size: 0.9rem;
   margin-bottom: 1rem;
+}
+
+/* Light theme override for milestone-description */
+:root:not([data-theme="dark"]) .milestone-description {
+  color: var(--color-purpledark);
+  opacity: 0.9;
 }
 
 .milestone-rewards {
@@ -477,12 +600,27 @@
   color: var(--color-green);
 }
 
+/* Light theme override for milestone-rewards */
+:root:not([data-theme="dark"]) .milestone-rewards li {
+  color: var(--color-purpledark);
+}
+
+:root:not([data-theme="dark"]) .milestone-rewards i {
+  color: var(--accent-primary);
+}
+
 /* Leaderboard */
 .leaderboard-container {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Light theme override for leaderboard-container */
+:root:not([data-theme="dark"]) .leaderboard-container {
+  background: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
 }
 
 .leaderboard-tabs {
@@ -501,10 +639,22 @@
   font-weight: 600;
 }
 
+/* Light theme override for tabs */
+:root:not([data-theme="dark"]) .leaderboard-tab {
+  color: var(--color-purpledark);
+}
+
 .leaderboard-tab.active {
   background: rgba(74, 144, 226, 0.1);
   color: var(--blue-light);
   border-bottom: 2px solid var(--blue-light);
+}
+
+/* Light theme override for active tab */
+:root:not([data-theme="dark"]) .leaderboard-tab.active {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+  border-bottom: 2px solid var(--accent-primary);
 }
 
 .leaderboard-tab:hover:not(.active) {
@@ -530,10 +680,23 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Light theme override for table headers */
+:root:not([data-theme="dark"]) .leaderboard-table th {
+  color: var(--color-purpledark);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+  opacity: 0.9;
+}
+
 .leaderboard-table td {
   padding: 1rem;
   color: var(--color-white-cottom);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Light theme override for table cells */
+:root:not([data-theme="dark"]) .leaderboard-table td {
+  color: var(--color-purpledark);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.05);
 }
 
 .leaderboard-row {
@@ -546,6 +709,12 @@
 
 .leaderboard-row.top-rank {
   background: rgba(74, 144, 226, 0.05);
+}
+
+/* Light theme override for top-rank rows */
+:root:not([data-theme="dark"]) .leaderboard-row.top-rank {
+  background: rgba(90, 46, 152, 0.05);
+  border: 1px solid rgba(90, 46, 152, 0.1);
 }
 
 .leaderboard-row.current-user {
@@ -637,10 +806,21 @@
   font-weight: 600;
 }
 
+/* Light theme override for player name */
+:root:not([data-theme="dark"]) .player-name {
+  color: var(--color-purpledark);
+}
+
 .player-title {
   color: var(--color-white-cottom);
   opacity: 0.7;
   font-size: 0.8rem;
+}
+
+/* Light theme override for player title */
+:root:not([data-theme="dark"]) .player-title {
+  color: var(--color-purpledark);
+  opacity: 0.8;
 }
 
 .level-cell {
@@ -705,7 +885,7 @@
   opacity: 0.1;
 }
 
-.quest-icon {
+.daily-quest-header .quest-icon {
   width: 50px;
   height: 50px;
   background: rgba(255, 255, 255, 0.1);
@@ -715,6 +895,12 @@
   justify-content: center;
   font-size: 1.5rem;
   color: var(--color-white-cottom);
+}
+
+/* Light theme override for daily quest icon */
+:root:not([data-theme="dark"]) .daily-quest-header .quest-icon {
+  color: var(--color-purpledark);
+  background: rgba(90, 46, 152, 0.1);
 }
 
 .quest-title {
@@ -909,6 +1095,15 @@
     left: 25px;
   }
   
+  /* Light theme override for achievement-timeline::before on tablets */
+  :root:not([data-theme="dark"]) .achievement-timeline::before {
+    background: var(--accent-secondary);
+    box-shadow: 0 0 10px rgba(90, 46, 152, 0.3);
+    width: 3px;
+    opacity: 0.5;
+    z-index: 0;
+  }
+  
   .milestone-level {
     width: 40px;
     height: 40px;
@@ -927,6 +1122,12 @@
   
   .quest-icon {
     margin: 0 auto;
+  }
+  
+  /* Light theme override for quest-icon in responsive view */
+  :root:not([data-theme="dark"]) .quest-icon {
+    color: var(--color-purpledark);
+    background: rgba(90, 46, 152, 0.1);
   }
   
   .quest-timer {
@@ -948,6 +1149,16 @@
   }
   
   .achievement-timeline::before {
+    left: 20px;
+  }
+  
+  /* Light theme override for achievement-timeline::before on mobile */
+  :root:not([data-theme="dark"]) .achievement-timeline::before {
+    background: var(--accent-secondary);
+    box-shadow: 0 0 10px rgba(90, 46, 152, 0.3);
+    width: 3px;
+    opacity: 0.5;
+    z-index: 0;
     left: 20px;
   }
   

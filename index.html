@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="assets/CSS/immersive.css">
   <link rel="stylesheet" href="assets/CSS/immersive-cards.css">
   <link rel="stylesheet" href="assets/CSS/icon-styles.css">
+  <link rel="stylesheet" href="assets/CSS/theme.css">
   
   <!-- Additional card style for hover behavior -->
   <style>
@@ -113,6 +114,13 @@
         </ul>
         
         <div class="navbar-nav ms-auto">
+          <!-- Theme Toggle -->
+          <div class="theme-toggle-container me-3">
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+              <i class="fas fa-moon"></i>
+            </button>
+          </div>
+          
           <!-- User Level -->
           <div class="user-level d-none d-lg-flex align-items-center me-3" id="userLevelContainer">
             <div class="level-badge">
@@ -558,6 +566,7 @@
   <script src="assets/js/immersive.js"></script>
   <script src="assets/js/favorites.js"></script>
   <script src="assets/js/home.js"></script>
+  <script src="assets/js/theme.js"></script>
 
   <script>
     // Set countdown date (3 months from today)

@@ -20,8 +20,23 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="../assets/CSS/immersive.css">
+  <link rel="stylesheet" href="../assets/CSS/theme.css">
   <link rel="stylesheet" href="../assets/CSS/immersive-cards.css">
   <link rel="stylesheet" href="../assets/CSS/cart.css">
+  <link rel="stylesheet" href="../assets/CSS/cart-header-fix.css">
+  <link rel="stylesheet" href="../assets/CSS/cart-colors-override.css">
+  
+  <!-- Inline style to force colors -->
+  <style>
+    /* Critical color overrides */
+    .cart-header-item, .product-title, .product-platform, .product-genre, .total {
+      color: #2D004D !important;
+    }
+    .empty-cart-message i, .empty-cart-message h3, .empty-cart-message p, .empty-cart-message a {
+      color: #2D004D !important;
+      border-color: #2D004D !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -62,6 +77,13 @@
         </ul>
         
         <div class="navbar-nav ms-auto">
+          <!-- Theme Toggle -->
+          <div class="theme-toggle-container me-3">
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+              <i class="fas fa-moon"></i>
+            </button>
+          </div>
+          
           <!-- User Level -->
           <div class="user-level d-none d-lg-flex align-items-center me-3" id="userLevelContainer">
             <div class="level-badge">
@@ -138,20 +160,20 @@
           <!-- Cart Items -->
           <div class="cart-container">
             <div class="cart-header">
-              <div class="cart-header-item product">Produto</div>
-              <div class="cart-header-item price">Preço</div>
-              <div class="cart-header-item quantity">Quantidade</div>
-              <div class="cart-header-item total">Total</div>
-              <div class="cart-header-item remove"></div>
+              <div class="cart-header-item product" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;">Produto</div>
+              <div class="cart-header-item price" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;">Preço</div>
+              <div class="cart-header-item quantity" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;">Quantidade</div>
+              <div class="cart-header-item total" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;">Total</div>
+              <div class="cart-header-item remove" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;"></div>
             </div>
             
             <div id="cartItems">
               <!-- Cart items will be loaded here by JavaScript -->
               <div class="empty-cart-message">
-                <i class="fas fa-shopping-cart"></i>
-                <h3>Seu carrinho está vazio</h3>
-                <p>Adicione jogos ao seu carrinho para continuar</p>
-                <a href="games.html" class="btn-continue-shopping">Explorar jogos</a>
+                <i class="fas fa-shopping-cart" style="color: var(--color-purpledark) !important;"></i>
+                <h3 style="color: var(--color-purpledark) !important;">Seu carrinho está vazio</h3>
+                <p style="color: var(--color-purpledark) !important;">Adicione jogos ao seu carrinho para continuar</p>
+                <a href="games.html" class="btn-continue-shopping" style="color: var(--color-purpledark) !important; border-color: var(--color-purpledark) !important;">Explorar jogos</a>
               </div>
             </div>
           </div>
@@ -337,6 +359,7 @@
   <script src="../assets/js/script.js"></script>
   <script src="../assets/js/immersive.js"></script>
   <script src="../assets/js/cart.js"></script>
+  <script src="../assets/js/theme.js"></script>
 </body>
 
 </html> 

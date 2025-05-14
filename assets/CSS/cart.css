@@ -44,6 +44,16 @@
   min-height: 50vh;
 }
 
+/* Light theme styling for cart section */
+body.light-theme .cart-section {
+  background-color: var(--border-color);
+}
+
+/* Alternative light theme selector for cart section to match other CSS files */
+:root:not([data-theme="dark"]) .cart-section {
+  background-color: var(--border-color);
+}
+
 /* Cart Container */
 .cart-container {
   background: linear-gradient(145deg, #232323, #1a1a1a);
@@ -51,6 +61,20 @@
   overflow: hidden;
   margin-bottom: 1.5rem;
   border: 1px solid rgba(74, 144, 226, 0.1);
+}
+
+/* Light theme styling for cart container */
+body.light-theme .cart-container {
+  background-color: var(--color-white-cottom);
+  background-image: none;
+  border: 1px solid var(--accent-secondary);
+}
+
+/* Alternative light theme selector for cart container */
+:root:not([data-theme="dark"]) .cart-container {
+  background-color: var(--color-white-cottom);
+  background-image: none;
+  border: 1px solid var(--accent-secondary);
 }
 
 .cart-header {
@@ -62,12 +86,36 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Light theme styling for cart header */
+body.light-theme .cart-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+/* Alternative light theme selector for cart header */
+:root:not([data-theme="dark"]) .cart-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
 .cart-header-item {
   color: var(--color-white-cottom);
   font-weight: 600;
   font-size: 0.875rem;
   opacity: 0.7;
   text-transform: uppercase;
+}
+
+/* Light theme styling for cart head item */
+body.light-theme .cart-header-item {
+  color: var(--color-purpledark);
+  opacity: 0.9;
+}
+
+/* Alternative light theme selector for cart head item */
+:root:not([data-theme="dark"]) .cart-header-item {
+  color: var(--color-purpledark);
+  opacity: 0.9;
 }
 
 .cart-item {
@@ -81,8 +129,18 @@
   position: relative;
 }
 
+/* Light theme styling for cart items */
+:root:not([data-theme="dark"]) .cart-item {
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
 .cart-item:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Light theme hover for cart items */
+:root:not([data-theme="dark"]) .cart-item:hover {
+  background-color: rgba(90, 46, 152, 0.05);
 }
 
 .cart-item.removing {
@@ -124,8 +182,18 @@
   transition: color 0.3s ease;
 }
 
+/* Light theme styling for product title */
+:root:not([data-theme="dark"]) .product-title {
+  color: var(--color-purpledark);
+}
+
 .product-title:hover {
   color: var(--blue-light);
+}
+
+/* Light theme hover for product title */
+:root:not([data-theme="dark"]) .product-title:hover {
+  color: var(--accent-primary);
 }
 
 .product-meta {
@@ -135,7 +203,7 @@
   margin-bottom: 0.25rem;
 }
 
-.product-platform {
+.product-platform, .product-genre {
   color: var(--color-white-cottom);
   font-size: 0.75rem;
   opacity: 0.7;
@@ -144,13 +212,11 @@
   gap: 0.25rem;
 }
 
-.product-genre {
-  color: var(--color-white-cottom);
-  font-size: 0.75rem;
-  opacity: 0.7;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+/* Light theme styling for product metadata */
+:root:not([data-theme="dark"]) .product-platform,
+:root:not([data-theme="dark"]) .product-genre {
+  color: var(--color-purpledark);
+  opacity: 0.8;
 }
 
 /* Price Column */
@@ -159,12 +225,23 @@
   font-weight: 600;
 }
 
+/* Light theme styling for price */
+:root:not([data-theme="dark"]) .price {
+  color: var(--accent-primary);
+}
+
 .original-price {
   text-decoration: line-through;
   color: var(--color-white-cottom);
   opacity: 0.5;
   font-size: 0.875rem;
   display: block;
+}
+
+/* Light theme styling for original price */
+:root:not([data-theme="dark"]) .original-price {
+  color: var(--color-purpledark);
+  opacity: 0.6;
 }
 
 /* Quantity Column */
@@ -195,8 +272,19 @@
   transition: all 0.3s ease;
 }
 
+/* Light theme styling for quantity buttons */
+:root:not([data-theme="dark"]) .quantity-btn {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--color-purpledark);
+}
+
 .quantity-btn:hover {
   background: rgba(74, 144, 226, 0.3);
+}
+
+/* Light theme hover for quantity buttons */
+:root:not([data-theme="dark"]) .quantity-btn:hover {
+  background: rgba(90, 46, 152, 0.2);
 }
 
 .quantity-input {
@@ -209,10 +297,20 @@
   font-weight: 600;
 }
 
+/* Light theme styling for quantity input */
+:root:not([data-theme="dark"]) .quantity-input {
+  color: var(--color-purpledark);
+}
+
 /* Total Column */
 .total {
   color: var(--color-white-cottom);
   font-weight: 600;
+}
+
+/* Light theme styling for total */
+:root:not([data-theme="dark"]) .total {
+  color: var(--color-purpledark);
 }
 
 /* Remove Column */
@@ -252,6 +350,13 @@
   margin-bottom: 1.5rem;
 }
 
+/* Light theme styling for empty cart icon with higher specificity */
+html body:not([data-theme="dark"]) .empty-cart-message i,
+html:root:not([data-theme="dark"]) .empty-cart-message i,
+body.light-theme .empty-cart-message i {
+  color: var(--bg-tertiary) !important;
+}
+
 .empty-cart-message h3 {
   color: var(--color-white-cottom);
   font-size: 1.5rem;
@@ -259,10 +364,25 @@
   margin-bottom: 0.5rem;
 }
 
+/* Light theme styling for empty cart heading with higher specificity */
+html body:not([data-theme="dark"]) .empty-cart-message h3,
+html:root:not([data-theme="dark"]) .empty-cart-message h3,
+body.light-theme .empty-cart-message h3 {
+  color: var(--color-purpledark) !important;
+}
+
 .empty-cart-message p {
   color: var(--color-white-cottom);
   opacity: 0.7;
   margin-bottom: 1.5rem;
+}
+
+/* Light theme styling for empty cart text with higher specificity */
+html body:not([data-theme="dark"]) .empty-cart-message p,
+html:root:not([data-theme="dark"]) .empty-cart-message p,
+body.light-theme .empty-cart-message p {
+  color: var(--color-purpledark) !important;
+  opacity: 0.8;
 }
 
 /* Cart Actions */
@@ -318,6 +438,13 @@
   margin-bottom: 1.5rem;
 }
 
+/* Light theme styling for cart summary */
+:root:not([data-theme="dark"]) .cart-summary {
+  background-color: var(--color-white-cottom);
+  background-image: none;
+  border: 1px solid var(--accent-secondary);
+}
+
 .summary-title {
   color: var(--color-white-cottom);
   font-size: 1.25rem;
@@ -327,11 +454,22 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Light theme styling for summary title */
+:root:not([data-theme="dark"]) .summary-title {
+  color: var(--color-purpledark);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
 .summary-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
   color: var(--color-white-cottom);
+}
+
+/* Light theme styling for summary rows */
+:root:not([data-theme="dark"]) .summary-row {
+  color: var(--color-purpledark);
 }
 
 .summary-divider {

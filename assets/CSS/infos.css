@@ -48,6 +48,14 @@ body {
     padding: 2rem;
 }
 
+/* Light theme override for about-card */
+:root:not([data-theme="dark"]) .about-card {
+    background: var(--color-white-cottom);
+    background-image: none;
+    border: 1px solid var(--accent-secondary);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
 .about-card::before {
     content: '';
     position: absolute;
@@ -59,6 +67,11 @@ body {
     opacity: 0.1;
     border-radius: 15px;
     pointer-events: none;
+}
+
+/* Light theme override for about-card::before */
+:root:not([data-theme="dark"]) .about-card::before {
+    display: none;
 }
 
 .section-title {
@@ -271,6 +284,11 @@ body {
     position: relative;
 }
 
+/* Light theme override for contact-section */
+:root:not([data-theme="dark"]) .contact-section {
+    background-color: var(--border-color);
+}
+
 .contact-card {
     background: rgba(28, 28, 28, 0.8);
     background-image: linear-gradient(145deg, var(--color-dark), rgba(0, 43, 69, 0.7));
@@ -282,9 +300,25 @@ body {
     padding: 2rem;
 }
 
+/* Light theme override for contact-card */
+:root:not([data-theme="dark"]) .contact-card {
+    background: var(--color-white-cottom);
+    background-image: none;
+    border: 1px solid var(--accent-secondary);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
 .contact-text {
     color: var(--color-white-cottom);
     opacity: 0.9;
+}
+
+/* Light theme override for contact text */
+:root:not([data-theme="dark"]) .contact-text,
+:root:not([data-theme="dark"]) .contact-content h3,
+:root:not([data-theme="dark"]) .contact-content p,
+:root:not([data-theme="dark"]) .contact-form label {
+    color: var(--color-purpledark);
 }
 
 .contact-details {
@@ -342,14 +376,34 @@ body {
     transition: all 0.3s ease;
 }
 
+/* Light theme override for form controls */
+:root:not([data-theme="dark"]) .contact-form .form-control {
+    background-color: var(--border-color);
+    border: 1px solid var(--accent-secondary);
+    color: var(--color-purpledark);
+}
+
 .contact-form .form-control:focus {
     background-color: rgba(255, 255, 255, 0.08);
     border-color: var(--blue-light);
     box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.1);
 }
 
+/* Light theme override for focused form controls */
+:root:not([data-theme="dark"]) .contact-form .form-control:focus {
+    background-color: var(--border-color);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 0.25rem rgba(90, 46, 152, 0.1);
+}
+
 .contact-form .form-control::placeholder {
     color: rgba(255, 255, 255, 0.4);
+}
+
+/* Light theme override for placeholders */
+:root:not([data-theme="dark"]) .contact-form .form-control::placeholder {
+    color: var(--color-purpledark);
+    opacity: 0.6;
 }
 
 /* Responsive Styles */

@@ -143,10 +143,11 @@
 
 /* Game Sidebar */
 .game-sidebar {
+  /* Default dark theme styles */
   background: linear-gradient(145deg, #232323, #1a1a1a);
+  border: 1px solid rgba(74, 144, 226, 0.1);
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgba(74, 144, 226, 0.1);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 }
 
