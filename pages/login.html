@@ -3,178 +3,483 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BuscaGames - Cadastro</title>
+    <title>BuscaGames - Login</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Font Awesome -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="../assets/CSS/global.css">
     <link rel="stylesheet" href="../assets/CSS/login&cadastro.css">
+    <link rel="stylesheet" href="../assets/CSS/immersive.css">
+    <link rel="stylesheet" href="../assets/CSS/immersive-cards.css">
+    <link rel="stylesheet" href="../assets/CSS/icon-styles.css">
 
-    <!-- Sripts -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </head>
 
   <body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-      <a class="navbar-brand ms-4" href="../index.html">
-        <img src="../assets/images/logo.png" alt="Logo da Empresa" class="logo">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navLinks">
-        <ul class="navbar-nav">
-          <li class="nav-item px-1"><a class="nav-link" href="../index.html">Home</a></li>
-          <li class="nav-item px-1"><a class="nav-link" href="games.html">Games</a></li>
-          <li class="nav-item px-1"><a class="nav-link" href="info.html">Informações</a></li>
-        </ul>
-    
-        <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-light align-content-end" style="font-size: 1rem;" href="cadastro.html">
-              <i class="fa-solid fa-user-plus mx-2" style="font-size: 1.3rem;"></i>
-              <span class="fw-bold">Cadastre-se</span>
+    <!-- Immersive Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-immersive fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <div class="logo-container">
+            <img src="../assets/images/logo.png" alt="BuscaGames" class="logo">
+          </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <i class="fas fa-bars text-light"></i>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">
+                <i class="fas fa-home me-1"></i> Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="games.html">
+                <i class="fas fa-gamepad me-1"></i> Games
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="quests.html">
+                <i class="fas fa-tasks me-1"></i> Quests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="info.html">
+                <i class="fas fa-info-circle me-1"></i> Informações
+              </a>
+            </li>
+          </ul>
+          
+          <div class="navbar-nav ms-auto">
+            <!-- User Level -->
+            <div class="user-level d-none d-lg-flex align-items-center me-3" id="userLevelContainer">
+              <div class="level-badge">
+                <span id="userLevel">1</span>
+              </div>
+              <div class="level-progress ms-2">
+                <div class="xp-bar">
+                  <div class="xp-fill" id="userXpBar" style="width: 25%"></div>
+                </div>
+                <div class="xp-text" id="userXpText">75 XP para o próximo nível</div>
+              </div>
+            </div>
+          
+            <!-- Cart -->
+            <a href="cart.html" class="nav-link position-relative me-3">
+              <i class="fas fa-shopping-cart cart-icon"></i>
+              <span class="cart-count">0</span>
             </a>
-          </li>
-          <li class="nav-item" id="logoutNavItem" style="display: none;">
-            <a class="nav-link text-light" href="#" id="logoutLink" style="font-size: 1rem;">
-              <i class="fa-solid fa-left-from-bracket mx-2"></i>
-              <span class="fw-bold">Logout</span>
-            </a>
-          </li>
-        </ul>        
+            
+            <!-- User Menu -->
+            <div class="dropdown" id="loginNavItem">
+              <div class="d-flex align-items-center">
+                <a class="nav-link me-1" href="login.html">
+                  <i class="fas fa-user-circle me-1" id="loginIcon"></i>
+                  <span id="nomeUsuario">Login</span>
+                </a>
+                <a class="nav-link dropdown-toggle dropdown-toggle-split p-0 ps-1" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </a>
+              </div>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-in me-2"></i> Login</a></li>
+                <li><a class="dropdown-item" href="cadastro.html"><i class="fas fa-user-plus me-2"></i> Cadastrar</a></li>
+              </ul>
+            </div>
+            
+            <!-- Logout (Hidden by default) -->
+            <div class="dropdown d-none" id="logoutNavItem">
+              <div class="d-flex align-items-center">
+                <a class="nav-link me-1" href="profile.html">
+                  <i class="fas fa-user-circle me-1"></i>
+                  <span id="userMenuName">Usuário</span>
+                </a>
+                <a class="nav-link dropdown-toggle dropdown-toggle-split p-0 ps-1" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </a>
+              </div>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i> Perfil</a></li>
+                <li><a class="dropdown-item" href="wishlist.html"><i class="fas fa-heart me-2"></i> Favoritos</a></li>
+                <li><a class="dropdown-item" href="library.html"><i class="fas fa-gamepad me-2"></i> Biblioteca</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#" id="logoutLink"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
 
-    <section class="">
-      <!-- Jumbotron -->
-      <div class="px-4 py-5 px-md-5 text-center text-lg-start">
-        <div class="container">
-          <div class="row gx-lg-5 align-items-center">
-            <div class="col-lg-6 mb-5 mb-lg-0">
-              <h1 class="my-5 display-3 fw-bold ls-tight">
-                As melhores ofertas <br />
-                <span class="txtSpan">para seus jogos</span>
-              </h1>
-
+    <!-- Main Section with appropriate spacing for fixed navbar -->
+    <section class="corpo py-5 mt-5">
+      <div class="container">
+        <div class="row gx-lg-5 align-items-center">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <h1 class="my-5 display-3 fw-bold ls-tight">
+              As melhores ofertas <br />
+              <span class="txtSpan">para seus jogos</span>
+            </h1>
+            <p class="lead text-light mb-4">
+              Entre na sua conta para acessar ofertas especiais e acompanhar seus pedidos ou crie uma conta para começar a acumular pontos.
+            </p>
+            <div class="achievement-card animate-on-load">
+              <div class="achievement-icon">
+                <i class="fas fa-user-shield"></i>
+              </div>
+              <h3 class="achievement-title">Bônus de Registro</h3>
+              <p>Crie sua conta e ganhe 100 XP para começar sua jornada!</p>
+              <div class="achievement-progress">
+                <div class="achievement-bar" data-progress="100" style="width: 100%"></div>
+              </div>
             </div>
+          </div>
 
-            <div class="col-lg-6 mb-5 mb-lg-0">
-              <div class="bloco card">
-                <div class="card-body py-5 px-md-5">
-                  <form id="cadastro"></form>
-
-                  <!-- Email input -->
-                  <div data-mdb-input-init class="form-outline mb-4">
-                    <label for="text" class="form-label">Nome de Usuário</label>
-                    <input type="text" class="form-control" placeholder="Username" id="username">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="password" class="form-label">Senha</label>
-                    <div class="input-group">
-                      <input type="password" class="form-control" id="password" name="password"
-                        placeholder="Digite sua senha">
-                      <span class="input-group-text"><i class="far fa-eye-slash" id="verNovaSenha"></i></span>
-                    </div>
-                  </div>
-                  <div class="container d-flex align-items-center text-center">
-                    <p class="mt-3 me-1 text">Não possui um login?</p>
-                    <a href="./cadastro.html" class="cadastro text-decoration-none">Cadastre-se</a>
-                  </div>
-
-                  <!-- Submit button -->
-                  <button type="button" id="login" class="registrar btn btn-block mb-4 d-flex mx-auto">
-                    Registrar
-                  </button>
-
-                  <!-- Register buttons -->
-                  <div class="text-center">
-                    <p>Ou registre-se com:</p>
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
-                      class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-facebook-f icon-social"></i>
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="bloco card">
+              <div class="card-body py-4 px-md-5">
+                <!-- Tabs Nav -->
+                <ul class="nav nav-tabs mb-4" id="authTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab" aria-controls="login-pane" aria-selected="true">
+                      <i class="fas fa-sign-in-alt me-2"></i> Login
                     </button>
-
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
-                      class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-google icon-social"></i>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup-pane" type="button" role="tab" aria-controls="signup-pane" aria-selected="false">
+                      <i class="fas fa-user-plus me-2"></i> Cadastro
                     </button>
+                  </li>
+                </ul>
+                
+                <!-- Tab Content -->
+                <div class="tab-content" id="authTabsContent">
+                  <!-- Login Tab -->
+                  <div class="tab-pane fade show active" id="login-pane" role="tabpanel" aria-labelledby="login-tab">
+                    <form id="loginForm">
+                      <!-- Email input -->
+                      <div class="form-outline mb-4">
+                        <label for="loginUsername" class="form-label">Nome de Usuário ou Email</label>
+                        <input type="text" class="form-control" id="loginUsername" placeholder="Digite seu usuário ou email">
+                      </div>
 
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
-                      class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-twitter icon-social"></i>
-                    </button>
+                      <!-- Password input -->
+                      <div class="mb-4">
+                        <label for="loginPassword" class="form-label">Senha</label>
+                        <div class="input-group">
+                          <input type="password" class="form-control" id="loginPassword" placeholder="Digite sua senha">
+                          <span class="input-group-text"><i class="far fa-eye-slash" id="toggleLoginPassword"></i></span>
+                        </div>
+                      </div>
+                      
+                      <!-- Remember me & Forgot password -->
+                      <div class="d-flex justify-content-between mb-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="rememberMe">
+                          <label class="form-check-label" for="rememberMe">Lembrar-me</label>
+                        </div>
+                        <a href="#" class="login text-decoration-none">Esqueceu a senha?</a>
+                      </div>
 
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
-                      class="btn btn-link btn-floating mx-1">
-                      <i class="fab fa-github icon-social"></i>
-                    </button>
+                      <!-- Submit button -->
+                      <button type="button" id="loginBtn" class="registrar btn btn-block mb-4 w-100">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                      </button>
+
+                      <!-- Social login buttons -->
+                      <div class="text-center">
+                        <p class="txtOpcoes">Ou entre com:</p>
+                        <div class="social-login">
+                          <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-facebook-f icon-social"></i>
+                          </button>
+                          <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-google icon-social"></i>
+                          </button>
+                          <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-twitter icon-social"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
-                  </form>
+                  
+                  <!-- Sign Up Tab -->
+                  <div class="tab-pane fade" id="signup-pane" role="tabpanel" aria-labelledby="signup-tab">
+                    <form id="signupForm">
+                      <!-- Name inputs -->
+                      <div class="row mb-4">
+                        <div class="col-md-6">
+                          <label for="firstName" class="form-label">Nome</label>
+                          <input type="text" class="form-control" id="firstName">
+                        </div>
+                        <div class="col-md-6">
+                          <label for="lastName" class="form-label">Sobrenome</label>
+                          <input type="text" class="form-control" id="lastName">
+                        </div>
+                      </div>
+
+                      <!-- Email input -->
+                      <div class="form-outline mb-4">
+                        <label for="signupEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="signupEmail" placeholder="example@email.com">
+                      </div>
+
+                      <!-- Password input -->
+                      <div class="mb-4">
+                        <label for="signupPassword" class="form-label">Senha</label>
+                        <div class="input-group">
+                          <input type="password" class="form-control" id="signupPassword" placeholder="Digite uma senha" maxlength="16">
+                          <span class="input-group-text"><i class="far fa-eye-slash" id="toggleSignupPassword"></i></span>
+                        </div>
+                      </div>
+                      
+                      <!-- Confirm Password input -->
+                      <div class="mb-4">
+                        <label for="confirmPassword" class="form-label">Confirme sua senha</label>
+                        <div class="input-group">
+                          <input type="password" class="form-control" id="confirmPassword" placeholder="Confirmar Senha" maxlength="16">
+                          <span class="input-group-text"><i class="far fa-eye-slash" id="toggleConfirmPassword"></i></span>
+                        </div>
+                      </div>
+
+                      <!-- Checkbox -->
+                      <div class="form-check d-flex mb-4">
+                        <input class="form-check-input me-2" type="checkbox" id="agreeTerms" checked />
+                        <label class="form-check-label" for="agreeTerms">
+                          Quero receber notificações sobre promoções e novidades
+                        </label>
+                      </div>
+
+                      <!-- Submit button -->
+                      <button type="button" id="signupBtn" class="registrar btn btn-block mb-4 w-100">
+                        <i class="fas fa-user-plus me-2"></i> Cadastrar
+                      </button>
+
+                      <!-- Social signup buttons -->
+                      <div class="text-center">
+                        <p class="txtOpcoes">Ou cadastre-se com:</p>
+                        <div class="social-login">
+                          <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-facebook-f icon-social"></i>
+                          </button>
+                          <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-google icon-social"></i>
+                          </button>
+                          <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-twitter icon-social"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Jumbotron -->
     </section>
 
-    <footer class="footer mt-4">
+    <!-- Immersive Footer -->
+    <footer class="footer-immersive">
       <div class="container">
         <div class="row">
-          <div class="col-md-4 mb-3">
-            <img src="../assets/images/logo.png" alt="Logo" class="mb-3" height="50">
-            <p>Explore as melhores ofertas de jogos com a gente.</p>
+          <div class="col-md-3 mb-4">
+            <img src="../assets/images/logo.png" alt="BuscaGames" class="footer-logo mb-3">
+            <p class="footer-description">
+              Sua plataforma gamificada para encontrar as melhores ofertas de jogos e acumular recompensas!
+            </p>
+            <div class="footer-social mt-3">
+              <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+            </div>
           </div>
-          <div class="col-md-4 mb-3">
-            <h5>Links úteis</h5>
-            <ul class="list-unstyled">
-              <li><a href="info.html">Sobre nós</a></li>
-              <li><a href="#">Nossos serviços</a></li>
-              <li><a href="#">Parceiros</a></li>
-              <li><a href="#">Programa de Afiliados</a></li>
+          
+          <div class="col-md-3 mb-4">
+            <h4 class="footer-title">Navegação</h4>
+            <ul class="footer-links">
+              <li><a href="../index.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Home</a></li>
+              <li><a href="games.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Games</a></li>
+              <li><a href="quests.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Quests</a></li>
+              <li><a href="info.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Informações</a></li>
+              <li><a href="profile.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Perfil</a></li>
             </ul>
           </div>
-          <div class="col-md-4 mb-3">
-            <h5>Redes Sociais</h5>
-            <p>Siga-nos nas redes sociais para novidades e promoções.</p>
-            <div class="socials text-center">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          
+          <div class="col-md-3 mb-4">
+            <h4 class="footer-title">Categorias</h4>
+            <ul class="footer-links">
+              <li><a href="games.html?category=rpg" class="footer-link"><i class="fas fa-angle-right me-2"></i> RPG</a></li>
+              <li><a href="games.html?category=action" class="footer-link"><i class="fas fa-angle-right me-2"></i> Ação</a></li>
+              <li><a href="games.html?category=adventure" class="footer-link"><i class="fas fa-angle-right me-2"></i> Aventura</a></li>
+              <li><a href="games.html?category=strategy" class="footer-link"><i class="fas fa-angle-right me-2"></i> Estratégia</a></li>
+              <li><a href="games.html?category=all" class="footer-link"><i class="fas fa-angle-right me-2"></i> Ver Todas</a></li>
+            </ul>
+          </div>
+          
+          <div class="col-md-3 mb-4">
+            <h4 class="footer-title">Contato</h4>
+            <ul class="footer-contact">
+              <li><i class="fas fa-envelope me-2"></i> contato@buscagames.com</li>
+              <li><i class="fas fa-phone me-2"></i> (11) 99123-4567</li>
+              <li><i class="fas fa-map-marker-alt me-2"></i> São Paulo, SP - Brasil</li>
+            </ul>
+            <div class="footer-store-badges mt-3">
+              <img src="../assets/images/app-store-badge.png" alt="App Store" class="store-badge">
+              <img src="../assets/images/play-store-badge.png" alt="Play Store" class="store-badge">
             </div>
           </div>
         </div>
-
-        <div class="d-flex justify-content-between pt-4 mt-4 border-top">
-          <p class="mb-0">&copy; 2025 Busca Games. Todos os direitos reservados.</p>
-          <div>
-            <a href="#" class="me-3">Licença</a>
-            <a href="#" class="me-3">Termos</a>
-            <a href="#">Privacidade</a>
+        
+        <div class="footer-bottom mt-4 pt-4 border-top border-secondary">
+          <div class="row">
+            <div class="col-md-6">
+              <p class="mb-0">&copy; 2025 BuscaGames. Todos os direitos reservados.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <a href="#" class="footer-bottom-link me-3">Política de Privacidade</a>
+              <a href="#" class="footer-bottom-link me-3">Termos de Uso</a>
+              <a href="#" class="footer-bottom-link">Ajuda</a>
+            </div>
           </div>
         </div>
       </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="../assets/js/login.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/immersive.js"></script>
+    <script>
+      // Password visibility toggle functions
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+        const loginPassword = document.getElementById('loginPassword');
+        
+        const toggleSignupPassword = document.getElementById('toggleSignupPassword');
+        const signupPassword = document.getElementById('signupPassword');
+        
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        
+        // Function to toggle password visibility
+        function togglePasswordVisibility(passwordField, toggleIcon) {
+          if (passwordField.getAttribute('type') === 'password') {
+            passwordField.setAttribute('type', 'text');
+            toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+          } else {
+            passwordField.setAttribute('type', 'password');
+            toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+          }
+        }
+        
+        // Add event listeners for password toggles
+        if (toggleLoginPassword && loginPassword) {
+          toggleLoginPassword.addEventListener('click', function() {
+            togglePasswordVisibility(loginPassword, toggleLoginPassword);
+          });
+        }
+        
+        if (toggleSignupPassword && signupPassword) {
+          toggleSignupPassword.addEventListener('click', function() {
+            togglePasswordVisibility(signupPassword, toggleSignupPassword);
+          });
+        }
+        
+        if (toggleConfirmPassword && confirmPassword) {
+          toggleConfirmPassword.addEventListener('click', function() {
+            togglePasswordVisibility(confirmPassword, toggleConfirmPassword);
+          });
+        }
+        
+        // Initialize cart count
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+          cartCount.textContent = cart.length;
+        }
+        
+        // Check login status and update UI
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const loginNavItem = document.getElementById('loginNavItem');
+        const logoutNavItem = document.getElementById('logoutNavItem');
+        const userLevelContainer = document.getElementById('userLevelContainer');
+        
+        if (isLoggedIn) {
+          if (loginNavItem) loginNavItem.classList.add('d-none');
+          if (logoutNavItem) logoutNavItem.classList.remove('d-none');
+          if (userLevelContainer) userLevelContainer.classList.remove('d-none');
+          
+          // Update user name
+          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+          if (currentUser) {
+            const userMenuName = document.getElementById('userMenuName');
+            if (userMenuName) {
+              userMenuName.textContent = currentUser.firstName;
+            }
+          }
+          
+          // Update level and XP
+          const currentLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+          const currentXP = parseInt(localStorage.getItem('userXP')) || 0;
+          const xpNeeded = 100 * currentLevel;
+          
+          const userLevelElement = document.getElementById('userLevel');
+          const userXpBar = document.getElementById('userXpBar');
+          const userXpText = document.getElementById('userXpText');
+          
+          if (userLevelElement) userLevelElement.textContent = currentLevel;
+          
+          if (userXpBar) {
+            const percentage = (currentXP / xpNeeded) * 100;
+            userXpBar.style.width = `${percentage}%`;
+          }
+          
+          if (userXpText) {
+            userXpText.textContent = `${xpNeeded - currentXP} XP para o próximo nível`;
+          }
+        }
+        
+        // Initialize back to top button
+        const backToTopButton = document.getElementById('backToTop');
+        if (backToTopButton) {
+          window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+              backToTopButton.classList.add('show');
+            } else {
+              backToTopButton.classList.remove('show');
+            }
+          });
+          
+          backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        }
+      });
+    </script>
   </body>
-
-  <script src="../assets/js/login.js"></script>
-
 </html>

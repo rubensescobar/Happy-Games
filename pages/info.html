@@ -4,270 +4,548 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BuscaGames - Equipe</title>
+  <title>BuscaGames - Sobre Nós</title>
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="../assets/CSS/global.css">
+  <link rel="stylesheet" href="../assets/CSS/immersive.css">
+  <link rel="stylesheet" href="../assets/CSS/immersive-cards.css">
   <link rel="stylesheet" href="../assets/CSS/infos.css">
-  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+  <link rel="stylesheet" href="../assets/CSS/icon-styles.css">
 
-  <!-- Sripts -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand ms-4" href="../index.html">
-      <img src="../assets/images/logo.png" alt="Logo da Empresa" class="logo">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navLinks">
-      <ul class="navbar-nav">
-        <li class="nav-item px-1"><a class="nav-link" href="../index.html">Home</a></li>
-        <li class="nav-item px-1"><a class="nav-link" href="games.html">Games</a></li>
-        <li class="nav-item px-1"><a class="nav-link" href="info.html">Informações</a></li>
-      </ul>
-
-      <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
-        <li class="nav-item" id="loginNavItem">
-          <a class="nav-link text-light align-content-end" style="font-size: 1rem;" href="./pages/login.html">
-            <i class="fa-solid fa-right-to-bracket mx-2" id="loginIcon" style="font-size: 1.3rem;"></i>
-            <span id="nomeUsuario" class="fw-bold">Login</span>
+  <!-- Immersive Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-immersive fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">
+        <div class="logo-container">
+          <img src="../assets/images/logo.png" alt="BuscaGames" class="logo">
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <i class="fas fa-bars text-light"></i>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">
+              <i class="fas fa-home me-1"></i> Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="games.html">
+              <i class="fas fa-gamepad me-1"></i> Games
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="quests.html">
+              <i class="fas fa-tasks me-1"></i> Quests
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="info.html">
+              <i class="fas fa-info-circle me-1"></i> Informações
+            </a>
+          </li>
+        </ul>
+        
+        <div class="navbar-nav ms-auto">
+          <!-- User Level -->
+          <div class="user-level d-none d-lg-flex align-items-center me-3" id="userLevelContainer">
+            <div class="level-badge">
+              <span id="userLevel">1</span>
+            </div>
+            <div class="level-progress ms-2">
+              <div class="xp-bar">
+                <div class="xp-fill" id="userXpBar" style="width: 25%"></div>
+              </div>
+              <div class="xp-text" id="userXpText">75 XP para o próximo nível</div>
+            </div>
+          </div>
+        
+          <!-- Cart -->
+          <a href="cart.html" class="nav-link position-relative me-3">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-count">0</span>
           </a>
-        </li>
-        <li class="nav-item" id="logoutNavItem">
-          <a class="nav-link text-light" href="#" id="logoutLink" style="font-size: 1rem;">
-            <i class="fa-solid fa-left-from-bracket mx-2"></i>
-            <span class="fw-bold">Logout</span>
-          </a>
-        </li>
-      </ul>
+          
+          <!-- User Menu -->
+          <div class="dropdown" id="loginNavItem">
+            <div class="d-flex align-items-center">
+              <a class="nav-link me-1" href="login.html">
+                <i class="fas fa-user-circle me-1" id="loginIcon"></i>
+                <span id="nomeUsuario">Login</span>
+              </a>
+              <a class="nav-link dropdown-toggle dropdown-toggle-split p-0 ps-1" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </a>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-in me-2"></i> Login</a></li>
+              <li><a class="dropdown-item" href="cadastro.html"><i class="fas fa-user-plus me-2"></i> Cadastrar</a></li>
+            </ul>
+          </div>
+          
+          <!-- Logout (Hidden by default) -->
+          <div class="dropdown d-none" id="logoutNavItem">
+            <div class="d-flex align-items-center">
+              <a class="nav-link me-1" href="profile.html">
+                <i class="fas fa-user-circle me-1"></i>
+                <span id="userMenuName">Usuário</span>
+              </a>
+              <a class="nav-link dropdown-toggle dropdown-toggle-split p-0 ps-1" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+              </a>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i> Perfil</a></li>
+              <li><a class="dropdown-item" href="wishlist.html"><i class="fas fa-heart me-2"></i> Favoritos</a></li>
+              <li><a class="dropdown-item" href="library.html"><i class="fas fa-gamepad me-2"></i> Biblioteca</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#" id="logoutLink"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <!-- Equipe -->
-  <!-- <div class="container my-5"> -->
-    <!-- <h2 class="equipe text-center my-5">Equipe do Projeto</h2> -->
-
-    <!-- Tabela
-    <div class="table-responsive mb-5">
-      <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th>Participante</th>
-            <th>RM</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Caio</td>
-            <td>561294</td>
-          </tr>
-          <tr>
-            <td>Rubens</td>
-            <td>562164</td>
-          </tr>
-          <tr>
-            <td>Sergio</td>
-            <td>563208</td>
-          </tr>
-          <tr>
-            <td>Yuri</td>
-            <td>564119</td>
-          </tr>
-          <tr>
-            <td>Gabriel</td>
-            <td>562798</td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
-
-    <section class="container-fluid">
-      <div class="bloco-sobrenos row align-items-center">
-        <h1 class="my-title2 text-center my-5">Sobre Nós</h1>
-        <div class="col-md-6">
-          <h2 class="paragrafo ms-5">
-            A equipe BuscaGames foi criada em fevereiro de 2025 com base nos projetos mensais propostos pela FIAP para desenvolvermos nossos conhecimentos. Somos uma equipe de estudantes do curso de Sistema de Informações apaixonada por games e tecnologia, unida pelo objetivo de compartilhar
-            conhecimento, novidades e experiências do universo gamer. Cada membro traz sua visão única — seja em
-            desenvolvimento, design ou curadoria de conteúdo — para criar um espaço completo para quem vive e respira
-            jogos. Acreditamos no poder dos games de conectar pessoas, contar histórias e transformar realidades.
-          </h2>
-        </div>
-        <div class="col-md-6 text-center">
-          <img class="imagem w-75" src="../assets/images/team-presentation-5-76.png" alt="">
-        </div>
-      </div>
-    </section>
-
-    <!-- <div class="col-md-6">
-    <p class="paragrafo">A nossa equipe é formada por 5 estudantes:</p>
-    <ul class="list-sobrenos justify-content-center align-content-center">
-      <li class="sobrenos-item">Caio César</li>
-      <li class="sobrenos-item">Yuri Lesko</li>
-      <li class="sobrenos-item">Rubens Escobar</li>
-      <li class="sobrenos-item">Gabriel Politano</li>
-      <li class="sobrenos-item">Sérgio Cavalcante</li>
-    </ul>
-  </div> -->
-
-    <!-- Cards dos membros -->
-    <section class="container my-5">
-      <h4 class="my-title text-center my-5">Equipe do Projeto</h4>
-
-      <div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center">
-        <div class="col">
-          <div class="card h-100 d-flex flex-column text-center">
-            <img src="../assets/images/profile1.png" class="card-img-top" alt="Foto de Caio">
-            <div class="card-body flex-grow-1 d-flex flex-column">
-              <h5 class="card-title">Caio</h5>
-              <p class="card-text-funcao">Gerente de Projeto</p>
-              <p class="card-text">Desenvolvedor</p>
-              <p class="card-text-rm">RM 561294</p>
-              <div class="mt-auto">
-                <a href="#"><i class="fa-brands fa-linkedin icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-github icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram icon-social mx-2"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card h-100 d-flex flex-column text-center">
-            <img src="../assets/images/profile2.png" class="card-img-top" alt="Foto de Yuri">
-            <div class="card-body flex-grow-1 d-flex flex-column">
-              <h5 class="card-title">Yuri</h5>
-              <p class="card-text-funcao">UX Designer</p>
-              <p class="card-text">Desenvolvedor</p>
-              <p class="card-text-rm">RM 564119</p>
-              <div class="mt-auto">
-                <a href="#"><i class="fa-brands fa-linkedin icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-github icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram icon-social mx-2"></i></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card h-100 d-flex flex-column text-center">
-            <img src="../assets/images/profile3.png" class="card-img-top" alt="Foto de Rubens">
-            <div class="card-body flex-grow-1 d-flex flex-column">
-              <h5 class="card-title">Rubens</h5>
-              <p class="card-text-funcao">Desenvolvedor</p>
-              <p class="card-text-rm">RM 562164</p>
-              <div class="mt-auto">
-                <a href="#"><i class="fa-brands fa-linkedin icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-github icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram icon-social mx-2"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card h-100 d-flex flex-column text-center">
-            <img src="../assets/images/profile4.png" class="card-img-top" alt="Foto de Gabriel">
-            <div class="card-body flex-grow-1 d-flex flex-column">
-              <h5 class="card-title">Gabriel</h5>
-              <p class="card-text-funcao">Desenvolvedor</p>
-              <p class="card-text-rm">RM 562798</p>
-              <div class="mt-auto">
-                <a href="#"><i class="fa-brands fa-linkedin icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-github icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram icon-social mx-2"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card h-100 d-flex flex-column text-center">
-            <img src="../assets/images/profile5.png" class="card-img-top" alt="Foto de Sérgio">
-            <div class="card-body flex-grow-1 d-flex flex-column">
-              <h5 class="card-title">Sérgio</h5>
-              <p class="card-text-funcao">Desenvolvedor</p>
-              <p class="card-text-rm">RM 563208</p>
-              <div class="mt-auto">
-                <a href="#"><i class="fa-brands fa-linkedin icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-github icon-social mx-2"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram icon-social mx-2"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  <!-- </div> -->
-  <!-- </div> -->
-
-
-  <!-- Footer -->
-  <footer class="footer">
+  <!-- Page Header -->
+  <header class="page-header about-us-hero mt-5">
     <div class="container">
-      <div class="row gy-4">
-        <div class="col-md-4">
-          <img src="../assets/images/logo.png" class="mb-3" height="50" />
-          <p>Explore as melhores ofertas de jogos com a gente.</p>
+      <div class="row align-items-center">
+        <div class="col-lg-12 text-center">
+          <span class="neon-text">CONHEÇA NOSSA EQUIPE</span>
+          <h1 class="page-title mb-3">Sobre a <span>BuscaGames</span></h1>
+          <p class="page-subtitle">Somos apaixonados por games e dedicados a criar a melhor experiência para você.</p>
         </div>
+      </div>
+    </div>
+  </header>
 
-        <div class="col-md-4">
-          <h5>Fale Conosco</h5>
-          <form id="contactForm">
-            <div class="mb-2">
-              <input type="text" id="contactName" class="form-input" placeholder="Nome">
+  <!-- About Us Section -->
+  <section class="about-us-section py-5">
+    <div class="container">
+      <div class="about-card">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <div class="about-content">
+              <h2 class="section-title mb-4">Nossa História</h2>
+              <p class="about-text">
+                A equipe BuscaGames foi criada em fevereiro de 2025 com base nos projetos mensais propostos pela FIAP para desenvolvermos nossos conhecimentos. Somos uma equipe de estudantes do curso de Sistema de Informações apaixonada por games e tecnologia, unida pelo objetivo de compartilhar conhecimento, novidades e experiências do universo gamer.
+              </p>
+              <p class="about-text">
+                Cada membro traz sua visão única — seja em desenvolvimento, design ou curadoria de conteúdo — para criar um espaço completo para quem vive e respira jogos. Acreditamos no poder dos games de conectar pessoas, contar histórias e transformar realidades.
+              </p>
             </div>
-            <div class="mb-2">
-              <input type="email" id="contactEmail" class="form-input" placeholder="Email">
+          </div>
+          <div class="col-lg-6">
+            <div class="about-image">
+              <img src="../assets/images/team-presentation-5-76.png" class="img-fluid rounded-3" alt="Time BuscaGames">
+              <div class="image-glow"></div>
             </div>
-            <div class="mb-2">
-              <input type="text" id="contactSubject" class="form-input" placeholder="Assunto">
-            </div>
-            <div class="mb-3">
-              <textarea id="contactMessage" class="form-input" placeholder="Mensagem" rows="2"
-                maxlength="500"></textarea>
-            </div>
-            <button type="submit" class="btn btn-danger w-100">Enviar</button>
-          </form>
-        </div>
-
-        <div class="col-md-4">
-          <h5>Social Media</h5>
-          <p>Siga-nos nas redes sociais para saber as últimas atualizações sobre nosso progresso.</p>
-          <div class="socials text-center">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="d-flex justify-content-between pt-4 mt-4 border-top">
-        <p class="mb-0">&copy; 2025 Busca Games. Todos os direitos reservados.</p>
-        <div>
-          <a href="#" class="me-3">Licença</a>
-          <a href="#" class="me-3">Termos</a>
-          <a href="#">Privacidade</a>
+  <!-- Team Section -->
+  <section class="team-section py-5">
+    <div class="container">
+      <div class="row text-center mb-5">
+        <div class="col-lg-12">
+          <span class="neon-text">QUEM SOMOS</span>
+          <h2 class="section-title">Equipe do Projeto</h2>
+          <p class="section-subtitle">Conheça os talentos por trás da BuscaGames</p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Team Member 1 -->
+        <div class="col-md-4 col-lg-2-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="../assets/images/profile1.png" alt="Caio" class="img-fluid">
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Caio</h3>
+              <div class="team-role">Gerente de Projeto</div>
+              <p class="team-position">Desenvolvedor</p>
+              <p class="team-id">RM 561294</p>
+              <div class="team-social">
+                <a href="#" class="btn-link"><i class="fa-brands fa-linkedin icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-github icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-instagram icon-social"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="col-md-4 col-lg-2-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="../assets/images/profile2.png" alt="Yuri" class="img-fluid">
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Yuri</h3>
+              <div class="team-role">UX Designer</div>
+              <p class="team-position">Desenvolvedor</p>
+              <p class="team-id">RM 564119</p>
+              <div class="team-social">
+                <a href="#" class="btn-link"><i class="fa-brands fa-linkedin icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-github icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-instagram icon-social"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="col-md-4 col-lg-2-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="../assets/images/profile3.png" alt="Rubens" class="img-fluid">
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Rubens</h3>
+              <div class="team-role">Desenvolvedor</div>
+              <p class="team-id">RM 562164</p>
+              <div class="team-social">
+                <a href="#" class="btn-link"><i class="fa-brands fa-linkedin icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-github icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-instagram icon-social"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="col-md-4 col-lg-2-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="../assets/images/profile4.png" alt="Gabriel" class="img-fluid">
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Gabriel</h3>
+              <div class="team-role">Desenvolvedor</div>
+              <p class="team-id">RM 562798</p>
+              <div class="team-social">
+                <a href="#" class="btn-link"><i class="fa-brands fa-linkedin icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-github icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-instagram icon-social"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Member 5 -->
+        <div class="col-md-4 col-lg-2-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="../assets/images/profile5.png" alt="Sérgio" class="img-fluid">
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Sérgio</h3>
+              <div class="team-role">Desenvolvedor</div>
+              <p class="team-id">RM 563208</p>
+              <div class="team-social">
+                <a href="#" class="btn-link"><i class="fa-brands fa-linkedin icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-github icon-social"></i></a>
+                <a href="#" class="btn-link"><i class="fa-brands fa-instagram icon-social"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section py-5">
+    <div class="container">
+      <div class="contact-card">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <div class="contact-info">
+              <h2 class="section-title mb-4">Entre em contato</h2>
+              <p class="contact-text mb-4">Tem alguma dúvida ou sugestão? Estamos aqui para ajudar!</p>
+              
+              <div class="contact-details">
+                <div class="contact-item">
+                  <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  <div class="contact-content">
+                    <h3>Email</h3>
+                    <p>contato@buscagames.com</p>
+                  </div>
+                </div>
+                
+                <div class="contact-item">
+                  <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                  </div>
+                  <div class="contact-content">
+                    <h3>Telefone</h3>
+                    <p>(11) 99123-4567</p>
+                  </div>
+                </div>
+                
+                <div class="contact-item">
+                  <div class="contact-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </div>
+                  <div class="contact-content">
+                    <h3>Localização</h3>
+                    <p>São Paulo, SP - Brasil</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-7">
+            <form id="contactForm" class="contact-form">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="contactName">Nome</label>
+                    <input type="text" id="contactName" class="form-control" placeholder="Seu nome">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="contactEmail">Email</label>
+                    <input type="email" id="contactEmail" class="form-control" placeholder="seu@email.com">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="contactSubject">Assunto</label>
+                    <input type="text" id="contactSubject" class="form-control" placeholder="Assunto da mensagem">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="contactMessage">Mensagem</label>
+                    <textarea id="contactMessage" class="form-control" placeholder="Sua mensagem" rows="4"></textarea>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="game-hub-btn w-100">
+                    <i class="fas fa-paper-plane me-2"></i> Enviar Mensagem
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Immersive Footer -->
+  <footer class="footer-immersive">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-4">
+          <img src="../assets/images/logo.png" alt="BuscaGames" class="footer-logo mb-3">
+          <p class="footer-description">
+            Sua plataforma gamificada para encontrar as melhores ofertas de jogos e acumular recompensas!
+          </p>
+          <div class="footer-social mt-3">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+          </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <h4 class="footer-title">Navegação</h4>
+          <ul class="footer-links">
+            <li><a href="../index.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Home</a></li>
+            <li><a href="games.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Games</a></li>
+            <li><a href="quests.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Quests</a></li>
+            <li><a href="info.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Informações</a></li>
+            <li><a href="profile.html" class="footer-link"><i class="fas fa-angle-right me-2"></i> Perfil</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <h4 class="footer-title">Categorias</h4>
+          <ul class="footer-links">
+            <li><a href="games.html?category=rpg" class="footer-link"><i class="fas fa-angle-right me-2"></i> RPG</a></li>
+            <li><a href="games.html?category=action" class="footer-link"><i class="fas fa-angle-right me-2"></i> Ação</a></li>
+            <li><a href="games.html?category=adventure" class="footer-link"><i class="fas fa-angle-right me-2"></i> Aventura</a></li>
+            <li><a href="games.html?category=strategy" class="footer-link"><i class="fas fa-angle-right me-2"></i> Estratégia</a></li>
+            <li><a href="games.html?category=all" class="footer-link"><i class="fas fa-angle-right me-2"></i> Ver Todas</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+          <h4 class="footer-title">Contato</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-envelope me-2"></i> contato@buscagames.com</li>
+            <li><i class="fas fa-phone me-2"></i> (11) 99123-4567</li>
+            <li><i class="fas fa-map-marker-alt me-2"></i> São Paulo, SP - Brasil</li>
+          </ul>
+          <div class="footer-store-badges mt-3">
+            <img src="../assets/images/app-store-badge.png" alt="App Store" class="store-badge">
+            <img src="../assets/images/play-store-badge.png" alt="Play Store" class="store-badge">
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom mt-4 pt-4 border-top border-secondary">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="mb-0">&copy; 2025 BuscaGames. Todos os direitos reservados.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="footer-bottom-link me-3">Política de Privacidade</a>
+            <a href="#" class="footer-bottom-link me-3">Termos de Uso</a>
+            <a href="#" class="footer-bottom-link">Ajuda</a>
+          </div>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <!-- Scripts -->
   <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/immersive.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Contact form submission
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Show success message using SweetAlert
+          Swal.fire({
+            icon: 'success',
+            title: 'Mensagem Enviada!',
+            text: 'Obrigado por entrar em contato. Retornaremos em breve!',
+            customClass: {
+              confirmButton: 'btn btn-primary'
+            }
+          });
+          
+          // Reset form
+          contactForm.reset();
+        });
+      }
+      
+      // Initialize cart count
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartCount = document.querySelector('.cart-count');
+      if (cartCount) {
+        cartCount.textContent = cart.length;
+      }
+      
+      // Check login status and update UI
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const loginNavItem = document.getElementById('loginNavItem');
+      const logoutNavItem = document.getElementById('logoutNavItem');
+      const userLevelContainer = document.getElementById('userLevelContainer');
+      
+      if (isLoggedIn) {
+        if (loginNavItem) loginNavItem.classList.add('d-none');
+        if (logoutNavItem) logoutNavItem.classList.remove('d-none');
+        if (userLevelContainer) userLevelContainer.classList.remove('d-none');
+        
+        // Update user name
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+          const userMenuName = document.getElementById('userMenuName');
+          if (userMenuName) {
+            userMenuName.textContent = currentUser.firstName;
+          }
+        }
+        
+        // Update level and XP
+        const currentLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+        const currentXP = parseInt(localStorage.getItem('userXP')) || 0;
+        const xpNeeded = 100 * currentLevel;
+        
+        const userLevelElement = document.getElementById('userLevel');
+        const userXpBar = document.getElementById('userXpBar');
+        const userXpText = document.getElementById('userXpText');
+        
+        if (userLevelElement) userLevelElement.textContent = currentLevel;
+        
+        if (userXpBar) {
+          const percentage = (currentXP / xpNeeded) * 100;
+          userXpBar.style.width = `${percentage}%`;
+        }
+        
+        if (userXpText) {
+          userXpText.textContent = `${xpNeeded - currentXP} XP para o próximo nível`;
+        }
+      }
+      
+      // Animate elements on scroll
+      const animateElements = document.querySelectorAll('.animate-on-load');
+      
+      function checkElementsInView() {
+        animateElements.forEach(element => {
+          const elementTop = element.getBoundingClientRect().top;
+          const elementVisible = 150;
+          
+          if (elementTop < window.innerHeight - elementVisible) {
+            element.classList.add('active');
+          }
+        });
+      }
+      
+      // Run once on initial load
+      setTimeout(checkElementsInView, 100);
+      
+      // Run on scroll
+      window.addEventListener('scroll', checkElementsInView);
+      
+      // Initialize back to top button
+      const backToTopButton = document.getElementById('backToTop');
+      if (backToTopButton) {
+        window.addEventListener('scroll', () => {
+          if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('visible');
+          } else {
+            backToTopButton.classList.remove('visible');
+          }
+        });
+        
+        backToTopButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>
