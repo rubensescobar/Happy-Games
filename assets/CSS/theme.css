@@ -344,4 +344,10 @@ html:root:not([data-theme="dark"]) .contact-item {
 .theme-toggle:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--accent-primary);
+}
+
+/* Additional overrides for specific quest elements in light theme */
+:root:not([data-theme="dark"]) .quest-icon {
+  color: var(--color-purpledark) !important;
+  background: rgba(90, 46, 152, 0.1) !important;
 } 
