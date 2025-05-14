@@ -73,6 +73,37 @@
       .form-floating .is-valid ~ label {
         color: #198754;
       }
+
+      /* Light mode specific styles */
+      :root:not([data-theme="dark"]) .bloco.card {
+        background-color: var(--border-color);
+      }
+
+      :root:not([data-theme="dark"]) .form-label,
+      :root:not([data-theme="dark"]) .form-check-label,
+      :root:not([data-theme="dark"]) .txtOpcoes {
+        color: var(--color-purpledark);
+      }
+      
+      :root:not([data-theme="dark"]) .nav-link {
+        color: var(--color-purpledark);
+      }
+
+      :root:not([data-theme="dark"]) input.form-control {
+        background-color: var(--color-white-cottom);
+        color: var(--color-purpledark);
+      }
+      
+      /* New styles for achievement card in light mode */
+      :root:not([data-theme="dark"]) .achievement-card {
+        background-color: var(--color-white-cottom);
+      }
+      
+      :root:not([data-theme="dark"]) .achievement-icon,
+      :root:not([data-theme="dark"]) .achievement-title,
+      :root:not([data-theme="dark"]) .achievement-card p {
+        color: var(--color-purpledark);
+      }
     </style>
   </head>
 
