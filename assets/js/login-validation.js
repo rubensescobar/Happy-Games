@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const signupBtn = document.getElementById('signupBtn');
   if (signupBtn) {
     // Remove any previous listeners and add our own
-    signupBtn.removeEventListener('click', validateRegistration);
+    signupBtn.removeEventListener('click', validateRegistrationForm);
     signupBtn.addEventListener('click', validateRegistrationForm);
   }
   
