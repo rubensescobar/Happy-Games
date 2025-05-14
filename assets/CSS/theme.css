@@ -109,6 +109,79 @@ html:root:not([data-theme="dark"]) .range-values {
   color: var(--color-purpledark) !important;
 }
 
+/* About Us page styles in light theme - with improved specificity */
+html:root:not([data-theme="dark"]) .about-us-section {
+  background-color: var(--bg-tertiary) !important;
+}
+
+/* Focus on one overriding approach for about-card */
+html:root:not([data-theme="dark"]) .about-us-section .about-card {
+  background-color: var(--color-white-cottom) !important;
+  background: var(--color-white-cottom) !important;
+  background-image: none !important;
+  border: 1px solid var(--accent-secondary) !important;
+}
+
+/* Override pseudo-element */
+html:root:not([data-theme="dark"]) .about-card::before {
+  display: none !important;
+}
+
+html:root:not([data-theme="dark"]) .about-content {
+  color: var(--color-purpledark) !important;
+}
+
+/* Section title and about text in light theme */
+html:root:not([data-theme="dark"]) .section-title,
+:root:not([data-theme="dark"]) .about-us-section .section-title {
+  color: var(--color-purpledark) !important;
+}
+
+html:root:not([data-theme="dark"]) .about-text,
+:root:not([data-theme="dark"]) .about-us-section .about-text {
+  color: var(--color-purpledark) !important;
+}
+
+/* Team section styles in light theme */
+html:root:not([data-theme="dark"]) .team-section {
+  background: linear-gradient(to bottom, var(--accent-secondary), var(--accent-primary)) !important;
+}
+
+html:root:not([data-theme="dark"]) span.neon-text-info,
+html:root:not([data-theme="dark"]) .section-subtitle {
+  color: var(--color-purpledark) !important;
+}
+
+html:root:not([data-theme="dark"]) .team-card {
+  background-color: var(--color-white-cottom) !important;
+  border-color: var(--accent-secondary) !important;
+}
+
+html:root:not([data-theme="dark"]) .team-name,
+html:root:not([data-theme="dark"]) .team-position {
+  color: var(--color-purpledark) !important;
+}
+
+/* Contact section styles in light theme */
+html:root:not([data-theme="dark"]) .contact-section {
+  background-color: var(--border-color) !important;
+}
+
+html:root:not([data-theme="dark"]) .contact-card {
+  background-color: var(--color-white-cottom) !important;
+}
+
+/* Target all text elements inside contact-card */
+html:root:not([data-theme="dark"]) .contact-card h2,
+html:root:not([data-theme="dark"]) .contact-card h3,
+html:root:not([data-theme="dark"]) .contact-card p,
+html:root:not([data-theme="dark"]) .contact-card span,
+html:root:not([data-theme="dark"]) .contact-card label,
+html:root:not([data-theme="dark"]) .contact-card li,
+html:root:not([data-theme="dark"]) .contact-item {
+  color: var(--color-purpledark) !important;
+}
+
 /* Ensure navbar and footer have correct background colors in light theme */
 :root:not([data-theme="dark"]) .navbar,
 :root:not([data-theme="dark"]) .navbar-immersive {
