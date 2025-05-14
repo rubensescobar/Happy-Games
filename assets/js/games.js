@@ -475,55 +475,26 @@ function loadMoreGames() {
   }
 }
 
-// Add to cart function
-function addToCart(item) {
-  // Get current cart from localStorage
-  let cart = [];
-  const savedCart = localStorage.getItem('gameCart');
-  
-  if (savedCart) {
-    try {
-      cart = JSON.parse(savedCart);
-    } catch (e) {
-      console.error('Error parsing cart data:', e);
-      cart = [];
-    }
-  }
-  
-  // Check if item is already in cart
-  const existingItem = cart.find(cartItem => cartItem.id === item.id);
-  
-  if (existingItem) {
-    // Increase quantity
-    existingItem.quantity += 1;
-  } else {
-    // Add new item
-    cart.push(item);
-  }
-  
-  // Save cart
-  localStorage.setItem('gameCart', JSON.stringify(cart));
-  
-  // Update cart UI
-  updateCartUI();
-  
-  // Add XP
-  addUserXP(5);
-}
-
 // Update cart UI
+// DEPRECATED: Use the unified updateCartCount function from cart.js
 function updateCartUI() {
-  const cart = JSON.parse(localStorage.getItem('gameCart') || '[]');
-  const cartCount = document.querySelector('.cart-count');
-  
-  if (cartCount) {
-    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-    cartCount.textContent = totalItems;
+  // Forward to the unified cart count function if available
+  if (window.updateCartCount) {
+    window.updateCartCount();
+  } else {
+    console.log('Using legacy cart UI update function');
+    const cart = JSON.parse(localStorage.getItem('gameCart') || '[]');
+    const cartCount = document.querySelector('.cart-count');
     
-    if (totalItems > 0) {
-      cartCount.classList.add('show');
-    } else {
-      cartCount.classList.remove('show');
+    if (cartCount) {
+      const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+      cartCount.textContent = totalItems;
+      
+      if (totalItems > 0) {
+        cartCount.classList.add('show');
+      } else {
+        cartCount.classList.remove('show');
+      }
     }
   }
 }
@@ -912,4 +883,255 @@ function updateGameDisplay() {
   // Update wishlist buttons based on user profile
   const userProfile = JSON.parse(localStorage.getItem('userGameProfile') || '{}');
   updateWishlistButtonsState(userProfile.wishlist || []);
-} 
+}
+
+/**
+ * Games Data Module
+ * Contains the central repository of game information for BuscaGames
+ */
+
+// Define the games array with full game information
+const gamesData = [
+  {
+    id: '1',
+    title: 'God of War Ragnarok',
+    description: 'Embarque com Kratos e Atreus em uma jornada épica em busca de respostas antes do profetizado Ragnarök. Juntos, pai e filho devem arriscar tudo nos Nove Reinos.',
+    image: '../assets/images/game12.png',
+    price: 124.95,
+    originalPrice: 249.90,
+    discount: 50,
+    rating: 4.5,
+    platforms: ['PlayStation', 'PC'],
+    genres: ['Ação', 'Aventura', 'RPG'],
+    releaseDate: '2022-11-09',
+    developer: 'Santa Monica Studio',
+    publisher: 'Sony Interactive Entertainment',
+    tags: ['featured', 'bestseller']
+  },
+  {
+    id: '2',
+    title: 'Ghost of Tsushima',
+    description: 'No final do século XIII, o império mongol devastou nações inteiras. A Ilha de Tsushima é tudo o que está entre o Japão continental e uma gigantesca frota invasora mongol.',
+    image: '../assets/images/game13.png',
+    price: 49.99,
+    originalPrice: 199.99,
+    discount: 75,
+    rating: 4.9,
+    platforms: ['PlayStation', 'PC'],
+    genres: ['Ação', 'Mundo Aberto', 'Samurai'],
+    releaseDate: '2020-07-17',
+    developer: 'Sucker Punch Productions',
+    publisher: 'Sony Interactive Entertainment',
+    tags: ['new']
+  },
+  {
+    id: '3',
+    title: 'The Witcher 3: Wild Hunt',
+    description: 'Você é Geralt de Rívia, mercenário matador de monstros. Diante de você está um continente devastado pela guerra e infestado de monstros para você explorar à vontade.',
+    image: '../assets/images/game4.png',
+    price: 79.99,
+    originalPrice: 199.99,
+    discount: 60,
+    rating: 5.0,
+    platforms: ['PC', 'PlayStation', 'Xbox'],
+    genres: ['RPG', 'Fantasia', 'Aventura'],
+    releaseDate: '2015-05-19',
+    developer: 'CD Projekt RED',
+    publisher: 'CD Projekt',
+    tags: ['featured', 'bestseller']
+  },
+  {
+    id: '4',
+    title: 'Mortal Kombat 1',
+    description: 'Descubra um Universo Mortal Kombat renascido, criado pelo Deus do Fogo Liu Kang. O Mortal Kombat 1 inaugura um novo era da franquia icônica com um novo sistema de luta e modos de jogo.',
+    image: '../assets/images/game14.png',
+    price: 99.90,
+    originalPrice: 299.90,
+    discount: 67,
+    rating: 4.7,
+    platforms: ['PC', 'PlayStation', 'Xbox'],
+    genres: ['Luta', 'Ação', 'Violência'],
+    releaseDate: '2023-09-19',
+    developer: 'NetherRealm Studios',
+    publisher: 'Warner Bros. Games',
+    tags: ['featured', 'new']
+  },
+  {
+    id: '5',
+    title: 'Cyberpunk 2077',
+    description: 'Cyberpunk 2077 é um RPG de ação e aventura de mundo aberto ambientado em Night City, uma megalópole obcecada por poder, glamour e modificação corporal.',
+    image: '../assets/images/game2.png',
+    price: 149.90,
+    originalPrice: 199.90,
+    discount: 25,
+    rating: 4.0,
+    platforms: ['PC', 'PlayStation', 'Xbox'],
+    genres: ['RPG', 'Ação', 'Futurista', 'Ficção Científica'],
+    releaseDate: '2020-12-10',
+    developer: 'CD Projekt RED',
+    publisher: 'CD Projekt',
+    tags: ['featured']
+  },
+  {
+    id: '6',
+    title: 'Grand Theft Auto 5',
+    description: 'Quando um jovem traficante, um ladrão de bancos aposentado e um psicopata aterrorizante se veem encrencados com algumas das figuras mais assustadoras do submundo do crime, o governo dos EUA e a indústria do entretenimento, eles devem realizar uma série de golpes ousados para sobreviver.',
+    image: '../assets/images/game3.png',
+    price: 89.90,
+    originalPrice: 129.90,
+    discount: 30,
+    rating: 4.7,
+    platforms: ['PC', 'PlayStation', 'Xbox'],
+    genres: ['Ação', 'Mundo Aberto'],
+    releaseDate: '2013-09-17',
+    developer: 'Rockstar North',
+    publisher: 'Rockstar Games',
+    tags: ['bestseller']
+  },
+  {
+    id: '7',
+    title: 'Red Dead Redemption 2: Ultimate Edition',
+    description: 'Estados Unidos, 1899. O fim da era do Velho Oeste começou. Após um assalto dar errado na cidade de Blackwater, Arthur Morgan e a gangue Van der Linde são forçados a fugir.',
+    image: '../assets/images/game5.png',
+    price: 239.90,
+    originalPrice: 299.90,
+    discount: 20,
+    rating: 5.0,
+    platforms: ['PC', 'PlayStation', 'Xbox'],
+    genres: ['Ação', 'Aventura', 'Velho Oeste', 'Mundo Aberto'],
+    releaseDate: '2018-10-26',
+    developer: 'Rockstar Studios',
+    publisher: 'Rockstar Games',
+    tags: ['featured']
+  },
+  {
+    id: '8',
+    title: 'Baldur\'s Gate 3',
+    description: 'Reúna seu grupo e retorne aos Reinos Esquecidos em uma história de companheirismo e traição, sobrevivência e sacrifício, e a atração do poder absoluto.',
+    image: '../assets/images/game15.png',
+    price: 199.90,
+    originalPrice: 199.90,
+    discount: 0,
+    rating: 4.9,
+    platforms: ['PC', 'PlayStation'],
+    genres: ['RPG', 'Fantasia', 'Estratégia'],
+    releaseDate: '2023-08-03',
+    developer: 'Larian Studios',
+    publisher: 'Larian Studios',
+    tags: ['new', 'bestseller']
+  },
+  {
+    id: '9',
+    title: 'Rainbow Six Siege',
+    description: 'Rainbow Six Siege é um jogo tático de tiro focado em estratégia, equipes e combate entre operadores.',
+    image: '../assets/images/game7.png',
+    price: 249.90,
+    originalPrice: 329.90,
+    discount: 24,
+    rating: 4.8,
+    platforms: ['PC', 'PlayStation', 'Xbox'],
+    genres: ['RPG', 'Ação', 'Mundo Aberto', 'Difícil'],
+    releaseDate: '2022-02-25',
+    developer: 'FromSoftware',
+    publisher: 'Bandai Namco',
+    tags: ['bestseller']
+  },
+  {
+    id: '10',
+    title: 'Resident Evil 4 Remake',
+    description: 'Sobrevivência é apenas o começo. Seis anos se passaram desde o desastre biológico em Raccoon City. O agente Leon S. Kennedy, um dos sobreviventes, é enviado para resgatar a filha do presidente que foi sequestrada.',
+    image: '../assets/images/game16.png',
+    price: 199.90,
+    originalPrice: 249.90,
+    discount: 20,
+    rating: 4.6,
+    platforms: ['PC', 'PlayStation', 'Xbox'],
+    genres: ['Terror', 'Sobrevivência', 'Ação'],
+    releaseDate: '2023-03-24',
+    developer: 'Capcom',
+    publisher: 'Capcom',
+    tags: ['new']
+  },
+  {
+    id: '11',
+    title: 'Tomb Raider',
+    description: 'Tomb Raider é um jogo de ação e aventura que acompanha Lara Croft em expedições cheias de exploração, combate e enigmas.',
+    image: '../assets/images/game10.png',
+    price: 62.40,
+    originalPrice: 62.40,
+    discount: 0,
+    rating: 4.2,
+    platforms: ['PC', 'Xbox'],
+    genres: ['RPG', 'Espaço', 'Exploração'],
+    releaseDate: '2023-09-06',
+    developer: 'Bethesda Game Studios',
+    publisher: 'Bethesda Softworks',
+    tags: ['']
+  },
+  {
+    id: '12',
+    title: 'Spider-Man 2',
+    description: 'Peter Parker e Miles Morales retornam para uma nova e emocionante aventura na aclamada franquia Marvel\'s Spider-Man para PS5.',
+    image: '../assets/images/game14.jpg',
+    price: 349.90,
+    originalPrice: 349.90,
+    discount: 0,
+    rating: 4.7,
+    platforms: ['PlayStation'],
+    genres: ['Ação', 'Aventura', 'Super-heróis'],
+    releaseDate: '2023-10-20',
+    developer: 'Insomniac Games',
+    publisher: 'Sony Interactive Entertainment',
+    tags: ['new', 'featured']
+  }
+];
+
+// Function to get all games
+function getAllGames() {
+  return gamesData;
+}
+
+// Function to get a specific game by ID
+function getGameById(id) {
+  return gamesData.find(game => game.id === id);
+}
+
+// Function to get games filtered by tags
+function getGamesByTags(tags) {
+  if (!tags || tags.length === 0) {
+    return gamesData;
+  }
+  
+  if (typeof tags === 'string') {
+    tags = [tags]; // Convert single tag to array
+  }
+  
+  return gamesData.filter(game => {
+    return tags.some(tag => game.tags.includes(tag));
+  });
+}
+
+// Function to get featured games
+function getFeaturedGames() {
+  return getGamesByTags('featured');
+}
+
+// Function to get new games
+function getNewGames() {
+  return getGamesByTags('new');
+}
+
+// Function to get bestseller games
+function getBestsellerGames() {
+  return getGamesByTags('bestseller');
+}
+
+// Expose functions to global scope
+window.gameRepository = {
+  getAllGames,
+  getGameById,
+  getGamesByTags,
+  getFeaturedGames,
+  getNewGames,
+  getBestsellerGames
+}; 

@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    // Login and Signup will be handled by login-validation.js
+    // This is kept for backward compatibility
+    /*
     // Login Form Submission
     const loginBtn = document.getElementById('loginBtn');
     if (loginBtn) {
@@ -21,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (signupBtn) {
         signupBtn.addEventListener('click', handleSignup);
     }
+    */
 
     // Activate tab based on URL hash if present
     const hash = window.location.hash;

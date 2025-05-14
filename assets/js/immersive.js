@@ -100,7 +100,7 @@ function initializeGameCards() {
     if (addToCartBtn) {
       addToCartBtn.addEventListener('click', e => {
         e.preventDefault();
-        addToCart(card);
+        animateAddToCart(card);
       });
     }
     
@@ -125,7 +125,7 @@ function initializeGameCards() {
 }
 
 // Add to cart with animation
-function addToCart(card) {
+function animateAddToCart(card) {
   // Get game info
   const gameId = card.dataset.gameId;
   const gameTitle = card.querySelector('.game-card-title').textContent;
@@ -161,8 +161,13 @@ function addToCart(card) {
     setTimeout(() => {
       document.body.removeChild(floatingEl);
       
-      // Update cart count
-      updateCart(gameId, gameTitle, gamePrice);
+      // Use the unified cart function
+      if (window.addToCart) {
+        window.addToCart(gameId);
+      } else {
+        // Fallback to legacy cart update
+        updateCart(gameId, gameTitle, gamePrice);
+      }
       
       // Show notification
       showNotification(`${gameTitle} adicionado ao carrinho!`, 'success');
@@ -206,6 +211,14 @@ function toggleWishlist(gameId, button) {
 
 // Update cart
 function updateCart(gameId, title, price) {
+  // Use the unified cart function if available
+  if (window.addToCart) {
+    window.addToCart(gameId);
+    return;
+  }
+  
+  // Legacy fallback implementation
+  console.log('Using legacy cart update function');
   let cart = JSON.parse(localStorage.getItem('gameCart')) || [];
   
   // Check if game is already in cart
@@ -1058,24 +1071,44 @@ function initializeCart() {
 }
 
 function loadCartFromStorage() {
-  const savedCart = localStorage.getItem('gameCart');
-  if (savedCart) {
+  // First try to load from the unified cart storage
+  const unifiedCart = localStorage.getItem('buscaGamesCart');
+  if (unifiedCart) {
     try {
-      return JSON.parse(savedCart);
+      return JSON.parse(unifiedCart);
     } catch (e) {
-      console.error('Error parsing cart data:', e);
+      console.error('Error parsing unified cart data:', e);
       return [];
     }
   }
+  
+  // Fallback to legacy cart storage
+  const legacyCart = localStorage.getItem('gameCart');
+  if (legacyCart) {
+    try {
+      return JSON.parse(legacyCart);
+    } catch (e) {
+      console.error('Error parsing legacy cart data:', e);
+      return [];
+    }
+  }
+  
   return [];
 }
 
 function updateCartUI() {
+  // Use unified cart function if available
+  if (window.updateCartCount) {
+    window.updateCartCount();
+    return;
+  }
+  
+  // Legacy fallback
   const cart = loadCartFromStorage();
   const cartCount = document.querySelector('.cart-count');
   
   if (cartCount) {
-    const totalItems = cart ? cart.reduce((acc, item) => acc + item.quantity, 0) : 0;
+    const totalItems = cart ? cart.reduce((acc, item) => acc + (item.quantity || 1), 0) : 0;
     cartCount.textContent = totalItems;
     
     if (totalItems > 0) {
@@ -1445,17 +1478,25 @@ document.querySelectorAll('.game-card-immersive').forEach(card => {
       
       // Get game details
       const gameId = card.getAttribute('data-game-id');
-      const gameTitle = card.querySelector('.game-card-title').textContent;
-      const gamePrice = card.querySelector('.price-current').getAttribute('data-price');
+      const gameTitle = card.querySelector('.game-card-title')?.textContent || 'Game';
+      const gamePrice = card.querySelector('.price-current')?.getAttribute('data-price') || '0';
       
       // Animation effect
       this.innerHTML = '<i class="fas fa-check me-2"></i> Adicionado';
       this.classList.add('added');
       
-      // Update cart count
-      const cartCount = document.querySelector('.cart-count');
-      if (cartCount) {
-        cartCount.textContent = parseInt(cartCount.textContent) + 1;
+      // Use unified cart system
+      if (window.addToCart) {
+        window.addToCart(gameId);
+      } else {
+        // Fallback to legacy cart system
+        console.log(`Added to cart: ${gameTitle} (ID: ${gameId}) - Price: ${gamePrice}`);
+        
+        // Update cart count manually
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+          cartCount.textContent = parseInt(cartCount.textContent || '0') + 1;
+        }
       }
       
       // Reset button after animation
@@ -1463,9 +1504,6 @@ document.querySelectorAll('.game-card-immersive').forEach(card => {
         this.innerHTML = '<i class="fas fa-shopping-cart me-2"></i> Adicionar';
         this.classList.remove('added');
       }, 2000);
-      
-      // Add to cart logic would go here
-      console.log(`Added to cart: ${gameTitle} (ID: ${gameId}) - Price: ${gamePrice}`);
     });
   }
 });

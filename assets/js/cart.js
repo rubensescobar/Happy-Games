@@ -3,475 +3,447 @@
  * Handles cart functionality for BuscaGames
  */
 
-// Sample game data (would normally come from an API)
-const gameData = {
-  '1': {
-    id: '1',
-    title: 'Cyberpunk 2077',
-    image: '../assets/images/game1.png',
-    price: 199.90,
-    originalPrice: 299.90,
-    discount: 33,
-    platform: 'PC',
-    genres: ['RPG', 'Ação', 'Futuro']
-  },
-  '2': {
-    id: '2',
-    title: 'The Witcher 3: Wild Hunt',
-    image: '../assets/images/game2.png',
-    price: 79.90,
-    originalPrice: 199.90,
-    discount: 60,
-    platform: 'PC, PlayStation, Xbox',
-    genres: ['RPG', 'Aventura', 'Fantasia']
-  },
-  '3': {
-    id: '3',
-    title: 'Red Dead Redemption 2',
-    image: '../assets/images/game3.png',
-    price: 239.90,
-    originalPrice: 299.90,
-    discount: 20,
-    platform: 'PC, PlayStation, Xbox',
-    genres: ['Ação', 'Aventura', 'Mundo Aberto']
-  }
-};
+// Cart constants
+const CART_STORAGE_KEY = 'buscaGamesCart';
 
 // Cart data
 let cart = [];
 let appliedPromo = null;
 
-// Initialize cart page
+// Initialize cart
 document.addEventListener('DOMContentLoaded', () => {
   // Load cart from localStorage
   loadCart();
   
-  // Add event listeners
-  setupEventListeners();
-  
-  // Load related games
-  loadRelatedGames();
-});
-
-// Load cart from localStorage
-function loadCart() {
-  const savedCart = localStorage.getItem('gameCart');
-  
-  if (savedCart) {
-    try {
-      cart = JSON.parse(savedCart);
-      updateCartUI();
-    } catch (e) {
-      console.error('Error parsing cart data:', e);
-      cart = [];
-    }
+  // Render cart items if on cart page
+  if (document.getElementById('cartItems')) {
+    renderCartItems();
+    updateCartTotals();
+    setupCartControls();
+    loadRelatedGames();
   }
-  
-  // Update cart items display
-  renderCartItems();
-  
-  // Update cart totals
-  updateCartTotals();
-  
-  // Update checkout button
-  updateCheckoutButton();
-  
-  // Update cart count in navbar
-  if (window.auth) {
-    window.auth.updateCartCount();
-  } else {
-    updateCartCount();
-  }
-}
-
-// Render cart items
-function renderCartItems() {
-  const cartItemsContainer = document.getElementById('cartItems');
-  if (!cartItemsContainer) return;
-  
-  // Clear existing items
-  cartItemsContainer.innerHTML = '';
-  
-  if (cart.length === 0) {
-    // Show empty cart message
-    cartItemsContainer.innerHTML = `
-      <div class="empty-cart-message">
-        <i class="fas fa-shopping-cart"></i>
-        <h3>Seu carrinho está vazio</h3>
-        <p>Adicione jogos ao seu carrinho para continuar</p>
-        <a href="games.html" class="btn-continue-shopping">Explorar jogos</a>
-      </div>
-    `;
-    return;
-  }
-  
-  // Add each cart item
-  cart.forEach(item => {
-    // Get game details from sample data
-    // In a real app, this data would come from an API
-    const game = gameData[item.id] || {
-      id: item.id,
-      title: item.title || `Game ${item.id}`,
-      image: `../assets/images/game${item.id}.png`,
-      price: item.price || 99.99,
-      discount: 0,
-      platform: 'PC',
-      genres: ['Ação']
-    };
-    
-    const cartItem = document.createElement('div');
-    cartItem.className = 'cart-item';
-    cartItem.dataset.id = item.id;
-    
-    // Calculate total for this item
-    const itemTotal = game.price * item.quantity;
-    
-    cartItem.innerHTML = `
-      <div class="product">
-        <div class="product-image">
-          <img src="${game.image}" alt="${game.title}">
-        </div>
-        <div class="product-details">
-          <a href="games.html?id=${game.id}" class="product-title">${game.title}</a>
-          <div class="product-meta">
-            <div class="product-platform">
-              <i class="fas fa-desktop"></i> ${game.platform}
-            </div>
-            <div class="product-genre">
-              <i class="fas fa-gamepad"></i> ${game.genres.join(', ')}
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="price" data-label="Preço:">
-        ${game.originalPrice ? `<span class="original-price">R$ ${game.originalPrice.toFixed(2)}</span>` : ''}
-        R$ ${game.price.toFixed(2)}
-      </div>
-      
-      <div class="quantity" data-label="Quantidade:">
-        <div class="quantity-control">
-          <button class="quantity-btn decrease"><i class="fas fa-minus"></i></button>
-          <input type="text" class="quantity-input" value="${item.quantity}" min="1" max="99" readonly>
-          <button class="quantity-btn increase"><i class="fas fa-plus"></i></button>
-        </div>
-      </div>
-      
-      <div class="total" data-label="Total:">
-        R$ ${itemTotal.toFixed(2)}
-      </div>
-      
-      <div class="remove">
-        <button class="remove-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
-      </div>
-    `;
-    
-    cartItemsContainer.appendChild(cartItem);
-    
-    // Add event listeners for this item
-    const decreaseBtn = cartItem.querySelector('.decrease');
-    const increaseBtn = cartItem.querySelector('.increase');
-    const removeBtn = cartItem.querySelector('.remove-btn');
-    
-    decreaseBtn.addEventListener('click', () => updateItemQuantity(item.id, -1));
-    increaseBtn.addEventListener('click', () => updateItemQuantity(item.id, 1));
-    removeBtn.addEventListener('click', () => removeCartItem(item.id));
-  });
-}
-
-// Update item quantity
-function updateItemQuantity(itemId, change) {
-  // Find the item in the cart
-  const itemIndex = cart.findIndex(item => item.id === itemId);
-  if (itemIndex === -1) return;
-  
-  // Update quantity
-  cart[itemIndex].quantity += change;
-  
-  // Remove item if quantity is 0 or less
-  if (cart[itemIndex].quantity <= 0) {
-    removeCartItem(itemId);
-    return;
-  }
-  
-  // Update cart in localStorage
-  saveCart();
-  
-  // Update cart UI
-  const cartItem = document.querySelector(`.cart-item[data-id="${itemId}"]`);
-  if (cartItem) {
-    // Update quantity input
-    const quantityInput = cartItem.querySelector('.quantity-input');
-    if (quantityInput) {
-      quantityInput.value = cart[itemIndex].quantity;
-    }
-    
-    // Update total
-    const totalDisplay = cartItem.querySelector('.total');
-    if (totalDisplay) {
-      const game = gameData[itemId] || { price: cart[itemIndex].price };
-      const itemTotal = game.price * cart[itemIndex].quantity;
-      totalDisplay.innerHTML = `R$ ${itemTotal.toFixed(2)}`;
-    }
-    
-    // Highlight the changed item
-    cartItem.classList.add('highlight');
-    setTimeout(() => cartItem.classList.remove('highlight'), 500);
-  }
-  
-  // Update cart totals
-  updateCartTotals();
-  
-  // Update checkout button
-  updateCheckoutButton();
   
   // Update cart count in navbar
   updateCartCount();
+});
+
+// Add to cart function (can be called from any page)
+function addToCart(gameOrId, quantity = 1) {
+  // Check if user is logged in
+  if (!isUserLoggedIn()) {
+    window.auth.requireLogin(null, true);
+    return;
+  }
   
-  // Add XP for updating cart
-  addUserXP(1, 'Atualização de carrinho');
+  let gameItem;
+  
+  // If gameOrId is an object (from game card)
+  if (typeof gameOrId === 'object') {
+    gameItem = gameOrId;
+  } 
+  // If gameOrId is a string (from ID)
+  else {
+    const game = window.gameRepository.getGameById(gameOrId);
+    if (!game) {
+      console.error('Game not found:', gameOrId);
+      return;
+    }
+    
+    gameItem = {
+      id: game.id,
+      title: game.title,
+      price: game.price,
+      image: game.image,
+      quantity: quantity
+    };
+  }
+  
+  // Check if item already exists in cart
+  const existingItemIndex = cart.findIndex(item => item.id === gameItem.id);
+  
+  if (existingItemIndex !== -1) {
+    // Update quantity
+    cart[existingItemIndex].quantity += quantity;
+    console.log(`Increased quantity of ${gameItem.title} to ${cart[existingItemIndex].quantity}`);
+  } else {
+    // Ensure quantity is set
+    if (!gameItem.quantity) {
+      gameItem.quantity = quantity;
+    }
+    
+    // Add new item
+    cart.push(gameItem);
+    console.log(`Added ${gameItem.title} to cart`);
+  }
+  
+  // Save cart
+  saveCart();
+  
+  // Update UI
+  updateCartCount();
+  
+  // Re-render cart items if on cart page
+  if (document.getElementById('cartItems')) {
+    renderCartItems();
+    updateCartTotals();
+  }
+  
+  // Add XP for adding to cart
+  if (typeof addUserXP === 'function') {
+    addUserXP(5, 'Item adicionado ao carrinho');
+  }
+  
+  // Show notification
+  showNotification(`${gameItem.title} adicionado ao carrinho!`, 'success');
+  
+  // Visual feedback on the button if available
+  const addButton = document.querySelector(`.game-card-immersive[data-game-id="${gameItem.id}"] .add-to-cart`);
+  if (addButton) {
+    // Store original text
+    const originalText = addButton.innerHTML;
+    
+    // Change button text/appearance
+    addButton.innerHTML = '<i class="fas fa-check me-2"></i> Adicionado';
+    addButton.classList.add('added');
+    
+    // Restore original state after delay
+    setTimeout(() => {
+      addButton.innerHTML = originalText;
+      addButton.classList.remove('added');
+    }, 1500);
+  }
+  
+  // Animate cart icon
+  const cartIcon = document.querySelector('.cart-icon');
+  if (cartIcon) {
+    cartIcon.classList.add('cart-bounce');
+    setTimeout(() => cartIcon.classList.remove('cart-bounce'), 500);
+  }
+  
+  return true;
 }
 
-// Remove item from cart
-function removeCartItem(itemId) {
-  // Find the item element
-  const cartItem = document.querySelector(`.cart-item[data-id="${itemId}"]`);
+// Remove from cart
+function removeFromCart(id) {
+  // Find item index
+  const itemIndex = cart.findIndex(item => item.id === id);
   
-  if (cartItem) {
-    // Animate removal
-    cartItem.classList.add('removing');
+  if (itemIndex !== -1) {
+    const removedItem = cart[itemIndex];
     
-    setTimeout(() => {
-      // Find the item in the cart
-      const itemIndex = cart.findIndex(item => item.id === itemId);
-      if (itemIndex === -1) return;
-      
-      // Remove from cart array
-      cart.splice(itemIndex, 1);
-      
-      // Update cart in localStorage
-      saveCart();
-      
-      // Re-render cart items
+    // Remove item
+    cart.splice(itemIndex, 1);
+    
+    // Save cart
+    saveCart();
+    
+    // Update UI
+    updateCartCount();
+    
+    // Re-render cart if on cart page
+    if (document.getElementById('cartItems')) {
       renderCartItems();
-      
-      // Update cart totals
       updateCartTotals();
-      
-      // Update checkout button
-      updateCheckoutButton();
-      
-      // Update cart count in navbar
-      updateCartCount();
-      
-      // Show notification
-      showNotification('Item removido do carrinho', 'info');
-    }, 300);
+    }
+    
+    // Show notification
+    showNotification(`${removedItem.title} removido do carrinho!`, 'info');
+    
+    return true;
+  }
+  
+  return false;
+}
+
+// Update cart quantity
+function updateCartQuantity(id, quantity) {
+  // Find item
+  const item = cart.find(item => item.id === id);
+  
+  if (item) {
+    // Update quantity
+    item.quantity = parseInt(quantity);
+    
+    // Remove if quantity is 0
+    if (item.quantity <= 0) {
+      return removeFromCart(id);
+    }
+    
+    // Save cart
+    saveCart();
+    
+    // Update UI
+    updateCartCount();
+    
+    // Re-render cart if on cart page
+    if (document.getElementById('cartItems')) {
+      renderCartItems();
+      updateCartTotals();
+    }
+    
+    return true;
+  }
+  
+  return false;
+}
+
+// Clear cart
+function clearCart() {
+  // Clear cart array
+  cart = [];
+  
+  // Clear applied promo
+  appliedPromo = null;
+  
+  // Save cart
+  saveCart();
+  
+  // Update UI
+  updateCartCount();
+  
+  // Re-render cart if on cart page
+  if (document.getElementById('cartItems')) {
+    renderCartItems();
+    updateCartTotals();
+  }
+  
+  // Show notification
+  showNotification('Carrinho esvaziado!', 'info');
+  
+  return true;
+}
+
+// Load cart from localStorage
+function loadCart() {
+  try {
+    // First check for cart in the new storage location
+    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+    if (savedCart) {
+      cart = JSON.parse(savedCart);
+    } else {
+      // Check for cart in the old storage location
+      const oldCart = localStorage.getItem('gameCart');
+      if (oldCart) {
+        // Migrate from old cart to new cart
+        cart = JSON.parse(oldCart);
+        console.log('Migrating from old cart storage to new unified cart');
+        // Save to new location
+        saveCart();
+        // Remove old cart data
+        localStorage.removeItem('gameCart');
+      } else {
+        cart = [];
+      }
+    }
+  } catch (error) {
+    console.error('Error loading cart:', error);
+    cart = [];
   }
 }
 
 // Save cart to localStorage
 function saveCart() {
-  localStorage.setItem('gameCart', JSON.stringify(cart));
-}
-
-// Update cart totals
-function updateCartTotals() {
-  const subtotalEl = document.getElementById('cartSubtotal');
-  const discountEl = document.getElementById('cartDiscount');
-  const totalEl = document.getElementById('cartTotal');
-  
-  if (!subtotalEl || !discountEl || !totalEl) return;
-  
-  // Calculate subtotal
-  let subtotal = 0;
-  let discount = 0;
-  
-  cart.forEach(item => {
-    const game = gameData[item.id] || { price: item.price, discount: 0 };
-    const itemPrice = game.price * item.quantity;
-    subtotal += itemPrice;
-    
-    if (game.originalPrice) {
-      const itemDiscount = (game.originalPrice - game.price) * item.quantity;
-      discount += itemDiscount;
-    }
-  });
-  
-  // Apply promo code if available
-  let promoDiscount = 0;
-  if (appliedPromo) {
-    promoDiscount = (subtotal * appliedPromo.discount) / 100;
-    discount += promoDiscount;
-  }
-  
-  // Update DOM
-  subtotalEl.textContent = `R$ ${subtotal.toFixed(2)}`;
-  discountEl.textContent = `-R$ ${discount.toFixed(2)}`;
-  totalEl.textContent = `R$ ${(subtotal - discount).toFixed(2)}`;
-}
-
-// Update checkout button state
-function updateCheckoutButton() {
-  const checkoutBtn = document.getElementById('checkoutButton');
-  if (!checkoutBtn) return;
-  
-  if (cart.length > 0) {
-    checkoutBtn.disabled = false;
-  } else {
-    checkoutBtn.disabled = true;
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  } catch (error) {
+    console.error('Error saving cart:', error);
   }
 }
 
 // Update cart count in navbar
 function updateCartCount() {
-  const cartCount = document.querySelector('.cart-count');
-  if (!cartCount) return;
+  const cartCountElement = document.querySelector('.cart-count');
+  if (!cartCountElement) return;
   
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-  cartCount.textContent = totalItems;
+  // Calculate total number of items
+  const count = cart.reduce((total, item) => total + (parseInt(item.quantity) || 1), 0);
   
-  if (totalItems > 0) {
-    cartCount.classList.add('show');
+  // Update count
+  cartCountElement.textContent = count;
+  
+  // Add visual indicator if there are items
+  if (count > 0) {
+    cartCountElement.classList.add('show');
   } else {
-    cartCount.classList.remove('show');
+    cartCountElement.classList.remove('show');
   }
 }
 
-// Set up event listeners
-function setupEventListeners() {
-  // Clear cart button
-  const clearCartBtn = document.getElementById('clearCart');
-  if (clearCartBtn) {
-    clearCartBtn.addEventListener('click', clearCart);
+// Render cart items in cart page
+function renderCartItems() {
+  const cartItemsContainer = document.getElementById('cartItems');
+  if (!cartItemsContainer) return;
+  
+  // Clear container
+  cartItemsContainer.innerHTML = '';
+  
+  if (cart.length === 0) {
+    // Show empty cart message
+    cartItemsContainer.innerHTML = `
+      <div class="empty-cart">
+        <div class="empty-cart-icon"><i class="fas fa-shopping-cart"></i></div>
+        <h3>Seu Carrinho Está Vazio</h3>
+        <p>Explore nossa loja e adicione jogos incríveis ao seu carrinho!</p>
+        <a href="../pages/games.html" class="btn btn-primary">Explorar Jogos</a>
+      </div>
+    `;
+    return;
   }
   
-  // Checkout button
-  const checkoutBtn = document.getElementById('checkoutButton');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', proceedToCheckout);
-  }
+  // Add items
+  cart.forEach(item => {
+    const cartItemElement = document.createElement('div');
+    cartItemElement.className = 'cart-item';
+    cartItemElement.innerHTML = `
+      <div class="cart-item-image">
+        <img src="${item.image}" alt="${item.title}">
+      </div>
+      <div class="cart-item-details">
+        <h3 class="cart-item-title">${item.title}</h3>
+        <div class="cart-item-price">R$ ${(item.price).toFixed(2)}</div>
+      </div>
+      <div class="cart-item-quantity">
+        <button class="quantity-btn quantity-decrease" data-id="${item.id}">-</button>
+        <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="99" data-id="${item.id}">
+        <button class="quantity-btn quantity-increase" data-id="${item.id}">+</button>
+      </div>
+      <div class="cart-item-subtotal">
+        R$ ${(item.price * item.quantity).toFixed(2)}
+      </div>
+      <div class="cart-item-remove">
+        <button class="remove-btn" data-id="${item.id}"><i class="fas fa-trash"></i></button>
+      </div>
+    `;
+    
+    cartItemsContainer.appendChild(cartItemElement);
+  });
   
-  // Apply promo code
-  const applyPromoBtn = document.getElementById('applyPromo');
-  if (applyPromoBtn) {
-    applyPromoBtn.addEventListener('click', applyPromoCode);
-  }
-}
-
-// Clear cart
-function clearCart() {
-  if (cart.length === 0) return;
-  
-  // Show confirmation dialog using sweetalert2 if available
-  if (window.Swal) {
-    Swal.fire({
-      title: 'Tem certeza?',
-      text: "Você deseja remover todos os itens do carrinho?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim, limpar carrinho',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Clear cart
-        cart = [];
-        saveCart();
-        renderCartItems();
-        updateCartTotals();
-        updateCheckoutButton();
-        updateCartCount();
-        
-        // Show success message
-        Swal.fire(
-          'Limpo!',
-          'Seu carrinho foi esvaziado com sucesso.',
-          'success'
-        );
+  // Add event listeners for quantity buttons
+  document.querySelectorAll('.quantity-decrease').forEach(button => {
+    button.addEventListener('click', function() {
+      const id = this.getAttribute('data-id');
+      const item = cart.find(item => item.id === id);
+      
+      if (item) {
+        updateCartQuantity(id, Math.max(1, item.quantity - 1));
       }
     });
-  } else {
-    // Without sweetalert2, use standard confirm dialog
-    if (confirm("Tem certeza que deseja remover todos os itens do carrinho?")) {
-      // Clear cart
-      cart = [];
-      saveCart();
-      renderCartItems();
-      updateCartTotals();
-      updateCheckoutButton();
-      updateCartCount();
+  });
+  
+  document.querySelectorAll('.quantity-increase').forEach(button => {
+    button.addEventListener('click', function() {
+      const id = this.getAttribute('data-id');
+      const item = cart.find(item => item.id === id);
       
-      // Show notification
-      showNotification('Carrinho esvaziado com sucesso', 'success');
+      if (item) {
+        updateCartQuantity(id, item.quantity + 1);
+      }
+    });
+  });
+  
+  document.querySelectorAll('.quantity-input').forEach(input => {
+    input.addEventListener('change', function() {
+      const id = this.getAttribute('data-id');
+      const quantity = parseInt(this.value) || 1;
+      
+      updateCartQuantity(id, quantity);
+    });
+  });
+  
+  document.querySelectorAll('.remove-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const id = this.getAttribute('data-id');
+      removeFromCart(id);
+    });
+  });
+}
+
+// Update cart totals
+function updateCartTotals() {
+  const cartTotalElement = document.getElementById('cartTotal');
+  const cartSubtotalElement = document.getElementById('cartSubtotal');
+  const cartDiscountElement = document.getElementById('cartDiscount');
+  const promoCodeElement = document.getElementById('promoCode');
+  
+  if (!cartTotalElement) return;
+  
+  // Calculate subtotal
+  const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  
+  // Calculate discount
+  let discount = 0;
+  if (appliedPromo) {
+    discount = subtotal * (appliedPromo.discount / 100);
+  }
+  
+  // Calculate total
+  const total = subtotal - discount;
+  
+  // Update UI
+  if (cartSubtotalElement) {
+    cartSubtotalElement.textContent = `R$ ${subtotal.toFixed(2)}`;
+  }
+  
+  if (cartDiscountElement) {
+    cartDiscountElement.textContent = `- R$ ${discount.toFixed(2)}`;
+    
+    // Show or hide discount row
+    const discountRow = cartDiscountElement.closest('.summary-row');
+    if (discountRow) {
+      discountRow.style.display = discount > 0 ? 'flex' : 'none';
     }
+  }
+  
+  cartTotalElement.textContent = `R$ ${total.toFixed(2)}`;
+  
+  // Update promo code field
+  if (promoCodeElement && appliedPromo) {
+    promoCodeElement.value = appliedPromo.code;
   }
 }
 
-// Proceed to checkout
-function proceedToCheckout() {
-  // Check if user is logged in
-  if (window.auth && !window.auth.isUserLoggedIn()) {
-    // Redirect to login page with return URL
-    window.auth.requireLogin(null, true);
-    return;
+// Set up cart controls
+function setupCartControls() {
+  const applyPromoBtn = document.getElementById('applyPromo');
+  const clearCartBtn = document.getElementById('clearCart');
+  const checkoutBtn = document.getElementById('proceedToCheckout');
+  
+  if (applyPromoBtn) {
+    applyPromoBtn.addEventListener('click', function() {
+      applyPromoCode();
+    });
   }
   
-  // If cart is empty, show message
-  if (cart.length === 0) {
-    showNotification('Seu carrinho está vazio', 'error');
-    return;
-  }
-  
-  // Show checkout confirmation
-  Swal.fire({
-    title: 'Finalizar Compra',
-    html: `
-      <p>Você está prestes a finalizar sua compra com ${cart.length} item(s).</p>
-      <p>Total: <strong>R$ ${getTotalPrice().toFixed(2)}</strong></p>
-      <p>Deseja prosseguir para o pagamento?</p>
-    `,
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Sim, finalizar',
-    cancelButtonText: 'Não, cancelar',
-    confirmButtonColor: '#28a745',
-    cancelButtonColor: '#dc3545'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // Proceed with checkout
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener('click', function() {
       Swal.fire({
-        title: 'Compra Realizada!',
-        html: `
-          <p>Sua compra foi finalizada com sucesso!</p>
-          <p>Agradecemos pela preferência.</p>
-        `,
-        icon: 'success',
-        confirmButtonText: 'OK'
-      }).then(() => {
-        // Add purchase to user history
-        addPurchaseToHistory(cart, getTotalPrice());
-        
-        // Give XP for purchase
-        addUserXP(50, 'Compra realizada');
-        
-        // Clear cart
-        clearCart();
-        
-        // Redirect to home or games page
-        window.location.href = '../index.html';
+        title: 'Tem certeza?',
+        text: 'Você está prestes a esvaziar seu carrinho.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sim, esvaziar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          clearCart();
+        }
       });
-    }
-  });
+    });
+  }
+  
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', function() {
+      proceedToCheckout();
+    });
+  }
 }
 
 // Apply promo code
 function applyPromoCode() {
-  const promoInput = document.getElementById('promoCode');
-  if (!promoInput) return;
+  const promoCodeInput = document.getElementById('promoCode');
+  if (!promoCodeInput) return;
   
-  const promoCode = promoInput.value.trim().toUpperCase();
+  const promoCode = promoCodeInput.value.trim();
   
   if (!promoCode) {
     showNotification('Por favor, digite um código de cupom', 'error');
@@ -507,209 +479,212 @@ function loadRelatedGames() {
   const relatedGamesContainer = document.getElementById('relatedGames');
   if (!relatedGamesContainer) return;
   
-  // In a real app, these would be recommended based on cart contents
-  // For this demo, we'll just show a few sample games
-  const relatedGameIds = ['1', '2', '3'];
+  // Clear container
+  relatedGamesContainer.innerHTML = '';
   
-  relatedGameIds.forEach(gameId => {
-    const game = gameData[gameId] || {
-      id: gameId,
-      title: `Game ${gameId}`,
-      image: `../assets/images/game${gameId}.png`,
-      price: 99.99,
-      originalPrice: 199.99,
-      discount: 50,
-      platform: 'PC',
-      genres: ['Ação']
-    };
-    
-    const gameCard = document.createElement('div');
-    gameCard.className = 'game-card-immersive';
-    gameCard.dataset.gameId = game.id;
-    
-    // Create game card HTML
-    gameCard.innerHTML = `
-      <div class="game-card-image-container">
-        <img src="${game.image}" alt="${game.title}" class="game-card-image">
-        <div class="game-card-glare"></div>
-      </div>
-      
-      ${game.discount ? `<div class="discount-tag">-${game.discount}%</div>` : ''}
-      
-      <div class="game-card-overlay">
-        <h3 class="game-card-title">${game.title}</h3>
-        
-        <div class="game-card-platform">
-          <span class="platform-icon"><i class="fas fa-desktop"></i> ${game.platform}</span>
-        </div>
-        
-        <div class="genre-tags">
-          ${game.genres.map(genre => `<span class="genre-tag">${genre}</span>`).join('')}
-        </div>
-        
-        <div class="game-card-price">
-          ${game.originalPrice ? `<span class="price-original">R$ ${game.originalPrice.toFixed(2)}</span>` : ''}
-          <span class="price-current" data-price="${game.price}">R$ ${game.price.toFixed(2)}</span>
-        </div>
-        
-        <div class="game-card-actions">
-          <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
-          <button class="action-button-secondary wishlist-button">
-            <i class="far fa-heart"></i>
-          </button>
-          <button class="action-button-secondary preview-button">
-            <i class="fas fa-eye"></i>
-          </button>
-        </div>
-      </div>
-    `;
-    
-    relatedGamesContainer.appendChild(gameCard);
-    
-    // Add event listeners
-    const addToCartBtn = gameCard.querySelector('.add-to-cart');
-    if (addToCartBtn) {
-      addToCartBtn.addEventListener('click', () => addToCart(game));
-    }
-    
-    const wishlistBtn = gameCard.querySelector('.wishlist-button');
-    if (wishlistBtn) {
-      wishlistBtn.addEventListener('click', () => addToWishlist(game.id));
-    }
-    
-    const previewBtn = gameCard.querySelector('.preview-button');
-    if (previewBtn) {
-      previewBtn.addEventListener('click', () => showGamePreview(game.id));
-    }
+  // Get random selection of games
+  const allGames = window.gameRepository.getAllGames();
+  const cartGameIds = cart.map(item => item.id);
+  const availableGames = allGames.filter(game => !cartGameIds.includes(game.id));
+  
+  // Shuffle and pick up to 4 games
+  const shuffledGames = availableGames.sort(() => 0.5 - Math.random()).slice(0, 4);
+  
+  // Render games
+  shuffledGames.forEach(game => {
+    renderGameCard(game, relatedGamesContainer);
   });
 }
 
-// Add to cart
-function addToCart(game) {
-  // Check if item is already in cart
-  const existingItem = cart.find(item => item.id === game.id);
+// Render a game card
+function renderGameCard(game, container) {
+  const gameCard = document.createElement('div');
+  gameCard.className = 'game-card-immersive';
+  gameCard.dataset.gameId = game.id;
   
-  if (existingItem) {
-    // Update quantity
-    existingItem.quantity += 1;
-  } else {
-    // Add new item
-    cart.push({
-      id: game.id,
-      title: game.title,
-      price: game.price,
-      quantity: 1
-    });
-  }
+  // Calculate discount if exists
+  const discountTag = game.discount ? `<div class="discount-tag">-${game.discount}%</div>` : '';
   
-  // Save cart
-  saveCart();
-  
-  // Re-render cart
-  renderCartItems();
-  
-  // Update totals
-  updateCartTotals();
-  
-  // Update checkout button
-  updateCheckoutButton();
-  
-  // Update cart count in navbar
-  updateCartCount();
-  
-  // Show notification
-  showNotification(`${game.title} adicionado ao carrinho!`, 'success');
-  
-  // Add XP
-  addUserXP(5, 'Adicionou item ao carrinho');
-}
-
-// Add to wishlist
-function addToWishlist(gameId) {
-  // Load user profile
-  let userProfile = localStorage.getItem('userGameProfile');
-  
-  if (!userProfile) {
-    // Create new profile if it doesn't exist
-    userProfile = {
-      wishlist: []
+  // Create badges HTML
+  let badgesHtml = '';
+  if (game.tags && game.tags.length > 0) {
+    const badges = {
+      'featured': '<div class="game-badge featured"><i class="fas fa-star"></i> Destaque</div>',
+      'new': '<div class="game-badge new"><i class="fas fa-certificate"></i> Novo</div>',
+      'bestseller': '<div class="game-badge bestseller"><i class="fas fa-award"></i> Mais Vendido</div>'
     };
-  } else {
-    try {
-      userProfile = JSON.parse(userProfile);
-      
-      if (!userProfile.wishlist) {
-        userProfile.wishlist = [];
+    
+    badgesHtml = '<div class="game-badges">';
+    game.tags.forEach(tag => {
+      if (badges[tag]) {
+        badgesHtml += badges[tag];
       }
-    } catch (e) {
-      console.error('Error parsing user profile:', e);
-      userProfile = { wishlist: [] };
-    }
+    });
+    badgesHtml += '</div>';
   }
   
-  // Check if already in wishlist
-  const isWishlisted = userProfile.wishlist.includes(gameId);
+  // Create platform icons HTML
+  let platformsHtml = '<div class="game-card-platform">';
+  if (game.platforms.includes('PC')) {
+    platformsHtml += '<span class="platform-icon"><i class="fas fa-desktop"></i> PC</span>';
+  }
+  if (game.platforms.includes('PlayStation')) {
+    platformsHtml += '<span class="platform-icon"><i class="fas fa-playstation"></i> PlayStation</span>';
+  }
+  if (game.platforms.includes('Xbox')) {
+    platformsHtml += '<span class="platform-icon"><i class="fas fa-xbox"></i> Xbox</span>';
+  }
+  platformsHtml += '</div>';
   
-  if (isWishlisted) {
-    // Remove from wishlist
-    userProfile.wishlist = userProfile.wishlist.filter(id => id !== gameId);
-    showNotification('Removido dos favoritos', 'info');
-  } else {
-    // Add to wishlist
-    userProfile.wishlist.push(gameId);
-    showNotification('Adicionado aos favoritos!', 'success');
-    
-    // Add XP
-    addUserXP(10, 'Adicionou jogo aos favoritos');
-    
-    // Check for wishlist-5 achievement
-    if (userProfile.wishlist.length >= 5) {
-      addAchievement('wishlist-5', 'Colecionador Iniciante', 'Adicionou 5 jogos à lista de favoritos', 'heart', 15);
+  // Create genres HTML
+  let genresHtml = '<div class="genre-tags">';
+  game.genres.forEach(genre => {
+    genresHtml += `<span class="genre-tag">${genre}</span>`;
+  });
+  genresHtml += '</div>';
+  
+  // Create rating stars HTML
+  let starsHtml = '<div class="rating-stars">';
+  const fullStars = Math.floor(game.rating);
+  const hasHalfStar = game.rating % 1 >= 0.5;
+  
+  for (let i = 1; i <= 5; i++) {
+    if (i <= fullStars) {
+      starsHtml += '<i class="fas fa-star"></i>';
+    } else if (i === fullStars + 1 && hasHalfStar) {
+      starsHtml += '<i class="fas fa-star-half-alt"></i>';
+    } else {
+      starsHtml += '<i class="far fa-star"></i>';
     }
   }
+  starsHtml += '</div>';
   
-  // Save user profile
-  localStorage.setItem('userGameProfile', JSON.stringify(userProfile));
+  // Create game card HTML
+  gameCard.innerHTML = `
+    <div class="game-card-image-container">
+      <img src="${game.image}" alt="${game.title}" class="game-card-image">
+      <div class="game-card-glare"></div>
+    </div>
+    
+    ${discountTag}
+    ${badgesHtml}
+    
+    <div class="game-card-overlay">
+      <h3 class="game-card-title">${game.title}</h3>
+      
+      ${platformsHtml}
+      ${genresHtml}
+      
+      <div class="game-card-rating">
+        ${starsHtml}
+        <span class="rating-number">${game.rating.toFixed(1)}</span>
+      </div>
+      
+      <div class="game-card-price">
+        ${game.originalPrice !== game.price ? `<span class="price-original">R$ ${game.originalPrice.toFixed(2)}</span>` : ''}
+        <span class="price-current" data-price="${game.price}">R$ ${game.price.toFixed(2)}</span>
+      </div>
+      
+      <div class="game-card-actions">
+        <button class="action-button add-to-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar</button>
+        <button class="action-button-secondary wishlist-button">
+          <i class="far fa-heart"></i>
+        </button>
+        <button class="action-button-secondary preview-button">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+    </div>
+  `;
+  
+  // Add to container
+  container.appendChild(gameCard);
+  
+  // Add event listeners
+  const addToCartBtn = gameCard.querySelector('.add-to-cart');
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener('click', () => addToCart(game.id));
+  }
+  
+  const wishlistBtn = gameCard.querySelector('.wishlist-button');
+  if (wishlistBtn) {
+    wishlistBtn.addEventListener('click', () => toggleWishlist(game.id));
+  }
+  
+  const previewBtn = gameCard.querySelector('.preview-button');
+  if (previewBtn) {
+    previewBtn.addEventListener('click', () => showGamePreview(game.id));
+  }
 }
 
-// Show game preview
-function showGamePreview(gameId) {
-  const game = gameData[gameId] || {
-    id: gameId,
-    title: `Game ${gameId}`,
-    image: `../assets/images/game${gameId}.png`,
-    price: 99.99,
-    originalPrice: 199.99,
-    discount: 50,
-    platform: 'PC',
-    genres: ['Ação'],
-    description: 'Descrição detalhada do jogo estaria aqui, incluindo informações sobre a história, gameplay e características especiais.'
-  };
+// Checkout function
+function proceedToCheckout() {
+  if (cart.length === 0) {
+    showNotification('Seu carrinho está vazio!', 'error');
+    return;
+  }
   
-  // Create modal content
+  // Check if user is logged in
+  if (!isUserLoggedIn()) {
+    window.auth.requireLogin(null, true);
+    return;
+  }
+  
+  // In a real app, this would redirect to checkout page
+  // For demo, show success message
+  Swal.fire({
+    title: 'Pedido Confirmado!',
+    text: 'Seu pedido foi processado com sucesso. Obrigado por comprar conosco!',
+    icon: 'success',
+    confirmButtonText: 'Continuar'
+  }).then(() => {
+    // Clear cart
+    clearCart();
+    
+    // Add XP for purchase
+    addUserXP(50, 'Compra realizada');
+    
+    // Redirect to home
+    window.location.href = '../index.html';
+  });
+}
+
+// Show game preview modal
+function showGamePreview(gameId) {
+  // Get game data from repository
+  const game = window.gameRepository.getGameById(gameId);
+  if (!game) {
+    console.error('Game not found:', gameId);
+    return;
+  }
+  
+  // Create modal HTML
   const modal = document.createElement('div');
-  modal.className = 'quick-preview';
+  modal.className = 'game-preview-modal';
   modal.innerHTML = `
     <div class="preview-content">
       <div class="preview-close"><i class="fas fa-times"></i></div>
       
       <div class="preview-header">
-        <img src="${game.image}" alt="${game.title}">
+        <img src="${game.image}" alt="${game.title}" class="preview-image">
         <div class="preview-header-overlay">
-          <h1 class="preview-title">${game.title}</h1>
+          <h2 class="preview-title">${game.title}</h2>
           <div class="preview-meta">
             <div class="preview-meta-item">
               <i class="fas fa-star"></i>
-              <span>4.5</span>
+              <span>${game.rating.toFixed(1)}</span>
             </div>
             <div class="preview-meta-item">
               <i class="fas fa-gamepad"></i>
-              <span>${game.platform}</span>
+              <span>${game.platforms.join(', ')}</span>
             </div>
             <div class="preview-meta-item">
               <i class="fas fa-calendar"></i>
-              <span>Lançamento: 2023</span>
+              <span>Lançamento: ${formatDate(game.releaseDate)}</span>
             </div>
+          </div>
+          <div class="preview-tags">
+            ${game.genres.map(genre => `<span class="preview-tag">${genre}</span>`).join('')}
           </div>
         </div>
       </div>
@@ -720,34 +695,35 @@ function showGamePreview(gameId) {
           <p class="preview-description">${game.description}</p>
         </div>
         
-        <div class="preview-section">
-          <h3 class="preview-section-title">Características</h3>
-          <div class="preview-features">
-            <div class="preview-feature">
-              <div class="feature-icon"><i class="fas fa-check-circle"></i></div>
-              <div class="feature-text">Multiplayer</div>
-            </div>
-            <div class="preview-feature">
-              <div class="feature-icon"><i class="fas fa-check-circle"></i></div>
-              <div class="feature-text">Open World</div>
-            </div>
-            <div class="preview-feature">
-              <div class="feature-icon"><i class="fas fa-check-circle"></i></div>
-              <div class="feature-text">High Resolution</div>
-            </div>
+        <div class="preview-details">
+          <div class="preview-detail-item">
+            <strong>Desenvolvedor:</strong> ${game.developer || 'N/A'}
+          </div>
+          <div class="preview-detail-item">
+            <strong>Publicador:</strong> ${game.publisher || 'N/A'}
+          </div>
+          <div class="preview-detail-item">
+            <strong>Plataformas:</strong> ${game.platforms.join(', ')}
+          </div>
+          <div class="preview-detail-item">
+            <strong>Gêneros:</strong> ${game.genres.join(', ')}
           </div>
         </div>
       </div>
       
       <div class="preview-footer">
         <div class="preview-price">
-          ${game.originalPrice ? `<div class="preview-price-original">R$ ${game.originalPrice.toFixed(2)}</div>` : ''}
+          ${game.discount > 0 ? `<div class="preview-price-original">R$ ${game.originalPrice.toFixed(2)}</div>` : ''}
           <div class="preview-price-current">R$ ${game.price.toFixed(2)}</div>
         </div>
         
         <div class="preview-actions">
-          <button class="action-button preview-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar ao carrinho</button>
-          <button class="action-button-secondary preview-wishlist"><i class="far fa-heart"></i></button>
+          <button class="action-button preview-cart" data-game-id="${game.id}">
+            <i class="fas fa-shopping-cart me-2"></i> Adicionar ao carrinho
+          </button>
+          <button class="action-button-secondary preview-wishlist" data-game-id="${game.id}">
+            <i class="far fa-heart"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -763,332 +739,270 @@ function showGamePreview(gameId) {
   const closeBtn = modal.querySelector('.preview-close');
   closeBtn.addEventListener('click', () => {
     modal.classList.remove('active');
-    setTimeout(() => document.body.removeChild(modal), 300);
+    setTimeout(() => modal.remove(), 300);
   });
   
   // Handle add to cart
   const cartBtn = modal.querySelector('.preview-cart');
   cartBtn.addEventListener('click', () => {
-    addToCart(game);
+    addToCart(game.id);
     modal.classList.remove('active');
-    setTimeout(() => document.body.removeChild(modal), 300);
+    setTimeout(() => modal.remove(), 300);
   });
   
   // Handle wishlist
   const wishlistBtn = modal.querySelector('.preview-wishlist');
   wishlistBtn.addEventListener('click', () => {
-    addToWishlist(game.id);
-    
-    // Update button state
-    let userProfile = JSON.parse(localStorage.getItem('userGameProfile') || '{"wishlist":[]}');
-    const isWishlisted = userProfile.wishlist.includes(game.id);
-    
-    if (isWishlisted) {
-      wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>';
-      wishlistBtn.classList.add('active');
-    } else {
-      wishlistBtn.innerHTML = '<i class="far fa-heart"></i>';
-      wishlistBtn.classList.remove('active');
-    }
-  });
-  
-  // Close on outside click
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('active');
-      setTimeout(() => document.body.removeChild(modal), 300);
-    }
+    toggleWishlist(game.id);
   });
   
   // Add XP for viewing details
-  addUserXP(5, 'Visualizou detalhes do jogo');
+  addUserXP(5);
 }
 
-// Update user info
-function updateUserInfo() {
-  let userProfile = JSON.parse(localStorage.getItem('userGameProfile') || '{"level":1,"xp":0}');
-  
-  // Update rewards level
-  const rewardsLevelEl = document.getElementById('rewardsLevel');
-  const rewardsFillEl = document.getElementById('rewardsFill');
-  const rewardsXPEl = document.getElementById('rewardsXP');
-  
-  if (rewardsLevelEl && rewardsFillEl && rewardsXPEl) {
-    const level = userProfile.level || 1;
-    const xp = userProfile.xp || 0;
-    const xpProgress = xp % 100;
-    
-    rewardsLevelEl.textContent = level;
-    rewardsFillEl.style.width = `${xpProgress}%`;
-    rewardsXPEl.textContent = `${xpProgress}/100 XP`;
-  }
-  
-  // Update user level in navbar
-  const userLevelEl = document.getElementById('userLevel');
-  const userXpBarEl = document.getElementById('userXpBar');
-  const userXpTextEl = document.getElementById('userXpText');
-  
-  if (userLevelEl && userXpBarEl && userXpTextEl) {
-    const level = userProfile.level || 1;
-    const xp = userProfile.xp || 0;
-    const xpProgress = xp % 100;
-    const xpForNextLevel = 100 - xpProgress;
-    
-    userLevelEl.textContent = level;
-    userXpBarEl.style.width = `${xpProgress}%`;
-    userXpTextEl.textContent = `${xpForNextLevel} XP para o próximo nível`;
-  }
+// Format date
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('pt-BR', options);
 }
 
-// Add XP to user
-function addUserXP(amount, action) {
-  let userProfile = JSON.parse(localStorage.getItem('userGameProfile') || '{"level":1,"xp":0}');
+// Check if user is logged in
+function isUserLoggedIn() {
+  return localStorage.getItem('isLogged') === 'true';
+}
+
+// Add XP to user profile
+function addUserXP(amount, reason = '') {
+  // Check if user is logged in
+  if (!isUserLoggedIn()) {
+    return;
+  }
+  
+  let userProfile = {};
+  const savedProfile = localStorage.getItem('userGameProfile');
+  
+  if (savedProfile) {
+    try {
+      userProfile = JSON.parse(savedProfile);
+    } catch (e) {
+      console.error('Error parsing user profile:', e);
+      userProfile = { level: 1, xp: 0 };
+    }
+  } else {
+    userProfile = { level: 1, xp: 0 };
+  }
   
   // Add XP
   userProfile.xp = (userProfile.xp || 0) + amount;
   
   // Check for level up
   const currentLevel = userProfile.level || 1;
-  const newLevel = Math.floor(userProfile.xp / 100) + 1;
+  const xpForNextLevel = currentLevel * 100;
   
-  if (newLevel > currentLevel) {
-    userProfile.level = newLevel;
-    showLevelUp(newLevel);
-  }
-  
-  // Save user profile
-  localStorage.setItem('userGameProfile', JSON.stringify(userProfile));
-  
-  // Update user info display
-  updateUserInfo();
-  
-  // Log XP gain (for debugging)
-  console.log(`+${amount} XP: ${action}`);
-}
-
-// Show level up notification
-function showLevelUp(level) {
-  // Create level up element
-  const levelUp = document.createElement('div');
-  levelUp.className = 'level-up-notification';
-  levelUp.innerHTML = `
-    <div class="level-up-icon"><i class="fas fa-arrow-up"></i></div>
-    <div class="level-up-content">
-      <h3>Nível ${level}</h3>
-      <p>Você avançou para o nível ${level}!</p>
-    </div>
-  `;
-  
-  // Add to DOM
-  document.body.appendChild(levelUp);
-  
-  // Show animation
-  setTimeout(() => levelUp.classList.add('show'), 10);
-  
-  // Remove after animation
-  setTimeout(() => {
-    levelUp.classList.remove('show');
-    setTimeout(() => levelUp.remove(), 500);
-  }, 4000);
-}
-
-// Add achievement
-function addAchievement(id, name, description, icon, xp) {
-  let userProfile = JSON.parse(localStorage.getItem('userGameProfile') || '{"achievements":[]}');
-  
-  // Check if achievement already exists
-  if (!userProfile.achievements) {
-    userProfile.achievements = [];
-  }
-  
-  const hasAchievement = userProfile.achievements.some(a => a.id === id);
-  
-  if (!hasAchievement) {
-    // Add achievement
-    userProfile.achievements.push({
-      id,
-      name,
-      description,
-      icon,
-      date: new Date().toISOString(),
-      completed: true
+  if (userProfile.xp >= xpForNextLevel) {
+    userProfile.level = currentLevel + 1;
+    userProfile.xp -= xpForNextLevel;
+    
+    // Show level up notification
+    Swal.fire({
+      title: 'Nível Aumentado!',
+      text: `Parabéns! Você alcançou o nível ${userProfile.level}!`,
+      icon: 'success',
+      confirmButtonText: 'Continuar'
     });
-    
-    // Save user profile
-    localStorage.setItem('userGameProfile', JSON.stringify(userProfile));
-    
-    // Add XP
-    addUserXP(xp, `Conquista: ${name}`);
-    
-    // Show achievement notification
-    showAchievementNotification(name, description, icon);
-  }
-}
-
-// Show achievement notification
-function showAchievementNotification(name, description, icon) {
-  // Create notification
-  const notification = document.createElement('div');
-  notification.className = 'achievement-notification';
-  notification.innerHTML = `
-    <div class="achievement-notification-icon">
-      <i class="fas fa-${icon || 'trophy'}"></i>
-    </div>
-    <div class="achievement-notification-content">
-      <h3>Nova Conquista!</h3>
-      <h4>${name}</h4>
-      <p>${description}</p>
-    </div>
-  `;
-  
-  // Add to DOM
-  document.body.appendChild(notification);
-  
-  // Show notification
-  setTimeout(() => notification.classList.add('show'), 10);
-  
-  // Remove after animation
-  setTimeout(() => {
-    notification.classList.remove('show');
-    setTimeout(() => notification.remove(), 500);
-  }, 5000);
-}
-
-// Add activity to user profile
-function addActivity(type, message, icon) {
-  let userProfile = JSON.parse(localStorage.getItem('userGameProfile') || '{"activities":[]}');
-  
-  // Add activity
-  if (!userProfile.activities) {
-    userProfile.activities = [];
-  }
-  
-  userProfile.activities.unshift({
-    type,
-    message,
-    icon,
-    date: new Date().toISOString()
-  });
-  
-  // Limit to 20 activities
-  if (userProfile.activities.length > 20) {
-    userProfile.activities = userProfile.activities.slice(0, 20);
   }
   
   // Save user profile
   localStorage.setItem('userGameProfile', JSON.stringify(userProfile));
+  
+  // Update UI
+  updateUserProfile();
+}
+
+// Update user profile UI
+function updateUserProfile() {
+  const savedProfile = localStorage.getItem('userGameProfile');
+  if (!savedProfile) return;
+  
+  try {
+    const userProfile = JSON.parse(savedProfile);
+    
+    // Update level
+    const userLevelEl = document.getElementById('userLevel');
+    if (userLevelEl) {
+      userLevelEl.textContent = userProfile.level || 1;
+    }
+    
+    // Update XP bar
+    const userXpBarEl = document.getElementById('userXpBar');
+    if (userXpBarEl) {
+      const xpProgress = userProfile.xp % 100;
+      const percentage = (xpProgress / 100) * 100;
+      userXpBarEl.style.width = `${percentage}%`;
+    }
+    
+    // Update XP text
+    const userXpTextEl = document.getElementById('userXpText');
+    if (userXpTextEl) {
+      const xpToNext = 100 - (userProfile.xp % 100);
+      userXpTextEl.textContent = `${xpToNext} XP para o próximo nível`;
+    }
+  } catch (e) {
+    console.error('Error updating user profile UI:', e);
+  }
 }
 
 // Show notification
 function showNotification(message, type = 'info') {
-  // Check if there's already a notification
-  const existingNotification = document.querySelector('.game-notification');
-  if (existingNotification) {
-    existingNotification.remove();
-  }
+  console.log(`Notification: ${message} (${type})`);
   
-  // Create notification
-  const notification = document.createElement('div');
-  notification.className = 'game-notification';
-  
-  // Set icon based on type
-  let icon = 'info-circle';
-  if (type === 'success') icon = 'check-circle';
-  if (type === 'error') icon = 'exclamation-circle';
-  if (type === 'warning') icon = 'exclamation-triangle';
-  
-  notification.innerHTML = `
-    <div class="notification-content">
-      <div class="notification-body">
-        <span class="notification-icon"><i class="fas fa-${icon}"></i></span>
-        <span class="notification-message">${message}</span>
-      </div>
-      <button class="notification-close"><i class="fas fa-times"></i></button>
-    </div>
-  `;
-  
-  // Add to DOM
-  document.body.appendChild(notification);
-  
-  // Show notification
-  setTimeout(() => notification.classList.add('show'), 10);
-  
-  // Add close event
-  const closeBtn = notification.querySelector('.notification-close');
-  closeBtn.addEventListener('click', () => {
-    notification.classList.remove('show');
-    setTimeout(() => notification.remove(), 300);
-  });
-  
-  // Auto-hide after 5 seconds
-  setTimeout(() => {
-    if (document.body.contains(notification)) {
-      notification.classList.remove('show');
-      setTimeout(() => notification.remove(), 300);
-    }
-  }, 5000);
-}
-
-/**
- * Cart Management for Happy-Games
- * This file provides consistent cart functionality across the site
- */
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize cart UI from localStorage
-  initializeCart();
-});
-
-// Initialize cart from localStorage
-function initializeCart() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const cartCount = document.querySelector('.cart-count');
-  
-  if (cartCount) {
-    cartCount.textContent = cart.length;
-  }
-  
-  // Add event listeners to add-to-cart buttons
-  const addToCartButtons = document.querySelectorAll('.add-to-cart');
-  addToCartButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.stopPropagation();
-      // Get game information
-      const gameCard = this.closest('.game-card-immersive');
-      const gameTitle = gameCard.querySelector('.game-card-title').textContent;
-      const gamePrice = gameCard.querySelector('.price-current').getAttribute('data-price');
-      const gameImage = gameCard.querySelector('.game-card-image').src;
-      const gameId = gameCard.getAttribute('data-game-id');
-      
-      // Add XP for adding to cart if updateXP function exists
-      if (typeof updateXP === 'function') {
-        updateXP(25);
+  // Try to use SweetAlert2 if available
+  if (typeof Swal !== 'undefined') {
+    // Use SweetAlert2 for notifications
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
       }
-      
-      // Update cart count
-      if (cartCount) {
-        cartCount.textContent = parseInt(cartCount.textContent) + 1;
-      }
-      
-      // Add to cart animation
-      const cartIcon = document.querySelector('.cart-icon');
-      if (cartIcon) {
-        cartIcon.classList.add('cart-bounce');
-        setTimeout(() => {
-          cartIcon.classList.remove('cart-bounce');
-        }, 1000);
-      }
-      
-      // Save to localStorage (simplified cart system)
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({
-        id: gameId,
-        title: gameTitle,
-        price: gamePrice,
-        image: gameImage,
-        quantity: 1
-      });
-      localStorage.setItem('cart', JSON.stringify(cart));
     });
+    
+    Toast.fire({
+      icon: type,
+      title: message
+    });
+    return;
+  }
+  
+  // Fallback to custom toast notification if SweetAlert isn't available
+  let toastContainer = document.getElementById('toast-container');
+  
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'toast-container';
+    toastContainer.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999;';
+    document.body.appendChild(toastContainer);
+  }
+  
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.style.cssText = 'min-width: 250px; margin-bottom: 10px; padding: 15px; border-radius: 5px; color: white; background-color: #333; box-shadow: 0 0 10px rgba(0,0,0,0.2); animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;';
+  
+  // Set background color based on type
+  switch(type) {
+    case 'success':
+      toast.style.backgroundColor = '#28a745';
+      break;
+    case 'error':
+      toast.style.backgroundColor = '#dc3545';
+      break;
+    case 'warning':
+      toast.style.backgroundColor = '#ffc107';
+      toast.style.color = '#333';
+      break;
+    default:
+      toast.style.backgroundColor = '#17a2b8';
+  }
+  
+  // Set toast content
+  toast.innerHTML = message;
+  
+  // Add to container
+  toastContainer.appendChild(toast);
+  
+  // Auto-remove after 3 seconds
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      if (toast.parentNode === toastContainer) {
+        toastContainer.removeChild(toast);
+      }
+    }, 500);
+  }, 3000);
+}
+
+// Toggle wishlist
+function toggleWishlist(gameId) {
+  // Check if user is logged in
+  if (!isUserLoggedIn()) {
+    window.auth.requireLogin(null, true);
+    return;
+  }
+  
+  let userProfile = {};
+  const savedProfile = localStorage.getItem('userGameProfile');
+  
+  if (savedProfile) {
+    try {
+      userProfile = JSON.parse(savedProfile);
+    } catch (e) {
+      console.error('Error parsing user profile:', e);
+      userProfile = { level: 1, xp: 0, wishlist: [] };
+    }
+  } else {
+    userProfile = { level: 1, xp: 0, wishlist: [] };
+  }
+  
+  // Initialize wishlist if not exists
+  if (!userProfile.wishlist) {
+    userProfile.wishlist = [];
+  }
+  
+  // Check if game is already in wishlist
+  const gameIndex = userProfile.wishlist.indexOf(gameId);
+  const game = window.gameRepository.getGameById(gameId);
+  
+  if (gameIndex === -1) {
+    // Add to wishlist
+    userProfile.wishlist.push(gameId);
+    
+    // Show notification
+    showNotification(`${game.title} adicionado aos favoritos!`, 'success');
+    
+    // Add XP
+    addUserXP(1);
+  } else {
+    // Remove from wishlist
+    userProfile.wishlist.splice(gameIndex, 1);
+    
+    // Show notification
+    showNotification(`${game.title} removido dos favoritos!`, 'info');
+  }
+  
+  // Save user profile
+  localStorage.setItem('userGameProfile', JSON.stringify(userProfile));
+  
+  // Update wishlist buttons
+  updateWishlistButtonsState(userProfile.wishlist);
+}
+
+// Update wishlist button states
+function updateWishlistButtonsState(wishlist = []) {
+  if (!wishlist || wishlist.length === 0) return;
+  
+  document.querySelectorAll('.wishlist-button, .preview-wishlist').forEach(button => {
+    const gameId = button.getAttribute('data-game-id') || button.closest('[data-game-id]')?.getAttribute('data-game-id');
+    
+    if (gameId && wishlist.includes(gameId)) {
+      button.innerHTML = '<i class="fas fa-heart"></i>';
+      button.classList.add('active');
+    } else {
+      button.innerHTML = '<i class="far fa-heart"></i>';
+      button.classList.remove('active');
+    }
   });
 }
+
+// Export functions for use in other scripts
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateCartCount = updateCartCount;
+window.showNotification = showNotification;
+
+// For backwards compatibility 
+window.updateCartUI = updateCartCount;
