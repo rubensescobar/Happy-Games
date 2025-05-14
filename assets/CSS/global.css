@@ -7,14 +7,15 @@
   /*Inspiração na mata atlântica, Amazônia, e as ervas sagradas nos terreiros e aldeias.*/
   --color-green: #14853a;
   /* Variação de verde inspirado na mata*/
-  --color-green-glow: #4CAF50;
+  --color-green-glow: rgb(76, 175, 80);
   /* Variação de verde inspirado na mata*/
   --color-purple: #6b3fa0;
+  --color-purplelight: #a459ff;
   /*Essa cor remete à ancestralidade, força espiritual e conexão com o sagrado.*/
   --color-acai: #601848;
   /*Remete ao fruto do açaí, fruta originária da terra */
   --color-blue: #002B45;
-  --blue-light: #4A90E2;
+  --blue-light: rgb(74, 144, 226);
   /*Inspiração: O céu, os rios e a espiritualidade (como Ogum, Oxum e Iemanjá nos orixás).*/
   --color-yellow: #FFB400;
   /*Inspiração: O sol como símbolo de energia, divindade e tempo nos rituais de matriz africana e na vida indígena.*/
@@ -60,8 +61,8 @@ body {
 }
 
 .btn-custom {
-  background-color: var(--color-green);
-  color: var(--color-white-cottom);
+  background-color: var(--color-green-glow);
+  color: var(--color-dark);
   font-weight: bold;
   border-radius: 8px;
   padding: 12px 24px;
@@ -117,13 +118,13 @@ body {
 }
 
 .btn-intro {
-  background: var(--color-green);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
 }
 
 .btn-intro:hover {
-  background: var(--color-green);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
   transform: scale(1.2);
   transition: .5s;
 }
@@ -175,14 +176,14 @@ body {
 }
 
 .gamebtn {
-  background: var(--color-green-forest);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
 }
 
 .gamebtn:hover {
   box-shadow: 1px 1px 20px var(--color-green-glow);
-  background: var(--color-green);
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
 }
 
 .badge-games {
@@ -335,3 +336,15 @@ textarea.form-input {
   overflow: hidden;
   color: white;
 }
+
+/* Add a universal button outline remover to catch all instances */
+button:focus, 
+a:focus, 
+.btn:focus, 
+.game-hub-btn:focus,
+[class*="btn"]:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Add this to the end of the file to override any previous styles that might cause outlines */

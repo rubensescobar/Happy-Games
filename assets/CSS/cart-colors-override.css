@@ -1,0 +1,26 @@
+/* Fixed cart colors - no theme variables */
+
+/* Always purple for cart header items regardless of theme */
+.cart-header-item {
+  color: #2D004D !important;
+  opacity: 0.9 !important;
+}
+
+/* Always purple for empty cart elements regardless of theme */
+.empty-cart-message i,
+.empty-cart-message h3,
+.empty-cart-message p,
+.empty-cart-message a {
+  color: #2D004D !important;
+  border-color: #2D004D !important;
+}
+
+/* Force this color on the product titles and metadata - the most common problematic elements */
+.product-title,
+.product-platform, 
+.product-genre,
+.cart-header-item,
+.total,
+.quantity {
+  color: #2D004D !important;
+} 
