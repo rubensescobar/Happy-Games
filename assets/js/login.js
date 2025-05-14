@@ -121,7 +121,7 @@ function handleSignup() {
     }
     
     // Validate email format
-    if (!validateEmail(email)) {
+    if (validateEmail(email)) {
         showAlert('Erro', 'Por favor, insira um email válido.', 'error');
         return;
     }
