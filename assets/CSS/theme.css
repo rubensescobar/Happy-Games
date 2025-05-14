@@ -350,4 +350,13 @@ html:root:not([data-theme="dark"]) .contact-item {
 :root:not([data-theme="dark"]) .quest-icon {
   color: var(--color-purpledark) !important;
   background: rgba(90, 46, 152, 0.1) !important;
+}
+
+/* Light theme styling for empty cart icon */
+:root:not([data-theme="dark"]) .empty-cart-message i {
+  color: var(--bg-tertiary) !important;
+}
+
+body.light-theme .empty-cart-message i {
+  color: var(--bg-tertiary) !important;
 } 

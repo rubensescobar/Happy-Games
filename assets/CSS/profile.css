@@ -169,6 +169,16 @@
   min-height: 60vh;
 }
 
+/* Light theme override for profile content */
+body.light-theme .profile-content {
+  background-color: var(--border-color);
+}
+
+/* Alternative light theme selector for profile content to match other CSS files */
+:root:not([data-theme="dark"]) .profile-content {
+  background-color: var(--border-color);
+}
+
 .profile-tabs {
   display: flex;
   gap: 1rem;
@@ -206,6 +216,20 @@
   display: none;
 }
 
+/* Light theme override for tab content */
+body.light-theme .tab-pane {
+  background-color: var(--color-white-cottom);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+/* Alternative selector for light theme tab content */
+:root:not([data-theme="dark"]) .tab-pane {
+  background-color: var(--color-white-cottom);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
 .tab-pane.active {
   display: block;
   animation: fadeIn 0.3s ease;
@@ -225,6 +249,18 @@
   border: 1px solid rgba(74, 144, 226, 0.1);
 }
 
+/* Light theme override for profile card */
+body.light-theme .profile-card {
+  background-color: var(--color-white-cottom);
+  background-image: none;
+}
+
+/* Alternative selector for light theme profile card */
+:root:not([data-theme="dark"]) .profile-card {
+  background-color: var(--color-white-cottom);
+  background-image: none;
+}
+
 .card-header {
   background: rgba(0, 0, 0, 0.2);
   padding: 1rem 1.5rem;
@@ -232,6 +268,28 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Light theme override for card header */
+body.light-theme .profile-card .card-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+/* Alternative selector for light theme card header */
+:root:not([data-theme="dark"]) .profile-card .card-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+/* Light theme override for card header text */
+body.light-theme .card-header h3 {
+  color: var(--color-purpledark);
+}
+
+/* Alternative selector for light theme card header text */
+:root:not([data-theme="dark"]) .card-header h3 {
+  color: var(--color-purpledark);
 }
 
 .card-header h3 {
@@ -386,10 +444,23 @@
   margin-bottom: 1rem;
 }
 
+/* Light theme override for empty collection icon */
+:root:not([data-theme="dark"]) .empty-collection i,
+body.light-theme .empty-collection i {
+  color: var(--bg-tertiary);
+}
+
 .empty-collection p {
   color: var(--color-white-cottom);
   opacity: 0.7;
   margin-bottom: 1rem;
+}
+
+/* Light theme override for empty collection text */
+:root:not([data-theme="dark"]) .empty-collection p,
+body.light-theme .empty-collection p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
 }
 
 .btn-explore {
@@ -452,6 +523,12 @@
   margin-bottom: 0.25rem;
 }
 
+/* Light theme override for achievement info heading */
+:root:not([data-theme="dark"]) .achievement-info h4,
+body.light-theme .achievement-info h4 {
+  color: var(--color-purpledark);
+}
+
 .achievement-info p {
   color: var(--color-white-cottom);
   opacity: 0.7;
@@ -459,10 +536,24 @@
   margin-bottom: 0.25rem;
 }
 
+/* Light theme override for achievement info description */
+:root:not([data-theme="dark"]) .achievement-info p,
+body.light-theme .achievement-info p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
 .achievement-date {
   color: var(--color-white-cottom);
   font-size: 0.7rem;
   opacity: 0.5;
+}
+
+/* Light theme override for achievement date */
+:root:not([data-theme="dark"]) .achievement-date,
+body.light-theme .achievement-date {
+  color: var(--color-purpledark);
+  opacity: 0.7;
 }
 
 /* Profile Completion */
@@ -495,38 +586,51 @@
 .completion-tasks {
   list-style: none;
   padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  margin: 1rem 0 0;
 }
 
 .completion-tasks li {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--color-white-cottom);
-  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
   padding: 0.5rem;
-  border-radius: 4px;
+  border-radius: 5px;
   transition: all 0.3s ease;
+}
+
+/* Light theme override for completion tasks */
+:root:not([data-theme="dark"]) .completion-tasks li,
+body.light-theme .completion-tasks li {
+  color: var(--color-purpledark);
 }
 
 .completion-tasks li:hover {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.task-complete {
-  opacity: 0.7;
+/* Light theme override for completion task hover */
+:root:not([data-theme="dark"]) .completion-tasks li:hover,
+body.light-theme .completion-tasks li:hover {
+  background: rgba(90, 46, 152, 0.05);
+}
+
+.completion-tasks li i {
+  margin-right: 10px;
+  font-size: 1rem;
 }
 
 .task-complete i {
-  color: var(--color-green);
+  color: var(--color-green-glow);
 }
 
 .task-incomplete i {
-  color: var(--blue-light);
-  opacity: 0.5;
+  color: var(--color-blue);
+}
+
+/* Light theme override for task icons */
+:root:not([data-theme="dark"]) .task-incomplete i,
+body.light-theme .task-incomplete i {
+  color: var(--accent-primary);
 }
 
 /* Settings Form */
@@ -642,6 +746,18 @@
   border: 1px solid rgba(80, 80, 120, 0.2);
 }
 
+/* Light theme override for achievement cards */
+body.light-theme .achievement-card {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+/* Alternative light theme selector for achievement cards */
+:root:not([data-theme="dark"]) .achievement-card {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
 .achievement-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -684,10 +800,32 @@
   color: white;
 }
 
+/* Light theme override for achievement details */
+body.light-theme .achievement-details h3 {
+  color: var(--color-purpledark);
+}
+
+/* Alternative light theme selector for achievement details */
+:root:not([data-theme="dark"]) .achievement-details h3 {
+  color: var(--color-purpledark);
+}
+
 .achievement-details p {
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
+}
+
+/* Light theme override for achievement description */
+body.light-theme .achievement-details p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+/* Alternative light theme selector for achievement description */
+:root:not([data-theme="dark"]) .achievement-details p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
 }
 
 .achievement-meta {
@@ -706,6 +844,18 @@
   transition: all 0.3s ease;
   margin-bottom: 1rem;
   border: 1px solid rgba(80, 80, 120, 0.2);
+}
+
+/* Light theme override for wishlist cards */
+body.light-theme .wishlist-game-card {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+/* Alternative light theme selector for wishlist cards */
+:root:not([data-theme="dark"]) .wishlist-game-card {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
 }
 
 .wishlist-game-card:hover {
@@ -744,6 +894,16 @@
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
   color: white;
+}
+
+/* Light theme override for game title */
+body.light-theme .wishlist-game-card .game-title {
+  color: var(--color-purpledark);
+}
+
+/* Alternative light theme selector for game title */
+:root:not([data-theme="dark"]) .wishlist-game-card .game-title {
+  color: var(--color-purpledark);
 }
 
 .wishlist-game-card .game-price {
@@ -790,39 +950,6 @@
 
 .wishlist-game-card .btn-remove-wishlist:hover {
   background: rgba(220, 53, 69, 0.2);
-}
-
-/* Task completion */
-.completion-tasks {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-}
-
-.completion-tasks li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
-.completion-tasks li:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.completion-tasks li i {
-  margin-right: 10px;
-  font-size: 1rem;
-}
-
-.task-complete i {
-  color: var(--color-green-glow);
-}
-
-.task-incomplete i {
-  color: var(--color-blue);
 }
 
 /* Wishlisted items */
@@ -931,12 +1058,30 @@
   border: 1px solid rgba(80, 80, 120, 0.2);
 }
 
+/* Light theme override for settings sections */
+body.light-theme .settings-section {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
 .settings-section h3 {
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
   color: var(--color-white-cottom);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 0.75rem;
+}
+
+/* Light theme override for settings headings */
+body.light-theme .settings-section h3 {
+  color: var(--color-purpledark);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+/* Alternative light theme selector for settings headings */
+:root:not([data-theme="dark"]) .settings-section h3 {
+  color: var(--color-purpledark);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
 }
 
 .form-group {
@@ -1059,4 +1204,95 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+}
+
+/* Adding light theme styles for timeline items */
+body.light-theme .timeline-item {
+  color: var(--color-purpledark);
+}
+
+/* Light theme for profile tabs */
+body.light-theme .profile-tab {
+  color: var(--color-purpledark);
+}
+
+:root:not([data-theme="dark"]) .profile-tab {
+  color: var(--color-purpledark);
+}
+
+body.light-theme .profile-tab.active {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+  box-shadow: 0 0 0 1px rgba(90, 46, 152, 0.3);
+}
+
+:root:not([data-theme="dark"]) .profile-tab.active {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+  box-shadow: 0 0 0 1px rgba(90, 46, 152, 0.3);
+}
+
+/* Light theme styles for card link */
+body.light-theme .card-link {
+  color: var(--accent-primary);
+}
+
+:root:not([data-theme="dark"]) .card-link {
+  color: var(--accent-primary);
+}
+
+/* Light theme styles for timeline elements */
+body.light-theme .timeline-item:not(:last-child)::after {
+  background: var(--accent-secondary);
+}
+
+:root:not([data-theme="dark"]) .timeline-item:not(:last-child)::after {
+  background: var(--accent-secondary);
+}
+
+body.light-theme .timeline-icon {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+}
+
+:root:not([data-theme="dark"]) .timeline-icon {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+}
+
+body.light-theme .timeline-content h4 {
+  color: var(--color-purpledark);
+}
+
+:root:not([data-theme="dark"]) .timeline-content h4 {
+  color: var(--color-purpledark);
+}
+
+body.light-theme .timeline-content p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+:root:not([data-theme="dark"]) .timeline-content p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+body.light-theme .timeline-time {
+  color: var(--accent-primary);
+}
+
+:root:not([data-theme="dark"]) .timeline-time {
+  color: var(--accent-primary);
+}
+
+/* Light theme override for settings sections */
+body.light-theme .settings-section {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+:root:not([data-theme="dark"]) .settings-section {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
 } 

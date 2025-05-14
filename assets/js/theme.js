@@ -1,6 +1,13 @@
 // Theme Switcher Functionality
 document.addEventListener('DOMContentLoaded', function() {
+  // Check if theme has already been initialized by theme-fix.js
+  if (window.themeInitialized) {
+    console.log('Theme already initialized by theme-fix.js, skipping initialization');
+    return;
+  }
+
   const themeToggle = document.getElementById('themeToggle');
+  console.log('Theme toggle element found:', themeToggle); // Debug
   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
   
   // Create a style element to inject our overrides
@@ -10,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Function to update the injected styles
   function updateInjectedStyles(theme) {
+    console.log('Updating injected styles for theme:', theme); // Debug
     const styleSheet = styleElement.sheet;
     
     // Clear existing rules
@@ -39,8 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Function to set the theme
   function setTheme(theme) {
+    console.log('Setting theme to:', theme); // Debug
     if (theme === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
+      console.log('Applied dark theme attribute'); // Debug
       if (themeToggle) {
         themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
       }
@@ -56,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
     } else {
       document.documentElement.removeAttribute('data-theme');
+      console.log('Removed dark theme attribute'); // Debug
       if (themeToggle) {
         themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
       }
@@ -77,12 +88,14 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Check for saved user preference, if any
   const savedTheme = localStorage.getItem('theme');
+  console.log('Saved theme from localStorage:', savedTheme); // Debug
   
   if (savedTheme) {
     // If we have a saved preference, use it
     setTheme(savedTheme);
   } else {
     // If no saved preference, check system preference
+    console.log('No saved theme, using system preference, dark mode preferred:', prefersDarkScheme.matches); // Debug
     if (prefersDarkScheme.matches) {
       setTheme('dark');
     } else {
@@ -93,8 +106,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Toggle theme when button is clicked
   if (themeToggle) {
     themeToggle.addEventListener('click', function() {
+      console.log('Theme toggle clicked'); // Debug
       const currentTheme = localStorage.getItem('theme') || 
                           (prefersDarkScheme.matches ? 'dark' : 'light');
+      console.log('Current theme before toggle:', currentTheme); // Debug
       
       if (currentTheme === 'dark') {
         setTheme('light');
@@ -102,6 +117,8 @@ document.addEventListener('DOMContentLoaded', function() {
         setTheme('dark');
       }
     });
+  } else {
+    console.error('Theme toggle button not found in the DOM'); // Debug
   }
   
   // Listen for changes in system preference
@@ -120,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Apply theme again to handle elements that may load after initial DOM content loaded
   window.addEventListener('load', function() {
+    console.log('Window load event fired'); // Debug
     const currentTheme = localStorage.getItem('theme') || 
                         (prefersDarkScheme.matches ? 'dark' : 'light');
     setTheme(currentTheme);
