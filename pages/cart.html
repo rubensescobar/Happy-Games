@@ -62,6 +62,31 @@
     
     /* Empty cart message styles have been moved to cart-colors-override.css */
   </style>
+  
+  <!-- Override for continue shopping button in light theme -->
+  <style>
+    body.light-theme .btn-continue-shopping,
+    html:not([data-theme="dark"]) .btn-continue-shopping {
+      border: 1px solid #000000 !important;
+      color: #000000 !important;
+    }
+    
+    /* For higher specificity, target the buttons in specific containers */
+    body.light-theme .cart-actions .btn-continue-shopping,
+    body.light-theme #cartItems .btn-continue-shopping,
+    html:not([data-theme="dark"]) .cart-actions .btn-continue-shopping,
+    html:not([data-theme="dark"]) #cartItems .btn-continue-shopping {
+      border: 1px solid #000000 !important;
+      color: #000000 !important;
+    }
+    
+    /* Target hover state as well */
+    body.light-theme .btn-continue-shopping:hover,
+    html:not([data-theme="dark"]) .btn-continue-shopping:hover {
+      border-color: #000000 !important;
+      color: #000000 !important;
+    }
+  </style>
 </head>
 
 <body>
