@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="../assets/CSS/cart-header-fix.css">
   <link rel="stylesheet" href="../assets/CSS/cart-colors-override.css">
   <link rel="stylesheet" href="../assets/CSS/cart-header-fix-final.css">
+  <link rel="stylesheet" href="../assets/CSS/cart-theme-fix.css">
   
   <!-- Direct inline style for cart header items -->
   <style>
@@ -59,14 +60,7 @@
       color: var(--color-purpledark) !important;
     }
     
-    /* Empty cart message always keeps the same color */
-    .empty-cart-message i, 
-    .empty-cart-message h3, 
-    .empty-cart-message p, 
-    .empty-cart-message a {
-      color: var(--color-purpledark) !important;
-      border-color: var(--color-purpledark) !important;
-    }
+    /* Empty cart message styles have been moved to cart-colors-override.css */
   </style>
 </head>
 
@@ -201,10 +195,10 @@
             <div id="cartItems">
               <!-- Cart items will be loaded here by JavaScript -->
               <div class="empty-cart-message">
-                <i class="fas fa-shopping-cart" style="color: var(--color-purpledark) !important;"></i>
-                <h3 style="color: var(--color-purpledark) !important;">Seu carrinho está vazio</h3>
-                <p style="color: var(--color-purpledark) !important;">Adicione jogos ao seu carrinho para continuar</p>
-                <a href="games.html" class="btn-continue-shopping" style="color: var(--color-purpledark) !important; border-color: var(--color-purpledark) !important;">Explorar jogos</a>
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Seu carrinho está vazio</h3>
+                <p>Adicione jogos ao seu carrinho para continuar</p>
+                <a href="games.html" class="btn-continue-shopping">Explorar jogos</a>
               </div>
             </div>
           </div>

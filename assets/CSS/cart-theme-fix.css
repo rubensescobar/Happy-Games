@@ -1,0 +1,69 @@
+/* Cart Theme Fix CSS
+ * Fixes theme issues with the cart items container in light theme
+ */
+
+/* 
+ * Light theme styling for cart items container and its children
+ * This ensures proper color contrast when the light theme is active
+ */
+
+/* Main container background */
+body.light-theme #cartItems,
+html:not([data-theme="dark"]) #cartItems {
+  background-color: var(--color-white-cottom) !important;
+}
+
+/* Style for all text elements in the cart items container */
+body.light-theme #cartItems h3,
+body.light-theme #cartItems p,
+body.light-theme #cartItems a,
+body.light-theme #cartItems div:not(.cart-item-image),
+html:not([data-theme="dark"]) #cartItems h3,
+html:not([data-theme="dark"]) #cartItems p,
+html:not([data-theme="dark"]) #cartItems a,
+html:not([data-theme="dark"]) #cartItems div:not(.cart-item-image) {
+  color: var(--color-purpledark) !important;
+}
+
+/* Empty cart message styling */
+body.light-theme #cartItems .empty-cart-message,
+html:not([data-theme="dark"]) #cartItems .empty-cart-message {
+  background-color: var(--color-white-cottom) !important;
+}
+
+body.light-theme #cartItems .empty-cart-message i,
+body.light-theme #cartItems .empty-cart-message h3,
+body.light-theme #cartItems .empty-cart-message p,
+html:not([data-theme="dark"]) #cartItems .empty-cart-message i,
+html:not([data-theme="dark"]) #cartItems .empty-cart-message h3,
+html:not([data-theme="dark"]) #cartItems .empty-cart-message p {
+  color: var(--color-purpledark) !important;
+}
+
+/* Continue shopping button */
+body.light-theme #cartItems .btn-continue-shopping,
+html:not([data-theme="dark"]) #cartItems .btn-continue-shopping {
+  color: var(--color-purpledark) !important;
+  border-color: var(--color-purpledark) !important;
+}
+
+body.light-theme #cartItems .btn-continue-shopping:hover,
+html:not([data-theme="dark"]) #cartItems .btn-continue-shopping:hover {
+  background-color: var(--color-purpledark) !important;
+  color: var(--color-white-cottom) !important;
+}
+
+/* Empty cart styles */
+body.light-theme #cartItems .empty-cart,
+html:not([data-theme="dark"]) #cartItems .empty-cart {
+  color: var(--color-purpledark) !important;
+}
+
+body.light-theme #cartItems .empty-cart i,
+body.light-theme #cartItems .empty-cart h3,
+body.light-theme #cartItems .empty-cart p,
+html:not([data-theme="dark"]) #cartItems .empty-cart i,
+html:not([data-theme="dark"]) #cartItems .empty-cart h3,
+html:not([data-theme="dark"]) #cartItems .empty-cart p {
+  color: var(--color-purpledark) !important;
+} 
