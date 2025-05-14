@@ -84,7 +84,7 @@
           </div>
           
           <!-- Cart -->
-          <a href="#" class="nav-link position-relative me-3" id="cartLink">
+          <a href="cart.html" class="nav-link position-relative me-3" id="cartLink">
             <i class="fas fa-shopping-cart cart-icon"></i>
             <span class="cart-count">0</span>
           </a>
@@ -358,6 +358,19 @@
   <script src="../assets/js/script.js"></script>
   <script src="../assets/js/immersive.js"></script>
   <script src="../assets/js/profile.js"></script>
+  <script src="../assets/js/cart.js"></script>
+  <script>
+    // Initialize cart count when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get cart data from the standardized buscaGamesCart localStorage key
+      const cart = JSON.parse(localStorage.getItem('buscaGamesCart')) || [];
+      // Update cart count in navbar
+      const cartCount = document.querySelector('.cart-count');
+      if (cartCount) {
+        cartCount.textContent = cart.length;
+      }
+    });
+  </script>
   <script src="../assets/js/theme-fix.js"></script>
   <script src="../assets/js/theme.js"></script>
 </body>

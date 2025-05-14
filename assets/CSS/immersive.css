@@ -1220,7 +1220,6 @@ body::before {
   margin-top: 1.5rem;
   padding: 1rem 0 2rem 0;
   position: relative;
-  background: linear-gradient(90deg, rgba(107, 63, 160, 0.1), rgba(74, 144, 226, 0.1), rgba(107, 63, 160, 0.1));
   border-radius: 0 0 15px 15px;
 }
 
