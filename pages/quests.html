@@ -792,6 +792,19 @@
   </script>
   <script src="../assets/js/theme.js"></script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Retrieve the cart from localStorage
+      const buscaGamesCart = JSON.parse(localStorage.getItem('buscaGamesCart')) || [];
+      
+      // Update the cart count in the UI
+      const cartCountElement = document.querySelector('.cart-count');
+      if (cartCountElement) {
+        cartCountElement.textContent = buscaGamesCart.length;
+      }
+    });
+  </script>
+
 </body>
 
 </html> 
