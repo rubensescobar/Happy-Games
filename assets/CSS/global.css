@@ -7,7 +7,7 @@
   /*Inspiração na mata atlântica, Amazônia, e as ervas sagradas nos terreiros e aldeias.*/
   --color-green: #14853a;
   /* Variação de verde inspirado na mata*/
-  --color-green-glow: #4CAF50;
+  --color-green-glow: rgb(76, 175, 80);
   /* Variação de verde inspirado na mata*/
   --color-purple: #6b3fa0;
   --color-purplelight: #a459ff;
@@ -336,3 +336,15 @@ textarea.form-input {
   overflow: hidden;
   color: white;
 }
+
+/* Add a universal button outline remover to catch all instances */
+button:focus, 
+a:focus, 
+.btn:focus, 
+.game-hub-btn:focus,
+[class*="btn"]:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Add this to the end of the file to override any previous styles that might cause outlines */

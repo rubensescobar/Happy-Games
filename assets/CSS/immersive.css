@@ -211,6 +211,18 @@ body::before {
   transition: all 0.3s ease;
   text-decoration: none;
   display: inline-block;
+  outline: none;
+  box-shadow: none;
+  /* Ensure no borders */
+  border: 0;
+}
+
+/* Add focus state to remove outline */
+.game-hub-btn:focus,
+.game-hub-btn:active {
+  outline: none;
+  box-shadow: none;
+  border: none;
 }
 
 .game-hub-btn:hover {
@@ -218,6 +230,7 @@ body::before {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(20, 133, 58, 0.3);
   color: var(--color-dark);
+  border: none;
 }
 
 /* 3D Rotating Cube */
@@ -1025,7 +1038,7 @@ body::before {
 /* Daily Quest Section */
 .daily-quest-section {
   padding: 3rem 0;
-  background: linear-gradient(var(--color-purpledark),var(--color-purple));
+  background: var(--color-dark);
 }
 
 .daily-quest-container {
@@ -1037,7 +1050,7 @@ body::before {
 }
 
 .daily-quest-header {
-  background: linear-gradient(90deg, rgba(139, 20, 20, 0.8), rgba(96, 24, 72, 0.8));
+  background: linear-gradient(90deg, rgba(99, 13, 99, 0.8), rgba(96, 24, 72, 0.8));
   padding: 1.5rem;
   display: flex;
   align-items: center;
@@ -1081,7 +1094,7 @@ body::before {
 }
 
 .quest-reward {
-  color: var(--color-yellow);
+  color: var(--blue-light);
   font-weight: 600;
 }
 
@@ -1095,7 +1108,7 @@ body::before {
 
 .quest-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #FFB400, #FF8800);
+  background: linear-gradient(90deg, var(--color-purple), var(--blue-light));
   border-radius: 4px;
   transition: width 1s ease;
 }
@@ -1114,26 +1127,27 @@ body::before {
 
 .quest-button {
   padding: 0.75rem 1.5rem;
-  background: var(--color-green-glow);
-  color: var(--color-dark);
+  background: var(--blue-light);
+  color: var(--color-white-cottom);
   border: none;
   border-radius: 5px;
   font-weight: 600;
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .quest-button:hover {
-  background: var(--color-green-glow);
+  background: var(--blue-light);
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(20, 133, 58, 0.3);
+  box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
   color: var(--color-dark);
 }
 
 /* Newsletter Section */
 .newsletter-section {
   padding: 5rem 0;
-  background: var(--color-purple);
+  background: var(--color-purpledark);
 }
 
 .newsletter-container {
@@ -1182,8 +1196,8 @@ body::before {
 }
 
 .newsletter-button {
-  background: linear-gradient(90deg, var(--blue-light), var(--color-green-glow));
-  color: var(--color-white-cottom);
+  background: var(--color-green-glow);
+  color: var(--color-dark);
   border: none;
   padding: 0.75rem;
   font-weight: 600;
@@ -1192,12 +1206,12 @@ body::before {
 
 .newsletter-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.7);
 }
 
 /* Game Type Section */
 .game-type-section {
-  background: var(--color-purpledark);
+  background: linear-gradient(var(--color-acai), var(--color-purpledark));
   position: relative;
 }
 
@@ -1212,11 +1226,23 @@ body::before {
 
 .featured-games-footer .game-hub-btn {
   margin-top: 2rem;
+  box-shadow: none;
+  outline: none;
+  border: 0;
+}
+
+.featured-games-footer .game-hub-btn:focus,
+.featured-games-footer .game-hub-btn:active {
+  outline: none;
+  box-shadow: none;
+  border: none;
 }
 
 .featured-games-footer .game-hub-btn:hover {
   background: var(--color-green-glow);
   color: var(--color-dark);
+  box-shadow: 0 10px 20px rgba(20, 133, 58, 0.3);
+  border: none;
 }
 
 .game-type-card {

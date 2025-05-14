@@ -366,13 +366,25 @@
   align-items: center;
   transition: all 0.3s ease;
   position: relative;
-  box-shadow: 0 5px 15px rgba(107, 63, 160, 0.4);
+  box-shadow: none;
+  outline: none;
+  /* Ensure no borders */
+  border: 0;
+}
+
+/* Add focus and active states to prevent any browser outlines */
+.game-hub-btn:focus,
+.game-hub-btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 .game-hub-btn:hover {
   color: white;
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(107, 63, 160, 0.6);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border: none;
 }
 
 /* Media Queries */
