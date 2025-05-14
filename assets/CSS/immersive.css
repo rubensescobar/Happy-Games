@@ -1050,7 +1050,7 @@ body::before {
 }
 
 .daily-quest-header {
-  background: linear-gradient(90deg, rgba(99, 13, 99, 0.8), rgba(96, 24, 72, 0.8));
+  background: var(--color-acai);
   padding: 1.5rem;
   display: flex;
   align-items: center;
