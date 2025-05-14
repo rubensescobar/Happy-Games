@@ -16,6 +16,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="../assets/CSS/global.css">
+  <link rel="stylesheet" href="../assets/CSS/theme.css">
     <link rel="stylesheet" href="../assets/CSS/login&cadastro.css">
     <link rel="stylesheet" href="../assets/CSS/immersive.css">
     <link rel="stylesheet" href="../assets/CSS/immersive-cards.css">
@@ -60,7 +61,14 @@
           </ul>
           
           <div class="navbar-nav ms-auto">
-            <!-- User Level -->
+          <!-- Theme Toggle -->
+          <div class="theme-toggle-container me-3">
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+              <i class="fas fa-moon"></i>
+            </button>
+          </div>
+          
+          <!-- User Level -->
             <div class="user-level d-none d-lg-flex align-items-center me-3" id="userLevelContainer">
               <div class="level-badge">
                 <span id="userLevel">1</span>
@@ -268,5 +276,6 @@
     <script src="../assets/js/script.js"></script>
     <script src="../assets/js/login.js"></script>
     <script src="../assets/js/immersive.js"></script>
-  </body>
+  <script src="../assets/js/theme.js"></script>
+</body>
 </html>

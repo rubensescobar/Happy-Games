@@ -1,0 +1,246 @@
+:root {
+  /* Light mode (default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #e6ccff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --accent-primary: #5a2e98;
+  --accent-secondary: #7e57c2;
+  --card-bg: #ffffff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --border-color: #e0e0e0;
+  --theme-toggle-icon: 'fa-moon';
+  --color-purpledark: #2D004D;
+  --color-white: #ffffff;
+}
+
+[data-theme="dark"] {
+  /* Dark mode */
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #2d004d;
+  --text-primary: #f0f0f0;
+  --text-secondary: #cccccc;
+  --accent-primary: #a855f7;
+  --accent-secondary: #9333ea;
+  --card-bg: #242444;
+  --card-shadow: rgba(0, 0, 0, 0.3);
+  --border-color: #444444;
+  --theme-toggle-icon: 'fa-sun';
+  --color-white: #ffffff;
+}
+
+/* Apply theme variables to elements */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar-immersive {
+  background-color: var(--bg-secondary);
+  transition: background-color 0.3s ease;
+}
+
+/* Navbar text and links in light mode */
+:root:not([data-theme="dark"]) .navbar-immersive .nav-link,
+:root:not([data-theme="dark"]) .navbar-immersive .navbar-brand,
+:root:not([data-theme="dark"]) .navbar-immersive .navbar-toggler,
+:root:not([data-theme="dark"]) .navbar-immersive .dropdown-toggle,
+:root:not([data-theme="dark"]) .navbar-immersive .cart-icon,
+:root:not([data-theme="dark"]) .navbar-immersive #userMenuName,
+:root:not([data-theme="dark"]) .navbar-immersive #nomeUsuario,
+:root:not([data-theme="dark"]) .navbar-immersive .theme-toggle {
+  color: var(--color-purpledark) !important;
+}
+
+:root:not([data-theme="dark"]) .navbar-immersive .xp-text {
+  color: var(--color-purpledark) !important;
+}
+
+:root:not([data-theme="dark"]) .navbar-immersive .dropdown-item {
+  color: var(--color-purpledark) !important;
+}
+
+:root:not([data-theme="dark"]) .navbar-immersive .navbar-toggler-icon {
+  color: var(--color-purpledark) !important;
+}
+
+/* Games page specific styles in light mode */
+:root:not([data-theme="dark"]) .game-section {
+  background-color: #ffffff !important;
+}
+
+:root:not([data-theme="dark"]) .games-section {
+  background-color: var(--bg-primary) !important;
+}
+
+:root:not([data-theme="dark"]) .game-sidebar {
+  background-color: #ffffff !important;
+}
+
+
+/* Ensure navbar and footer have correct background colors in light theme */
+:root:not([data-theme="dark"]) .navbar,
+:root:not([data-theme="dark"]) .navbar-immersive {
+  background-color: var(--bg-secondary) !important;
+}
+
+:root:not([data-theme="dark"]) .footer,
+:root:not([data-theme="dark"]) .footer-immersive {
+  background-color: var(--bg-tertiary) !important;
+}
+
+:root:not([data-theme="dark"]) .category-item {
+  color: var(--color-purpledark) !important;
+}
+
+:root:not([data-theme="dark"]) .sidebar-header h3 {
+  color: var(--color-purpledark) !important;
+}
+
+.hero-immersive {
+  background-color: var(--bg-tertiary);
+  transition: background-color 0.3s ease;
+}
+
+/* Hero section text in light mode */
+:root:not([data-theme="dark"]) .hero-immersive .hero-title,
+:root:not([data-theme="dark"]) .hero-immersive .hero-subtitle,
+:root:not([data-theme="dark"]) .hero-immersive .neon-text {
+  color: var(--color-white) !important;
+}
+
+/* Game type section title in light mode */
+:root:not([data-theme="dark"]) .game-type-section .section-title {
+  color: var(--color-white) !important;
+}
+
+/* Apply theme to section titles and subtitles */
+.section-title, 
+.hero-title {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.section-subtitle, 
+.hero-subtitle {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+/* Achievements section styling in light mode */
+:root:not([data-theme="dark"]) .achievements-section .section-title,
+:root:not([data-theme="dark"]) .achievements-section .section-subtitle {
+  color: var(--color-white) !important;
+}
+
+:root:not([data-theme="dark"]) .achievements-section .neon-text {
+  color: var(--color-white) !important;
+}
+
+:root:not([data-theme="dark"]) .achievements-section .achievement-title {
+  color: var(--color-purpledark) !important;
+}
+
+.game-card-immersive, .achievement-card, .game-type-card {
+  background-color: var(--card-bg);
+  box-shadow: 0 8px 16px var(--card-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featured-games-section, 
+.achievements-section {
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
+}
+
+/* Game type section styles */
+.game-type-section {
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
+}
+
+.countdown-section,
+.newsletter-section {
+  background-color: var(--bg-secondary);
+  transition: background-color 0.3s ease;
+}
+
+/* Daily quest section styling for light theme */
+:root:not([data-theme="dark"]) .daily-quest-section {
+  background: linear-gradient(135deg, #e6ccff 0%, #7e57c2 100%) !important;
+}
+
+:root:not([data-theme="dark"]) .daily-quest-container {
+  background-color: #ffffff !important;
+}
+
+/* Quest components text color in light theme */
+:root:not([data-theme="dark"]) .quest-icon,
+:root:not([data-theme="dark"]) .quest-title,
+:root:not([data-theme="dark"]) .quest-timer {
+  color: var(--color-white) !important;
+}
+
+/* Reset daily quest container to its original styling */
+.daily-quest-container {
+  /* Remove any theme-specific changes */
+  background-color: inherit;
+  color: inherit;
+}
+
+.footer-immersive {
+  background-color: var(--bg-tertiary);
+  transition: background-color 0.3s ease;
+}
+
+/* Footer text and links in light mode */
+:root:not([data-theme="dark"]) .footer-immersive .footer-title,
+:root:not([data-theme="dark"]) .footer-immersive .footer-link,
+:root:not([data-theme="dark"]) .footer-immersive .footer-description,
+:root:not([data-theme="dark"]) .footer-immersive .footer-contact li,
+:root:not([data-theme="dark"]) .footer-immersive .footer-bottom,
+:root:not([data-theme="dark"]) .footer-immersive .footer-bottom-link,
+:root:not([data-theme="dark"]) .footer-immersive .social-icon {
+  color: var(--color-purpledark) !important;
+}
+
+:root:not([data-theme="dark"]) .footer-immersive .fa,
+:root:not([data-theme="dark"]) .footer-immersive .fas,
+:root:not([data-theme="dark"]) .footer-immersive .far,
+:root:not([data-theme="dark"]) .footer-immersive .fab {
+  color: var(--color-purpledark) !important;
+}
+
+.footer-title, .footer-link, .footer-description {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+/* Theme toggle button styles */
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.theme-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-primary);
+} 
