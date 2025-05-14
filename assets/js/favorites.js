@@ -86,11 +86,19 @@ function toggleFavorite(button) {
   }
 
   const icon = button.querySelector('i');
-  const gameCard = button.closest('.game-card-immersive, .game-card'); // Check both card classes
-  const gameId = gameCard.getAttribute('data-game-id');
+  // const gameCard = button.closest('.game-card-immersive, .game-card'); // Check both card classes - Removed as it causes error in modal
+  let gameId = button.dataset.gameId; // Attempt to get gameId directly from the button's dataset
+
+  // If gameId is not on the button, try getting it from the closest parent game card
+  if (!gameId) {
+    const gameCard = button.closest('.game-card-immersive, .game-card');
+    if (gameCard) {
+      gameId = gameCard.getAttribute('data-game-id');
+    }
+  }
 
   if (!gameId) {
-    console.error("Cannot toggle favorite: game-id attribute not found on the card.");
+    console.error("Cannot toggle favorite: game-id attribute not found on the button or parent card.");
     return;
   }
 
@@ -118,19 +126,6 @@ function toggleFavorite(button) {
     // Show notification (assuming showNotification is available globally)
     if (typeof showNotification === 'function') {
       showNotification('Adicionado à lista de desejos', 'success');
-    } else if (typeof Swal !== 'undefined') { // Fallback to SweetAlert2 if showNotification is not available
-       Swal.fire({
-          icon: 'success',
-          title: 'Adicionado!',
-          text: 'Jogo adicionado à sua lista de desejos.',
-          position: 'bottom-end',
-          showConfirmButton: false,
-          timer: 2000,
-          toast: true,
-          customClass: {
-            popup: 'swal-toast'
-          }
-       });
     }
 
   } else {
@@ -146,19 +141,6 @@ function toggleFavorite(button) {
     // Show notification (assuming showNotification is available globally)
     if (typeof showNotification === 'function') {
       showNotification('Removido da lista de desejos', 'info');
-    } else if (typeof Swal !== 'undefined') { // Fallback to SweetAlert2 if showNotification is not available
-       Swal.fire({
-          icon: 'info',
-          title: 'Removido!',
-          text: 'Jogo removido da sua lista de desejos.',
-          position: 'bottom-end',
-          showConfirmButton: false,
-          timer: 2000,
-          toast: true,
-           customClass: {
-            popup: 'swal-toast'
-          }
-       });
     }
   }
 

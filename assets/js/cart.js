@@ -416,18 +416,7 @@ function setupCartControls() {
   
   if (clearCartBtn) {
     clearCartBtn.addEventListener('click', function() {
-      Swal.fire({
-        title: 'Tem certeza?',
-        text: 'Você está prestes a esvaziar seu carrinho.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Sim, esvaziar',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          clearCart();
-        }
-      });
+      clearCart();
     });
   }
   
@@ -630,23 +619,17 @@ function proceedToCheckout() {
     return;
   }
   
-  // In a real app, this would redirect to checkout page
   // For demo, show success message
-  Swal.fire({
-    title: 'Pedido Confirmado!',
-    text: 'Seu pedido foi processado com sucesso. Obrigado por comprar conosco!',
-    icon: 'success',
-    confirmButtonText: 'Continuar'
-  }).then(() => {
-    // Clear cart
-    clearCart();
-    
-    // Add XP for purchase
-    addUserXP(50, 'Compra realizada');
-    
-    // Redirect to home
-    window.location.href = '../index.html';
-  });
+  showNotification('Pedido Confirmado! Seu pedido foi processado com sucesso. Obrigado por comprar conosco!', 'success');
+  
+  // Clear cart
+  clearCart();
+  
+  // Add XP for purchase
+  addUserXP(50, 'Compra realizada');
+  
+  // Redirect to home
+  window.location.href = '../index.html';
 }
 
 // Show game preview modal
@@ -804,12 +787,7 @@ function addUserXP(amount, reason = '') {
     userProfile.xp -= xpForNextLevel;
     
     // Show level up notification
-    Swal.fire({
-      title: 'Nível Aumentado!',
-      text: `Parabéns! Você alcançou o nível ${userProfile.level}!`,
-      icon: 'success',
-      confirmButtonText: 'Continuar'
-    });
+    showNotification('Nível Aumentado! Parabéns! Você alcançou o nível ' + userProfile.level + '!', 'success');
   }
   
   // Save user profile
@@ -854,76 +832,52 @@ function updateUserProfile() {
 
 // Show notification
 function showNotification(message, type = 'info') {
-  console.log(`Notification: ${message} (${type})`);
-  
-  // Try to use SweetAlert2 if available
-  if (typeof Swal !== 'undefined') {
-    // Use SweetAlert2 for notifications
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
-    });
-    
-    Toast.fire({
-      icon: type,
-      title: message
-    });
-    return;
+  // Check if there's already a notification
+  const existingNotification = document.querySelector('.game-notification');
+  if (existingNotification) {
+    existingNotification.remove();
   }
   
-  // Fallback to custom toast notification if SweetAlert isn't available
-  let toastContainer = document.getElementById('toast-container');
+  // Create notification
+  const notification = document.createElement('div');
+  notification.className = 'game-notification';
   
-  if (!toastContainer) {
-    toastContainer = document.createElement('div');
-    toastContainer.id = 'toast-container';
-    toastContainer.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999;';
-    document.body.appendChild(toastContainer);
-  }
+  // Set icon based on type
+  let icon = 'info-circle';
+  if (type === 'success') icon = 'check-circle';
+  if (type === 'error') icon = 'exclamation-circle';
+  if (type === 'warning') icon = 'exclamation-triangle';
   
-  // Create toast element
-  const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
-  toast.style.cssText = 'min-width: 250px; margin-bottom: 10px; padding: 15px; border-radius: 5px; color: white; background-color: #333; box-shadow: 0 0 10px rgba(0,0,0,0.2); animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;';
+  notification.innerHTML = `
+    <div class="notification-content">
+      <div class="notification-body">
+        <span class="notification-icon"><i class="fas fa-${icon}"></i></span>
+        <span class="notification-message">${message}</span>
+      </div>
+      <button class="notification-close"><i class="fas fa-times"></i></button>
+    </div>
+  `;
   
-  // Set background color based on type
-  switch(type) {
-    case 'success':
-      toast.style.backgroundColor = '#28a745';
-      break;
-    case 'error':
-      toast.style.backgroundColor = '#dc3545';
-      break;
-    case 'warning':
-      toast.style.backgroundColor = '#ffc107';
-      toast.style.color = '#333';
-      break;
-    default:
-      toast.style.backgroundColor = '#17a2b8';
-  }
+  // Add to DOM
+  document.body.appendChild(notification);
   
-  // Set toast content
-  toast.innerHTML = message;
+  // Show notification
+  setTimeout(() => notification.classList.add('show'), 10);
   
-  // Add to container
-  toastContainer.appendChild(toast);
+  // Add close event
+  const closeBtn = notification.querySelector('.notification-close');
+  closeBtn.addEventListener('click', () => {
+    notification.classList.remove('show');
+    setTimeout(() => notification.remove(), 300);
+  });
   
-  // Auto-remove after 3 seconds
+  // Auto-hide after 5 seconds
   setTimeout(() => {
-    toast.style.opacity = '0';
-    setTimeout(() => {
-      if (toast.parentNode === toastContainer) {
-        toastContainer.removeChild(toast);
-      }
-    }, 500);
-  }, 3000);
+    if (document.body.contains(notification)) {
+      notification.classList.remove('show');
+      setTimeout(() => notification.remove(), 300);
+    }
+  }, 5000);
 }
 
 // Toggle wishlist
@@ -998,11 +952,16 @@ function updateWishlistButtonsState(wishlist = []) {
   });
 }
 
-// Export functions for use in other scripts
-window.addToCart = addToCart;
-window.removeFromCart = removeFromCart;
-window.updateCartCount = updateCartCount;
-window.showNotification = showNotification;
+// Expose core cart functions globally
+window.cart = {
+  addToCart: addToCart,
+  removeFromCart: removeFromCart,
+  updateCartQuantity: updateCartQuantity,
+  clearCart: clearCart,
+  loadCart: loadCart,
+  saveCart: saveCart,
+  getCart: () => cart // Add a getter for the cart array
+};
 
 // For backwards compatibility 
 window.updateCartUI = updateCartCount;

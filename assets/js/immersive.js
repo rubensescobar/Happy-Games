@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Make showNotification available globally
   window.showNotification = showNotification;
   
-  // Make showCartPreview available globally
-  window.showCartPreview = showCartPreview;
+  // Make openGamePreview available globally
+  window.openGamePreview = openGamePreview;
 });
 
 // Game Cards Initialization
@@ -222,137 +222,212 @@ function updateCart(gameId, title, price) {
 
 // Open game preview
 function openGamePreview(gameId) {
-  // Get game data (would normally fetch from API)
-  const gameData = gameLibrary.find(game => game.id === gameId) || {
-    id: gameId,
-    title: 'Game Preview',
-    description: 'Game description would go here.',
-    price: 99.99,
-    discount: 30,
-    rating: 4.5,
-    features: ['Feature 1', 'Feature 2', 'Feature 3']
-  };
-  
-  // Create modal content
+  // Ensure window.gameRepository and getAllGames method exist
+  if (!window.gameRepository || typeof window.gameRepository.getAllGames !== 'function') {
+    console.error('Game repository not available.');
+    // Optionally show an error notification to the user
+    if (typeof showNotification === 'function') {
+      showNotification('Não foi possível carregar os dados dos jogos.', 'error');
+    } else if (typeof Swal !== 'undefined') { // Fallback to SweetAlert2
+       Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: 'Não foi possível carregar os dados dos jogos para prévia.',
+          position: 'bottom-end',
+          showConfirmButton: false,
+          timer: 3000,
+          toast: true,
+           customClass: {
+            popup: 'swal-toast'
+          }
+       });
+    }
+    return;
+  }
+
+  // Find the game data using the provided gameId from the global gameRepository
+  const allGames = window.gameRepository.getAllGames();
+  const gameData = allGames.find(game => game.id === gameId);
+
+  // If game data is not found, log an error and return (this should now be less likely if gameRepository is loaded)
+  if (!gameData) {
+    console.error(`Game data not found in repository for ID: ${gameId}`);
+    // Optionally show a specific error notification
+     if (typeof showNotification === 'function') {
+      showNotification('Detalhes do jogo não encontrados.', 'warning');
+    } else if (typeof Swal !== 'undefined') { // Fallback to SweetAlert2
+       Swal.fire({
+          icon: 'warning',
+          title: 'Oops...',
+          text: 'Detalhes para este jogo não foram encontrados.',
+          position: 'bottom-end',
+          showConfirmButton: false,
+          timer: 3000,
+          toast: true,
+           customClass: {
+            popup: 'swal-toast'
+          }
+       });
+    }
+    return;
+  }
+
+  // Remove any existing modal instance to ensure only one is open at a time
+  const existingModal = document.querySelector('.quick-preview');
+  if (existingModal) {
+    existingModal.remove();
+  }
+
+  // Create modal content dynamically using gameData
   const modal = document.createElement('div');
   modal.className = 'quick-preview';
   modal.innerHTML = `
     <div class="preview-content">
       <div class="preview-close"><i class="fas fa-times"></i></div>
-      
+
       <div class="preview-header">
-        <img src="../assets/images/game${gameId || '1'}.png" alt="${gameData.title}">
+        <img src="${gameData.image || '../assets/images/placeholder.png'}" alt="${gameData.title}" class="preview-image">
         <div class="preview-header-overlay">
           <h1 class="preview-title">${gameData.title}</h1>
           <div class="preview-meta">
             <div class="preview-meta-item">
               <i class="fas fa-star"></i>
-              <span>${gameData.rating || 4.5}</span>
+              <span>${gameData.rating || 'N/A'}</span>
             </div>
             <div class="preview-meta-item">
               <i class="fas fa-gamepad"></i>
-              <span>PC, PlayStation, Xbox</span>
+              <span>${gameData.platforms ? gameData.platforms.join(', ') : 'N/A'}</span>
             </div>
             <div class="preview-meta-item">
               <i class="fas fa-calendar"></i>
-              <span>Lançamento: 2023</span>
+              <span>Lançamento: ${gameData.releaseDate || 'N/A'}</span>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div class="preview-body">
         <div class="preview-section">
           <h3 class="preview-section-title">Descrição</h3>
-          <p class="preview-description">${gameData.description || 'Descrição detalhada do jogo estaria aqui, incluindo informações sobre a história, gameplay e características especiais.'}</p>
+          <p class="preview-description">${gameData.description || 'Descrição não disponível.'}</p>
         </div>
-        
+
         <div class="preview-section">
           <h3 class="preview-section-title">Características</h3>
           <div class="preview-features">
-            ${(gameData.features || ['Multiplayer', 'Open World', 'High Resolution']).map(feature => `
+            ${(gameData.features || []).map(feature => `
               <div class="preview-feature">
                 <div class="feature-icon"><i class="fas fa-check-circle"></i></div>
                 <div class="feature-text">${feature}</div>
               </div>
-            `).join('')}
+            `).join('') || '<p>Características não disponíveis.</p>'}
           </div>
         </div>
       </div>
-      
+
       <div class="preview-footer">
         <div class="preview-price">
-          ${gameData.discount ? `<div class="preview-price-original">R$ ${((gameData.price || 99.99) * (100 / (100 - gameData.discount))).toFixed(2)}</div>` : ''}
-          <div class="preview-price-current">R$ ${gameData.price || 99.99}</div>
+          ${gameData.discount ? `<div class="preview-price-original">R$ ${gameData.originalPrice.toFixed(2)}</div>` : ''}
+          <div class="preview-price-current" data-price="${gameData.price}">R$ ${gameData.price.toFixed(2)}</div>
         </div>
-        
+
         <div class="preview-actions">
-          <button class="action-button preview-cart"><i class="fas fa-shopping-cart me-2"></i> Adicionar ao carrinho</button>
-          <button class="action-button-secondary preview-wishlist"><i class="far fa-heart"></i></button>
+          <button class="action-button preview-cart" data-game-id="${gameData.id}"><i class="fas fa-shopping-cart me-2"></i> Adicionar ao carrinho</button>
+          <button class="action-button-secondary preview-wishlist" data-game-id="${gameData.id}"><i class="${window.isGameInWishlist && window.isGameInWishlist(gameData.id) ? 'fas' : 'far'} fa-heart"></i></button>
         </div>
       </div>
     </div>
   `;
-  
+
   // Add to DOM
   document.body.appendChild(modal);
-  
+
   // Fade in
   setTimeout(() => modal.classList.add('active'), 10);
-  
+
+  // Find the wishlist button and set its initial state
+  const modalWishlistBtn = modal.querySelector('.preview-wishlist');
+  if (modalWishlistBtn) {
+    const gameId = modalWishlistBtn.dataset.gameId;
+    if (gameId && window.isGameInWishlist && window.isGameInWishlist(gameId)) {
+      const icon = modalWishlistBtn.querySelector('i');
+      if (icon) {
+        icon.classList.remove('far');
+        icon.classList.add('fas');
+      }
+    }
+
+    // Ensure the click listener is correctly attached (should already be from HTML template)
+    // This is just a safety check, the primary listener is in the HTML
+    if (!modalWishlistBtn._hasClickListener) { // Prevent adding duplicate listeners
+        modalWishlistBtn.addEventListener('click', function() {
+            // Use the unified toggleFavorite function from favorites.js
+            if (window.toggleFavorite) {
+                window.toggleFavorite(this);
+            } else {
+                console.error('Favorite functionality not available.');
+            }
+        });
+        modalWishlistBtn._hasClickListener = true; // Mark as having listener
+    }
+  }
+
   // Handle close
   const closeBtn = modal.querySelector('.preview-close');
   closeBtn.addEventListener('click', () => {
     modal.classList.remove('active');
-    setTimeout(() => document.body.removeChild(modal), 300);
+    setTimeout(() => modal.remove(), 300);
   });
-  
-  // Handle buttons
+
+  // Handle Add to Cart button inside modal
   const cartBtn = modal.querySelector('.preview-cart');
-  const wishlistBtn = modal.querySelector('.preview-wishlist');
-  
   if (cartBtn) {
-    cartBtn.addEventListener('click', () => {
-      updateCart(gameId, gameData.title, gameData.price);
-      
-      // Show success message
-      showNotification(`${gameData.title} adicionado ao carrinho!`, 'success');
-      
-      // Close modal
-      modal.classList.remove('active');
-      setTimeout(() => document.body.removeChild(modal), 300);
-      
-      // Add XP
-      addUserXP(25, 'Jogo adicionado ao carrinho');
+    cartBtn.addEventListener('click', function() {
+       const gameId = this.getAttribute('data-game-id');
+       // Assuming window.addToCart function handles adding to localStorage
+       if (window.addToCart) {
+         window.addToCart(gameId);
+         // Show notification (optional, depending on addToCart implementation)
+          if (typeof showNotification === 'function') {
+            showNotification(`${gameData.title} adicionado ao carrinho!`, 'success');
+          } else if (typeof Swal !== 'undefined') { // Fallback to SweetAlert2
+             Swal.fire({
+                icon: 'success',
+                title: 'Adicionado ao Carrinho!',
+                text: `${gameData.title} foi adicionado ao seu carrinho.`,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 2000,
+                toast: true,
+                 customClass: {
+                  popup: 'swal-toast'
+                }
+             });
+          }
+       } else {
+         console.error('Add to cart functionality not available.');
+          if (typeof showNotification === 'function') {
+            showNotification('Erro ao adicionar ao carrinho.', 'error');
+          } else if (typeof Swal !== 'undefined') { // Fallback to SweetAlert2
+             Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'Não foi possível adicionar o item ao carrinho.',
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 2000,
+                toast: true,
+                 customClass: {
+                  popup: 'swal-toast'
+                }
+             });
+          }
+       }
+       // Close modal after adding to cart (optional)
+       modal.classList.remove('active');
+       setTimeout(() => modal.remove(), 300);
     });
   }
-  
-  if (wishlistBtn) {
-    // Check if already in wishlist
-    const isWishlisted = userProfile.wishlist.includes(gameId);
-    
-    if (isWishlisted) {
-      wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>';
-      wishlistBtn.classList.add('active');
-    }
-    
-    wishlistBtn.addEventListener('click', () => {
-      // Toggle wishlist state
-      const icon = this.querySelector('i');
-      if (icon.classList.contains('far')) {
-        icon.classList.remove('far');
-        icon.classList.add('fas');
-        // Add to wishlist logic would go here
-      } else {
-        icon.classList.remove('fas');
-        icon.classList.add('far');
-        // Remove from wishlist logic would go here
-      }
-    });
-  }
-  
-  // Add XP for viewing details
-  addUserXP(5, 'Visualizou detalhes do jogo');
 }
 
 // Initialize achievement animations
@@ -1035,19 +1110,21 @@ function loadSampleGames() {
   filteredGames = [...gameLibrary];
 }
 
-// Enhanced Shopping Cart Functions
+// Initialize cart
 function initializeCart() {
-  loadCartFromStorage();
-  updateCartUI();
-  
-  // Add event listener for cart icon
-  const cartIcon = document.querySelector('.cart-icon');
-  if (cartIcon) {
-    cartIcon.addEventListener('click', function(e) {
-      e.preventDefault();
-      showCartPreview();
-    });
-  }
+  // Removed event listener for cart icon here to unify handling.
+  // The unified listener will be added elsewhere.
+  // loadCartFromStorage(); // This should now be handled by cart.js
+  // updateCartUI(); // This should now be handled by a unified UI update
+
+  // Add event listener for cart icon - handled in a central script
+  // const cartIcon = document.querySelector('.cart-icon');
+  // if (cartIcon) {
+  //   cartIcon.addEventListener('click', function(e) {
+  //     e.preventDefault();
+  //     showCartPreview();
+  //   });
+  // }
 }
 
 function loadCartFromStorage() {

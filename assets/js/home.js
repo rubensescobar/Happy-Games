@@ -189,10 +189,11 @@ function renderGameCard(game, container) {
   const previewBtn = gameCard.querySelector('.preview-button');
   if (previewBtn) {
     previewBtn.addEventListener('click', () => {
-      if (window.showGamePreview) {
-        window.showGamePreview(game.id);
+      // Use the unified openGamePreview function from immersive.js
+      if (window.openGamePreview) {
+        window.openGamePreview(game.id);
       } else {
-        console.error('Preview functionality not available');
+        console.error('Game preview functionality not available');
       }
     });
   }
