@@ -25,16 +25,47 @@
   <link rel="stylesheet" href="../assets/CSS/cart.css">
   <link rel="stylesheet" href="../assets/CSS/cart-header-fix.css">
   <link rel="stylesheet" href="../assets/CSS/cart-colors-override.css">
+  <link rel="stylesheet" href="../assets/CSS/cart-header-fix-final.css">
+  
+  <!-- Direct inline style for cart header items -->
+  <style>
+    /* This ensures correct colors in both themes */
+    .cart-header .cart-header-item[class*="product"],
+    .cart-header .cart-header-item[class*="price"],
+    .cart-header .cart-header-item[class*="quantity"],
+    .cart-header .cart-header-item[class*="total"],
+    .cart-header .cart-header-item[class*="remove"] {
+      color: #f8f8f8 !important; /* White for dark theme by default */
+    }
+    
+    /* Override for light theme */
+    html:not([data-theme="dark"]) .cart-header .cart-header-item,
+    body.light-theme .cart-header .cart-header-item {
+      color: #2D004D !important; /* Purple for light theme */
+    }
+  </style>
   
   <!-- Inline style to force colors -->
   <style>
-    /* Critical color overrides */
-    .cart-header-item, .product-title, .product-platform, .product-genre, .total {
-      color: #2D004D !important;
+    /* Critical color overrides - only for light theme */
+    body.light-theme .product-title, 
+    html:root:not([data-theme="dark"]) .product-title,
+    body.light-theme .product-platform, 
+    html:root:not([data-theme="dark"]) .product-platform,
+    body.light-theme .product-genre, 
+    html:root:not([data-theme="dark"]) .product-genre,
+    body.light-theme .total,
+    html:root:not([data-theme="dark"]) .total {
+      color: var(--color-purpledark) !important;
     }
-    .empty-cart-message i, .empty-cart-message h3, .empty-cart-message p, .empty-cart-message a {
-      color: #2D004D !important;
-      border-color: #2D004D !important;
+    
+    /* Empty cart message always keeps the same color */
+    .empty-cart-message i, 
+    .empty-cart-message h3, 
+    .empty-cart-message p, 
+    .empty-cart-message a {
+      color: var(--color-purpledark) !important;
+      border-color: var(--color-purpledark) !important;
     }
   </style>
 </head>
@@ -160,11 +191,11 @@
           <!-- Cart Items -->
           <div class="cart-container">
             <div class="cart-header">
-              <div class="cart-header-item product" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;">Produto</div>
-              <div class="cart-header-item price" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;">Preço</div>
-              <div class="cart-header-item quantity" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;">Quantidade</div>
-              <div class="cart-header-item total" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;">Total</div>
-              <div class="cart-header-item remove" style="color: var(--color-purpledark) !important; opacity: 0.9 !important;"></div>
+              <div class="cart-header-item product" data-theme-color="true">Produto</div>
+              <div class="cart-header-item price" data-theme-color="true">Preço</div>
+              <div class="cart-header-item quantity" data-theme-color="true">Quantidade</div>
+              <div class="cart-header-item total" data-theme-color="true">Total</div>
+              <div class="cart-header-item remove" data-theme-color="true"></div>
             </div>
             
             <div id="cartItems">
@@ -360,6 +391,36 @@
   <script src="../assets/js/immersive.js"></script>
   <script src="../assets/js/cart.js"></script>
   <script src="../assets/js/theme.js"></script>
+  <script>
+    // Function to apply correct colors based on theme
+    function applyHeaderColors() {
+      // Check if we're in light theme
+      const isLightTheme = !document.documentElement.hasAttribute('data-theme') || 
+                          document.documentElement.getAttribute('data-theme') !== 'dark';
+      
+      // Get all header items with the data attribute
+      const headerItems = document.querySelectorAll('[data-theme-color="true"]');
+      
+      // Apply the appropriate color based on theme
+      headerItems.forEach(item => {
+        if (isLightTheme) {
+          item.style.color = '#2D004D';
+        } else {
+          item.style.color = '#f8f8f8';
+        }
+        item.style.opacity = '1';
+      });
+    }
+    
+    // Run immediately
+    applyHeaderColors();
+    
+    // Also run when theme changes
+    document.addEventListener('themeChanged', applyHeaderColors);
+    
+    // Check periodically
+    setInterval(applyHeaderColors, 1000);
+  </script>
 </body>
 
 </html> 

@@ -1,0 +1,19 @@
+/* Final fix for cart header items with maximum specificity */
+
+/* Dark theme - explicitly force white color */
+html body .cart-header,
+html body .cart-header-item,
+html[data-theme="dark"] body .cart-header-item,
+#cartItems .cart-header .cart-header-item {
+  color: #f8f8f8 !important; /* Using hex instead of var to avoid any variable issues */
+  opacity: 1 !important;
+}
+
+/* Light theme - explicitly force purple color */
+html:not([data-theme="dark"]) body .cart-header-item,
+html:not([data-theme="dark"]) #cartItems .cart-header .cart-header-item,
+html body.light-theme .cart-header-item,
+body.light-theme #cartItems .cart-header .cart-header-item {
+  color: #2D004D !important; /* Using hex instead of var to avoid any variable issues */
+  opacity: 1 !important;
+} 

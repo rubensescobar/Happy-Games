@@ -1,8 +1,17 @@
-/* Fixed cart colors - no theme variables */
+/* Fixed cart colors with proper theme handling */
 
-/* Always purple for cart header items regardless of theme */
-.cart-header-item {
-  color: #2D004D !important;
+/* Cart header items - explicitly defined for both themes */
+/* Dark mode - white color */
+.cart-header-item,
+html[data-theme="dark"] .cart-header-item {
+  color: var(--color-white-cottom) !important;
+  opacity: 0.8 !important;
+}
+
+/* Light mode - purple color */
+:root:not([data-theme="dark"]) .cart-header-item,
+body.light-theme .cart-header-item {
+  color: var(--color-purpledark) !important;
   opacity: 0.9 !important;
 }
 
@@ -15,12 +24,25 @@
   border-color: #2D004D !important;
 }
 
-/* Force this color on the product titles and metadata - the most common problematic elements */
+/* Force this color on the product titles and metadata in light theme only */
 .product-title,
 .product-platform, 
 .product-genre,
-.cart-header-item,
 .total,
 .quantity {
+  /* No default color declaration here - rely on base styles for dark theme */
+}
+
+/* Apply purple color only in light theme for these elements */
+:root:not([data-theme="dark"]) .product-title,
+:root:not([data-theme="dark"]) .product-platform, 
+:root:not([data-theme="dark"]) .product-genre,
+:root:not([data-theme="dark"]) .total,
+:root:not([data-theme="dark"]) .quantity,
+body.light-theme .product-title,
+body.light-theme .product-platform, 
+body.light-theme .product-genre,
+body.light-theme .total,
+body.light-theme .quantity {
   color: #2D004D !important;
 } 
