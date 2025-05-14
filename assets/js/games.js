@@ -475,55 +475,26 @@ function loadMoreGames() {
   }
 }
 
-// Add to cart function
-function addToCart(item) {
-  // Get current cart from localStorage
-  let cart = [];
-  const savedCart = localStorage.getItem('gameCart');
-  
-  if (savedCart) {
-    try {
-      cart = JSON.parse(savedCart);
-    } catch (e) {
-      console.error('Error parsing cart data:', e);
-      cart = [];
-    }
-  }
-  
-  // Check if item is already in cart
-  const existingItem = cart.find(cartItem => cartItem.id === item.id);
-  
-  if (existingItem) {
-    // Increase quantity
-    existingItem.quantity += 1;
-  } else {
-    // Add new item
-    cart.push(item);
-  }
-  
-  // Save cart
-  localStorage.setItem('gameCart', JSON.stringify(cart));
-  
-  // Update cart UI
-  updateCartUI();
-  
-  // Add XP
-  addUserXP(5);
-}
-
 // Update cart UI
+// DEPRECATED: Use the unified updateCartCount function from cart.js
 function updateCartUI() {
-  const cart = JSON.parse(localStorage.getItem('gameCart') || '[]');
-  const cartCount = document.querySelector('.cart-count');
-  
-  if (cartCount) {
-    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-    cartCount.textContent = totalItems;
+  // Forward to the unified cart count function if available
+  if (window.updateCartCount) {
+    window.updateCartCount();
+  } else {
+    console.log('Using legacy cart UI update function');
+    const cart = JSON.parse(localStorage.getItem('gameCart') || '[]');
+    const cartCount = document.querySelector('.cart-count');
     
-    if (totalItems > 0) {
-      cartCount.classList.add('show');
-    } else {
-      cartCount.classList.remove('show');
+    if (cartCount) {
+      const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+      cartCount.textContent = totalItems;
+      
+      if (totalItems > 0) {
+        cartCount.classList.add('show');
+      } else {
+        cartCount.classList.remove('show');
+      }
     }
   }
 }

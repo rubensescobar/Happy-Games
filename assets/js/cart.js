@@ -64,6 +64,7 @@ function addToCart(gameOrId, quantity = 1) {
   if (existingItemIndex !== -1) {
     // Update quantity
     cart[existingItemIndex].quantity += quantity;
+    console.log(`Increased quantity of ${gameItem.title} to ${cart[existingItemIndex].quantity}`);
   } else {
     // Ensure quantity is set
     if (!gameItem.quantity) {
@@ -72,6 +73,7 @@ function addToCart(gameOrId, quantity = 1) {
     
     // Add new item
     cart.push(gameItem);
+    console.log(`Added ${gameItem.title} to cart`);
   }
   
   // Save cart
@@ -87,10 +89,36 @@ function addToCart(gameOrId, quantity = 1) {
   }
   
   // Add XP for adding to cart
-  addUserXP(5, 'Item adicionado ao carrinho');
+  if (typeof addUserXP === 'function') {
+    addUserXP(5, 'Item adicionado ao carrinho');
+  }
   
   // Show notification
   showNotification(`${gameItem.title} adicionado ao carrinho!`, 'success');
+  
+  // Visual feedback on the button if available
+  const addButton = document.querySelector(`.game-card-immersive[data-game-id="${gameItem.id}"] .add-to-cart`);
+  if (addButton) {
+    // Store original text
+    const originalText = addButton.innerHTML;
+    
+    // Change button text/appearance
+    addButton.innerHTML = '<i class="fas fa-check me-2"></i> Adicionado';
+    addButton.classList.add('added');
+    
+    // Restore original state after delay
+    setTimeout(() => {
+      addButton.innerHTML = originalText;
+      addButton.classList.remove('added');
+    }, 1500);
+  }
+  
+  // Animate cart icon
+  const cartIcon = document.querySelector('.cart-icon');
+  if (cartIcon) {
+    cartIcon.classList.add('cart-bounce');
+    setTimeout(() => cartIcon.classList.remove('cart-bounce'), 500);
+  }
   
   return true;
 }
@@ -188,9 +216,24 @@ function clearCart() {
 // Load cart from localStorage
 function loadCart() {
   try {
+    // First check for cart in the new storage location
     const savedCart = localStorage.getItem(CART_STORAGE_KEY);
     if (savedCart) {
       cart = JSON.parse(savedCart);
+    } else {
+      // Check for cart in the old storage location
+      const oldCart = localStorage.getItem('gameCart');
+      if (oldCart) {
+        // Migrate from old cart to new cart
+        cart = JSON.parse(oldCart);
+        console.log('Migrating from old cart storage to new unified cart');
+        // Save to new location
+        saveCart();
+        // Remove old cart data
+        localStorage.removeItem('gameCart');
+      } else {
+        cart = [];
+      }
     }
   } catch (error) {
     console.error('Error loading cart:', error);
@@ -811,23 +854,76 @@ function updateUserProfile() {
 
 // Show notification
 function showNotification(message, type = 'info') {
-  // Use SweetAlert2 for notifications
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer);
-      toast.addEventListener('mouseleave', Swal.resumeTimer);
-    }
-  });
+  console.log(`Notification: ${message} (${type})`);
   
-  Toast.fire({
-    icon: type,
-    title: message
-  });
+  // Try to use SweetAlert2 if available
+  if (typeof Swal !== 'undefined') {
+    // Use SweetAlert2 for notifications
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
+    
+    Toast.fire({
+      icon: type,
+      title: message
+    });
+    return;
+  }
+  
+  // Fallback to custom toast notification if SweetAlert isn't available
+  let toastContainer = document.getElementById('toast-container');
+  
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'toast-container';
+    toastContainer.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999;';
+    document.body.appendChild(toastContainer);
+  }
+  
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.style.cssText = 'min-width: 250px; margin-bottom: 10px; padding: 15px; border-radius: 5px; color: white; background-color: #333; box-shadow: 0 0 10px rgba(0,0,0,0.2); animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;';
+  
+  // Set background color based on type
+  switch(type) {
+    case 'success':
+      toast.style.backgroundColor = '#28a745';
+      break;
+    case 'error':
+      toast.style.backgroundColor = '#dc3545';
+      break;
+    case 'warning':
+      toast.style.backgroundColor = '#ffc107';
+      toast.style.color = '#333';
+      break;
+    default:
+      toast.style.backgroundColor = '#17a2b8';
+  }
+  
+  // Set toast content
+  toast.innerHTML = message;
+  
+  // Add to container
+  toastContainer.appendChild(toast);
+  
+  // Auto-remove after 3 seconds
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      if (toast.parentNode === toastContainer) {
+        toastContainer.removeChild(toast);
+      }
+    }, 500);
+  }, 3000);
 }
 
 // Toggle wishlist
@@ -901,3 +997,12 @@ function updateWishlistButtonsState(wishlist = []) {
     }
   });
 }
+
+// Export functions for use in other scripts
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateCartCount = updateCartCount;
+window.showNotification = showNotification;
+
+// For backwards compatibility 
+window.updateCartUI = updateCartCount;

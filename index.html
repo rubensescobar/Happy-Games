@@ -43,6 +43,21 @@
     .game-card-immersive:hover .game-card-overlay {
       transform: translateY(0);
     }
+    
+    /* Add to cart button feedback */
+    .add-to-cart.added {
+      background-color: #28a745 !important;
+    }
+    
+    /* Cart icon animation */
+    .cart-bounce {
+      animation: cartBounce 0.5s ease;
+    }
+    
+    @keyframes cartBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+    }
   </style>
 
   <title>BuscaGames - As melhores ofertas de jogos em um só lugar</title>
