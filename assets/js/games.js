@@ -5,9 +5,6 @@
 
 // DOM Ready
 document.addEventListener('DOMContentLoaded', function() {
-  // Check login status and update UI first
-  checkLoginStatus();
-  
   // Initialize games page
   initializeGamesPage();
   
@@ -19,134 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCart();
   }
 });
-
-// Check login status and update UI accordingly
-function checkLoginStatus() {
-  const isLoggedIn = localStorage.getItem('isLogged') === 'true';
-  const username = localStorage.getItem('nomeUsuario');
-  
-  // Get UI elements
-  const loginNavItem = document.getElementById('loginNavItem');
-  const logoutNavItem = document.getElementById('logoutNavItem');
-  const userLevelContainer = document.getElementById('userLevelContainer');
-  const userMenuName = document.getElementById('userMenuName') || document.getElementById('nomeUsuario');
-  const loginIcon = document.getElementById('loginIcon');
-  
-  if (isLoggedIn && username) {
-    // User is logged in
-    
-    // Update username display
-    if (userMenuName) {
-      userMenuName.textContent = username;
-    }
-    
-    // Show/hide appropriate menu items
-    if (loginNavItem) loginNavItem.classList.add('d-none');
-    if (logoutNavItem) logoutNavItem.classList.remove('d-none');
-    if (userLevelContainer) userLevelContainer.classList.remove('d-none');
-    
-    // Update icon
-    if (loginIcon) {
-      loginIcon.classList.remove('fa-right-to-bracket');
-      loginIcon.classList.add('fa-user');
-    }
-    
-    // Load user game profile
-    loadUserGameProfile();
-  } else {
-    // User is not logged in
-    
-    // Update menu text
-    if (userMenuName) {
-      userMenuName.textContent = 'Login';
-    }
-    
-    // Show/hide appropriate menu items
-    if (loginNavItem) loginNavItem.classList.remove('d-none');
-    if (logoutNavItem) logoutNavItem.classList.add('d-none');
-    if (userLevelContainer) userLevelContainer.classList.add('d-none');
-    
-    // Update icon
-    if (loginIcon) {
-      loginIcon.classList.remove('fa-user');
-      loginIcon.classList.add('fa-right-to-bracket');
-    }
-  }
-  
-  // Set up logout functionality
-  const logoutLink = document.getElementById('logoutLink');
-  if (logoutLink) {
-    logoutLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Clear login data
-      localStorage.removeItem('isLogged');
-      localStorage.removeItem('nomeUsuario');
-      
-      // Show logout message
-      if (typeof Swal !== 'undefined') {
-        Swal.fire({
-          icon: 'success',
-          title: 'Logout realizado com sucesso!',
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-      
-      // Refresh the page after a short delay
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    });
-  }
-}
-
-// Load user game profile from localStorage
-function loadUserGameProfile() {
-  const userProfile = JSON.parse(localStorage.getItem('userGameProfile') || '{"level": 1, "xp": 0}');
-  
-  // Update level
-  const userLevelEl = document.getElementById('userLevel');
-  if (userLevelEl) {
-    userLevelEl.textContent = userProfile.level || 1;
-  }
-  
-  // Update XP bar
-  const userXpBarEl = document.getElementById('userXpBar');
-  if (userXpBarEl) {
-    const xpProgress = userProfile.xp % 100;
-    userXpBarEl.style.width = `${xpProgress}%`;
-  }
-  
-  // Update XP text
-  const userXpTextEl = document.getElementById('userXpText');
-  if (userXpTextEl) {
-    const xpToNext = 100 - (userProfile.xp % 100);
-    userXpTextEl.textContent = `${xpToNext} XP para o próximo nível`;
-  }
-  
-  // Update wishlist buttons state based on user's wishlist
-  updateWishlistButtonsState(userProfile.wishlist || []);
-}
-
-// Update wishlist buttons to reflect current user's wishlist
-function updateWishlistButtonsState(wishlist) {
-  document.querySelectorAll('.wishlist-button').forEach(button => {
-    const gameCard = button.closest('.game-card-immersive');
-    if (gameCard) {
-      const gameId = gameCard.getAttribute('data-game-id');
-      const isWishlisted = wishlist.includes(gameId);
-      
-      if (isWishlisted) {
-        button.innerHTML = '<i class="fas fa-heart"></i>';
-        button.classList.add('wishlisted');
-      } else {
-        button.innerHTML = '<i class="far fa-heart"></i>';
-        button.classList.remove('wishlisted');
-      }
-    }
-  });
-}
 
 // Initialize Games Page
 function initializeGamesPage() {
@@ -248,45 +117,51 @@ function setupEventListeners() {
     button.addEventListener('click', function() {
       const gameCard = this.closest('.game-card-immersive');
       
-      // Check if user is logged in
-      if (localStorage.getItem('isLogged') !== 'true') {
-        // Redirect to login page
-        const currentUrl = window.location.pathname;
-        window.location.href = `login.html?returnUrl=${encodeURIComponent(currentUrl)}`;
-        return;
+      if (gameCard) {
+        const gameId = gameCard.getAttribute('data-game-id');
+        const gameTitle = gameCard.querySelector('.game-card-title').textContent;
+        const gamePrice = gameCard.querySelector('.price-current').getAttribute('data-price');
+        const gameImage = gameCard.querySelector('.game-card-image').getAttribute('src');
+        
+        // Check if user is logged in before adding to cart
+        if (window.auth && window.auth.isUserLoggedIn()) {
+          addToCart({
+            id: gameId,
+            title: gameTitle,
+            price: parseFloat(gamePrice),
+            image: gameImage,
+            quantity: 1
+          });
+          
+          // Show success message
+          showNotification(`${gameTitle} adicionado ao carrinho!`, 'success');
+          
+          // Add XP for adding to cart
+          addUserXP(5);
+        } else {
+          // Prompt user to login
+          window.auth.requireLogin(null, true);
+        }
       }
-      
-      const gameId = gameCard.getAttribute('data-game-id');
-      const gameTitle = gameCard.querySelector('.game-card-title').textContent;
-      const gamePrice = parseFloat(gameCard.querySelector('.price-current').getAttribute('data-price'));
-      
-      addToCart({
-        id: gameId,
-        title: gameTitle,
-        price: gamePrice,
-        quantity: 1
-      });
-      
-      // Show notification
-      showNotification(`${gameTitle} adicionado ao carrinho!`, 'success');
     });
   });
   
   // Wishlist buttons
   document.querySelectorAll('.wishlist-button').forEach(button => {
     button.addEventListener('click', function() {
-      // Check if user is logged in
-      if (localStorage.getItem('isLogged') !== 'true') {
-        // Redirect to login page
-        const currentUrl = window.location.pathname;
-        window.location.href = `login.html?returnUrl=${encodeURIComponent(currentUrl)}`;
-        return;
-      }
-      
       const gameCard = this.closest('.game-card-immersive');
-      const gameId = gameCard.getAttribute('data-game-id');
       
-      toggleWishlist(gameId, this);
+      if (gameCard) {
+        const gameId = gameCard.getAttribute('data-game-id');
+        
+        // Check if user is logged in before adding to wishlist
+        if (window.auth && window.auth.isUserLoggedIn()) {
+          toggleWishlist(gameId, this);
+        } else {
+          // Prompt user to login
+          window.auth.requireLogin(null, true);
+        }
+      }
     });
   });
   
@@ -294,63 +169,59 @@ function setupEventListeners() {
   document.querySelectorAll('.preview-button').forEach(button => {
     button.addEventListener('click', function() {
       const gameCard = this.closest('.game-card-immersive');
-      const gameId = gameCard.getAttribute('data-game-id');
       
-      showGamePreview(gameId);
+      if (gameCard) {
+        const gameId = gameCard.getAttribute('data-game-id');
+        showGamePreview(gameId);
+      }
     });
   });
-  
-  // Back to top button
-  const backToTopBtn = document.getElementById('backToTop');
-  if (backToTopBtn) {
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 300) {
-        backToTopBtn.style.opacity = '1';
-        backToTopBtn.style.visibility = 'visible';
-      } else {
-        backToTopBtn.style.opacity = '0';
-        backToTopBtn.style.visibility = 'hidden';
-      }
-    });
-    
-    backToTopBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
 }
 
-// Setup game card hover effects
-function setupGameCardEffects() {
-  const gameCards = document.querySelectorAll('.game-card-immersive');
+// Load user game profile from localStorage
+function loadUserGameProfile() {
+  const userProfile = JSON.parse(localStorage.getItem('userGameProfile') || '{"level": 1, "xp": 0}');
   
-  gameCards.forEach(card => {
-    // Mouse move effect for 3D tilt and glare
-    card.addEventListener('mousemove', function(e) {
-      const rect = this.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+  // Update level
+  const userLevelEl = document.getElementById('userLevel');
+  if (userLevelEl) {
+    userLevelEl.textContent = userProfile.level || 1;
+  }
+  
+  // Update XP bar
+  const userXpBarEl = document.getElementById('userXpBar');
+  if (userXpBarEl) {
+    const xpProgress = userProfile.xp % 100;
+    userXpBarEl.style.width = `${xpProgress}%`;
+  }
+  
+  // Update XP text
+  const userXpTextEl = document.getElementById('userXpText');
+  if (userXpTextEl) {
+    const xpToNext = 100 - (userProfile.xp % 100);
+    userXpTextEl.textContent = `${xpToNext} XP para o próximo nível`;
+  }
+  
+  // Update wishlist buttons state based on user's wishlist
+  updateWishlistButtonsState(userProfile.wishlist || []);
+}
+
+// Update wishlist buttons to reflect current user's wishlist
+function updateWishlistButtonsState(wishlist) {
+  document.querySelectorAll('.wishlist-button').forEach(button => {
+    const gameCard = button.closest('.game-card-immersive');
+    if (gameCard) {
+      const gameId = gameCard.getAttribute('data-game-id');
+      const isWishlisted = wishlist.includes(gameId);
       
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const rotateX = (y - centerY) / 20;
-      const rotateY = (centerX - x) / 20;
-      
-      this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-      
-      // Update glare position
-      const glare = this.querySelector('.game-card-glare');
-      if (glare) {
-        glare.style.setProperty('--x', `${x}px`);
-        glare.style.setProperty('--y', `${y}px`);
+      if (isWishlisted) {
+        button.innerHTML = '<i class="fas fa-heart"></i>';
+        button.classList.add('wishlisted');
+      } else {
+        button.innerHTML = '<i class="far fa-heart"></i>';
+        button.classList.remove('wishlisted');
       }
-    });
-    
-    // Reset transform on mouse leave
-    card.addEventListener('mouseleave', function() {
-      this.style.transform = '';
-    });
+    }
   });
 }
 

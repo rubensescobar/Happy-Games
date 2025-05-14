@@ -435,6 +435,9 @@
   </a>
 
   <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../assets/js/auth.js"></script>
   <script src="../assets/js/script.js"></script>
   <script src="../assets/js/immersive.js"></script>
   <script>
@@ -458,54 +461,6 @@
           // Reset form
           contactForm.reset();
         });
-      }
-      
-      // Initialize cart count
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const cartCount = document.querySelector('.cart-count');
-      if (cartCount) {
-        cartCount.textContent = cart.length;
-      }
-      
-      // Check login status and update UI
-      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-      const loginNavItem = document.getElementById('loginNavItem');
-      const logoutNavItem = document.getElementById('logoutNavItem');
-      const userLevelContainer = document.getElementById('userLevelContainer');
-      
-      if (isLoggedIn) {
-        if (loginNavItem) loginNavItem.classList.add('d-none');
-        if (logoutNavItem) logoutNavItem.classList.remove('d-none');
-        if (userLevelContainer) userLevelContainer.classList.remove('d-none');
-        
-        // Update user name
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser) {
-          const userMenuName = document.getElementById('userMenuName');
-          if (userMenuName) {
-            userMenuName.textContent = currentUser.firstName;
-          }
-        }
-        
-        // Update level and XP
-        const currentLevel = parseInt(localStorage.getItem('userLevel')) || 1;
-        const currentXP = parseInt(localStorage.getItem('userXP')) || 0;
-        const xpNeeded = 100 * currentLevel;
-        
-        const userLevelElement = document.getElementById('userLevel');
-        const userXpBar = document.getElementById('userXpBar');
-        const userXpText = document.getElementById('userXpText');
-        
-        if (userLevelElement) userLevelElement.textContent = currentLevel;
-        
-        if (userXpBar) {
-          const percentage = (currentXP / xpNeeded) * 100;
-          userXpBar.style.width = `${percentage}%`;
-        }
-        
-        if (userXpText) {
-          userXpText.textContent = `${xpNeeded - currentXP} XP para o próximo nível`;
-        }
       }
       
       // Animate elements on scroll

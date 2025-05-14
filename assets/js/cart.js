@@ -46,9 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load cart from localStorage
   loadCart();
   
-  // Update user info
-  updateUserInfo();
-  
   // Add event listeners
   setupEventListeners();
   
@@ -80,7 +77,11 @@ function loadCart() {
   updateCheckoutButton();
   
   // Update cart count in navbar
-  updateCartCount();
+  if (window.auth) {
+    window.auth.updateCartCount();
+  } else {
+    updateCartCount();
+  }
 }
 
 // Render cart items
@@ -410,54 +411,59 @@ function clearCart() {
 
 // Proceed to checkout
 function proceedToCheckout() {
-  // In a real app, this would redirect to a checkout page
-  // For this demo, we'll just show a success message
-  
-  if (window.Swal) {
-    Swal.fire({
-      title: 'Compra finalizada com sucesso!',
-      text: 'Obrigado por comprar conosco! Você receberá um email com os detalhes da sua compra.',
-      icon: 'success',
-      confirmButtonColor: '#14853a',
-      confirmButtonText: 'Continuar'
-    }).then((result) => {
-      // Clear cart
-      cart = [];
-      saveCart();
-      renderCartItems();
-      updateCartTotals();
-      updateCheckoutButton();
-      updateCartCount();
-      
-      // Add XP for purchase
-      addUserXP(50, 'Realizou uma compra');
-      
-      // Add achievement for first purchase
-      addAchievement('first-purchase', 'Primeiro Jogo', 'Comprou seu primeiro jogo', 'shopping-cart', 25);
-      
-      // Add activity
-      addActivity('purchase', 'Realizou uma compra', 'shopping-cart');
-    });
-  } else {
-    alert('Compra finalizada com sucesso! Obrigado por comprar conosco!');
-    
-    // Clear cart
-    cart = [];
-    saveCart();
-    renderCartItems();
-    updateCartTotals();
-    updateCheckoutButton();
-    updateCartCount();
-    
-    // Add XP for purchase
-    addUserXP(50, 'Realizou uma compra');
-    
-    // Add achievement for first purchase
-    addAchievement('first-purchase', 'Primeiro Jogo', 'Comprou seu primeiro jogo', 'shopping-cart', 25);
-    
-    // Add activity
-    addActivity('purchase', 'Realizou uma compra', 'shopping-cart');
+  // Check if user is logged in
+  if (window.auth && !window.auth.isUserLoggedIn()) {
+    // Redirect to login page with return URL
+    window.auth.requireLogin(null, true);
+    return;
   }
+  
+  // If cart is empty, show message
+  if (cart.length === 0) {
+    showNotification('Seu carrinho está vazio', 'error');
+    return;
+  }
+  
+  // Show checkout confirmation
+  Swal.fire({
+    title: 'Finalizar Compra',
+    html: `
+      <p>Você está prestes a finalizar sua compra com ${cart.length} item(s).</p>
+      <p>Total: <strong>R$ ${getTotalPrice().toFixed(2)}</strong></p>
+      <p>Deseja prosseguir para o pagamento?</p>
+    `,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Sim, finalizar',
+    cancelButtonText: 'Não, cancelar',
+    confirmButtonColor: '#28a745',
+    cancelButtonColor: '#dc3545'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Proceed with checkout
+      Swal.fire({
+        title: 'Compra Realizada!',
+        html: `
+          <p>Sua compra foi finalizada com sucesso!</p>
+          <p>Agradecemos pela preferência.</p>
+        `,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        // Add purchase to user history
+        addPurchaseToHistory(cart, getTotalPrice());
+        
+        // Give XP for purchase
+        addUserXP(50, 'Compra realizada');
+        
+        // Clear cart
+        clearCart();
+        
+        // Redirect to home or games page
+        window.location.href = '../index.html';
+      });
+    }
+  });
 }
 
 // Apply promo code

@@ -3,11 +3,11 @@ let senha = document.querySelector('#password');
 const btnLogin = document.getElementById('login');
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is already logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-        // Redirect to profile page or show logged in state
-        updateUIForLoggedInUser();
+    // Check if user is already logged in using auth module
+    if (window.auth && window.auth.isUserLoggedIn()) {
+        // Redirect to home or previous page
+        redirectAfterLogin();
+        return;
     }
 
     // Login Form Submission
@@ -22,12 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         signupBtn.addEventListener('click', handleSignup);
     }
 
-    // Logout functionality
-    const logoutLink = document.getElementById('logoutLink');
-    if (logoutLink) {
-        logoutLink.addEventListener('click', handleLogout);
-    }
-
     // Activate tab based on URL hash if present
     const hash = window.location.hash;
     if (hash === '#signup') {
@@ -39,17 +33,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Toggle password visibility
-    const togglePasswordIcon = document.querySelector("#verNovaSenha");
-    if (togglePasswordIcon) {
-        togglePasswordIcon.addEventListener("click", function() {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-            passwordInput.setAttribute("type", type);
-            this.classList.toggle("fa-eye");
-            this.classList.toggle("fa-eye-slash");
+    setupPasswordToggles();
+});
+
+// Setup password visibility toggles
+function setupPasswordToggles() {
+    const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+    if (toggleLoginPassword) {
+        toggleLoginPassword.addEventListener('click', function() {
+            togglePasswordVisibility('loginPassword', this);
         });
     }
-});
+
+    const toggleSignupPassword = document.getElementById('toggleSignupPassword');
+    if (toggleSignupPassword) {
+        toggleSignupPassword.addEventListener('click', function() {
+            togglePasswordVisibility('signupPassword', this);
+        });
+    }
+}
+
+// Toggle password visibility
+function togglePasswordVisibility(inputId, iconElement) {
+    const passwordInput = document.getElementById(inputId);
+    if (!passwordInput) return;
+    
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    iconElement.classList.toggle('fa-eye');
+    iconElement.classList.toggle('fa-eye-slash');
+}
 
 // Handle Login Form Submission
 function handleLogin() {
@@ -68,9 +81,13 @@ function handleLogin() {
     const user = users.find(u => (u.username === username || u.email === username) && u.password === password);
 
     if (user) {
-        // Save login state
+        // Save login state with new keys
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // For backward compatibility
+        localStorage.setItem('isLogged', 'true');
+        localStorage.setItem('nomeUsuario', user.firstName || user.username);
         
         // Set expiration if remember me is not checked
         if (!rememberMe) {
@@ -88,8 +105,8 @@ function handleLogin() {
         }
         
         showAlert('Sucesso', 'Login realizado com sucesso!', 'success', function() {
-            // Redirect to home page after successful login
-            window.location.href = '../index.html';
+            // Redirect to home page or previous page
+            redirectAfterLogin();
         });
     } else {
         showAlert('Erro', 'Nome de usuário ou senha incorretos.', 'error');
@@ -121,7 +138,7 @@ function handleSignup() {
     }
     
     // Validate email format
-    if (validateEmail(email)) {
+    if (!validateEmail(email)) {
         showAlert('Erro', 'Por favor, insira um email válido.', 'error');
         return;
     }
@@ -159,19 +176,12 @@ function handleSignup() {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', JSON.stringify(newUser));
         
+        // For backward compatibility
+        localStorage.setItem('isLogged', 'true');
+        localStorage.setItem('nomeUsuario', newUser.firstName);
+        
         // Redirect to home page after successful registration
-        window.location.href = '../index.html';
-    });
-}
-
-// Handle Logout
-function handleLogout() {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('currentUser');
-    
-    showAlert('Sucesso', 'Logout realizado com sucesso!', 'success', function() {
-        // Redirect to home page or refresh current page
-        window.location.reload();
+        redirectAfterLogin();
     });
 }
 
@@ -196,35 +206,17 @@ function showAlert(title, message, type, callback) {
     });
 }
 
-// Update UI for logged in user
-function updateUIForLoggedInUser() {
-    const loginNavItem = document.getElementById('loginNavItem');
-    const logoutNavItem = document.getElementById('logoutNavItem');
+// Redirect after login or signup
+function redirectAfterLogin() {
+    // Check for a redirect parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect');
     
-    if (loginNavItem && logoutNavItem) {
-        loginNavItem.style.display = 'none';
-        logoutNavItem.style.display = 'block';
-    }
-    
-    // Check for login expiration
-    const expirationTime = localStorage.getItem('loginExpiration');
-    if (expirationTime) {
-        const now = new Date();
-        const expiration = new Date(expirationTime);
-        
-        if (now > expiration) {
-            // Login expired, log out user
-            handleLogout();
-            return;
-        }
-    }
-    
-    // Display user name if on profile page
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser) {
-        const userMenuName = document.getElementById('userMenuName');
-        if (userMenuName) {
-            userMenuName.textContent = currentUser.firstName;
-        }
+    if (redirect) {
+        // Decode the URL and redirect
+        window.location.href = decodeURIComponent(redirect);
+    } else {
+        // Default redirect to home
+        window.location.href = '../index.html';
     }
 }

@@ -74,4 +74,87 @@ function toggleFavorite(button) {
   
   // Save updated wishlist to localStorage
   localStorage.setItem('wishlist', JSON.stringify(wishlist));
+}
+
+// Add a game to the user's wishlist
+function addToWishlist(gameId) {
+  // Check if user is logged in
+  if (window.auth && !window.auth.isUserLoggedIn()) {
+    window.auth.requireLogin(null, true);
+    return;
+  }
+
+  let wishlist = JSON.parse(localStorage.getItem('userWishlist')) || [];
+  
+  // Check if game is already in wishlist
+  if (!wishlist.includes(gameId)) {
+    wishlist.push(gameId);
+    localStorage.setItem('userWishlist', JSON.stringify(wishlist));
+    
+    // Add XP for adding to wishlist
+    if (typeof addUserXP === 'function') {
+      addUserXP(5, 'Adicionou um jogo à lista de desejos');
+    }
+    
+    return true;
+  }
+  
+  return false;
+}
+
+// Remove a game from the user's wishlist
+function removeFromWishlist(gameId) {
+  let wishlist = JSON.parse(localStorage.getItem('userWishlist')) || [];
+  
+  // Find and remove game from wishlist
+  const index = wishlist.indexOf(gameId);
+  if (index > -1) {
+    wishlist.splice(index, 1);
+    localStorage.setItem('userWishlist', JSON.stringify(wishlist));
+    return true;
+  }
+  
+  return false;
+}
+
+// Toggle a game in the wishlist
+function toggleWishlist(gameId, button) {
+  // Check if user is logged in
+  if (window.auth && !window.auth.isUserLoggedIn()) {
+    window.auth.requireLogin(null, true);
+    return;
+  }
+  
+  let wishlist = JSON.parse(localStorage.getItem('userWishlist')) || [];
+  const isWishlisted = wishlist.includes(gameId);
+  
+  if (isWishlisted) {
+    // Remove from wishlist
+    removeFromWishlist(gameId);
+    
+    // Update button
+    if (button) {
+      button.innerHTML = '<i class="far fa-heart"></i>';
+      button.classList.remove('wishlisted');
+    }
+    
+    // Show notification
+    if (typeof showNotification === 'function') {
+      showNotification('Removido da lista de desejos', 'info');
+    }
+  } else {
+    // Add to wishlist
+    addToWishlist(gameId);
+    
+    // Update button
+    if (button) {
+      button.innerHTML = '<i class="fas fa-heart"></i>';
+      button.classList.add('wishlisted');
+    }
+    
+    // Show notification
+    if (typeof showNotification === 'function') {
+      showNotification('Adicionado à lista de desejos', 'success');
+    }
+  }
 } 
