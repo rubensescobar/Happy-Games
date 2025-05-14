@@ -13,6 +13,7 @@
   --theme-toggle-icon: 'fa-moon';
   --color-purpledark: #2D004D;
   --color-white: #ffffff;
+  --color-white-cottom: #f8f8f8;
 }
 
 [data-theme="dark"] {
@@ -73,13 +74,40 @@ body {
 }
 
 :root:not([data-theme="dark"]) .games-section {
-  background-color: var(--bg-primary) !important;
+  background-color: var(--color-white-cottom) !important;
 }
 
-:root:not([data-theme="dark"]) .game-sidebar {
-  background-color: #ffffff !important;
+/* Game sidebar styles for light and dark themes */
+.game-sidebar {
+  /* Default dark theme styles */
+  background: linear-gradient(145deg, #232323, #1a1a1a);
+  border: 1px solid rgba(74, 144, 226, 0.1);
 }
 
+/* Light theme override with maximum specificity */
+html:root:not([data-theme="dark"]) .game-sidebar {
+  background-color: var(--color-white-cottom) !important;
+  background-image: none !important;
+  background: var(--color-white-cottom) !important; /* fallback */
+  border: 1px solid var(--accent-secondary) !important;
+}
+
+/* Filter label color in light theme */
+html:root:not([data-theme="dark"]) .filter-label {
+  color: var(--color-purpledark) !important;
+}
+
+/* Form check label and price value color in light theme */
+html:root:not([data-theme="dark"]) .form-check-label,
+html:root:not([data-theme="dark"]) #priceValue {
+  color: var(--color-purpledark) !important;
+}
+
+/* Price range values in light theme */
+html:root:not([data-theme="dark"]) .range-values span,
+html:root:not([data-theme="dark"]) .range-values {
+  color: var(--color-purpledark) !important;
+}
 
 /* Ensure navbar and footer have correct background colors in light theme */
 :root:not([data-theme="dark"]) .navbar,
