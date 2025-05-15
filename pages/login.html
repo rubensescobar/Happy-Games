@@ -325,6 +325,11 @@
                       <button type="button" id="loginBtn" class="registrar btn btn-block mb-4 w-100" data-validation="loginCredentials">
                         <i class="fas fa-sign-in-alt me-2"></i> Login
                       </button>
+                      
+                      <!-- Login error message -->
+                      <div class="alert alert-danger d-none" id="loginErrorMessage">
+                        Nome de usuário ou senha incorretos. Por favor, tente novamente.
+                      </div>
 
                       <!-- Social login buttons -->
                       <div class="text-center">
@@ -405,7 +410,14 @@
                           <span class="input-group-text"><i class="far fa-eye-slash" id="toggleConfirmPassword"></i></span>
                         </div>
                         <div class="invalid-feedback">
-                          As senhas não coincidem.
+                          As senhas não coincidem ou não atendem aos requisitos.
+                        </div>
+                        <!-- Confirm Password requirements list -->
+                        <div class="password-requirements mt-2">
+                          <p class="mb-1 small">As senhas devem:</p>
+                          <ul class="small ps-3 mb-0">
+                            <li id="match-check">Ser idênticas</li>
+                          </ul>
                         </div>
                       </div>
 
@@ -570,6 +582,15 @@
           toggleValidClass(numberCheck, hasNumber);
           toggleValidClass(specialCheck, hasSpecial);
           
+          // Log validation details for debugging
+          console.log("Password validation:", {
+            length: password.length >= minLength,
+            uppercase: hasUppercase,
+            lowercase: hasLowercase,
+            number: hasNumber,
+            special: hasSpecial
+          });
+          
           // Return overall validation status
           return password.length >= minLength && hasUppercase && hasLowercase && hasNumber && hasSpecial;
         }
@@ -606,92 +627,255 @@
             togglePasswordVisibility(confirmPassword, toggleConfirmPassword);
           });
           
-          // Validate confirm password matches
+          // Validate confirm password matches and meets all requirements
+          const matchCheck = document.getElementById('match-check');
+          
           confirmPassword.addEventListener('input', function() {
+            // Check if passwords match
             const isMatch = this.value === signupPassword.value;
-            this.classList.toggle('is-valid', isMatch && this.value.length > 0);
-            this.classList.toggle('is-invalid', !isMatch && this.value.length > 0);
+            
+            // Check if confirm password meets all requirements
+            const confirmMinLength = 8;
+            const confirmHasUppercase = /[A-Z]/.test(this.value);
+            const confirmHasLowercase = /[a-z]/.test(this.value);
+            const confirmHasNumber = /[0-9]/.test(this.value);
+            const confirmHasSpecial = /[@$!%*?&#]/.test(this.value);
+            
+            const confirmMeetsRequirements = (
+              this.value.length >= confirmMinLength &&
+              confirmHasUppercase &&
+              confirmHasLowercase &&
+              confirmHasNumber &&
+              confirmHasSpecial
+            );
+            
+            // Update matching indicator
+            if (matchCheck) {
+              if (isMatch && this.value.length > 0) {
+                matchCheck.classList.add('valid');
+              } else {
+                matchCheck.classList.remove('valid');
+              }
+            }
+            
+            // Update validity visual state
+            const isValid = isMatch && confirmMeetsRequirements && this.value.length > 0;
+            this.classList.toggle('is-valid', isValid);
+            this.classList.toggle('is-invalid', !isValid && this.value.length > 0);
+            
+            console.log("Confirm password validation:", {
+              password: signupPassword.value,
+              confirmPassword: this.value,
+              isMatch: isMatch,
+              meetsRequirements: confirmMeetsRequirements,
+              isValid: isValid
+            });
           });
         }
         
         // Also validate password when signup form is submitted
         const signupBtn = document.getElementById('signupBtn');
         if (signupBtn) {
-          signupBtn.addEventListener('click', function() {
-            const isPasswordValid = validatePassword(signupPassword.value);
-            if (!isPasswordValid) {
-              signupPassword.classList.add('is-invalid');
+          signupBtn.addEventListener('click', function(event) {
+            // Force password validation
+            const password = signupPassword.value;
+            const confirmPwd = confirmPassword.value;
+            
+            // Explicitly check each requirement for main password
+            const minLength = 8;
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasLowercase = /[a-z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[@$!%*?&#]/.test(password);
+            
+            // Check if all requirements are met
+            const isPasswordValid = (
+              password.length >= minLength && 
+              hasUppercase && 
+              hasLowercase && 
+              hasNumber && 
+              hasSpecial
+            );
+            
+            // Check if confirm password is valid and matches
+            const isConfirmValid = (
+              confirmPwd.length >= minLength && 
+              /[A-Z]/.test(confirmPwd) && 
+              /[a-z]/.test(confirmPwd) && 
+              /[0-9]/.test(confirmPwd) && 
+              /[@$!%*?&#]/.test(confirmPwd)
+            );
+            
+            const passwordsMatch = password === confirmPwd;
+            
+            console.log("Signup validation check:", {
+              password,
+              confirmPwd,
+              passwordsMatch,
+              passwordValid: isPasswordValid,
+              confirmValid: isConfirmValid
+            });
+            
+            // Check both passwords - if either fails or they don't match, show error
+            if (!isPasswordValid || !isConfirmValid || !passwordsMatch) {
+              // Prevent form submission
+              event.preventDefault();
+              event.stopPropagation();
+              
+              // Add invalid class to password fields
+              if (!isPasswordValid) {
+                signupPassword.classList.add('is-invalid');
+              }
+              
+              if (!isConfirmValid || !passwordsMatch) {
+                confirmPassword.classList.add('is-invalid');
+              }
+              
+              // Create detailed error message
+              let errorMessage = '';
+              
+              if (!isPasswordValid) {
+                errorMessage = 'A senha deve conter:';
+                if (password.length < minLength) errorMessage += '<br>- No mínimo 8 caracteres';
+                if (!hasUppercase) errorMessage += '<br>- Pelo menos uma letra maiúscula';
+                if (!hasLowercase) errorMessage += '<br>- Pelo menos uma letra minúscula';
+                if (!hasNumber) errorMessage += '<br>- Pelo menos um número';
+                if (!hasSpecial) errorMessage += '<br>- Pelo menos um caractere especial (@, $, !, %, *, ?, &, #)';
+              } else if (!isConfirmValid) {
+                errorMessage = 'A confirmação de senha não atende a todos os requisitos.';
+              } else if (!passwordsMatch) {
+                errorMessage = 'As senhas não coincidem.';
+              }
+              
+              // Show alert message
+              Swal.fire({
+                icon: 'error',
+                title: 'Validação de Senha',
+                html: errorMessage || 'Por favor, insira uma senha válida e certifique-se de que os dois campos coincidem.',
+                confirmButtonColor: '#8A65DF'
+              });
+              
+              return false;
             } else {
+              // Both passwords valid and matching
               signupPassword.classList.remove('is-invalid');
               signupPassword.classList.add('is-valid');
+              confirmPassword.classList.remove('is-invalid');
+              confirmPassword.classList.add('is-valid');
+              
+              // For demo/testing purposes only - override any existing form submission handler
+              // In a real application, this should be integrated with the form's submit logic
+              const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('signupEmail').value,
+                password: password
+              };
+              
+              // Store user in localStorage for later login verification
+              const users = JSON.parse(localStorage.getItem('users')) || [];
+              users.push(formData);
+              localStorage.setItem('users', JSON.stringify(users));
+              
+              // Show success message
+              Swal.fire({
+                icon: 'success',
+                title: 'Cadastro Realizado!',
+                text: 'Sua conta foi criada com sucesso. Você já pode fazer login.',
+                confirmButtonColor: '#8A65DF'
+              }).then(() => {
+                // Switch to login tab
+                document.getElementById('login-tab').click();
+              });
+              
+              return false;
             }
+          });
+        }
+        
+        // Login verification
+        const loginBtn = document.getElementById('loginBtn');
+        const loginUsername = document.getElementById('loginUsername');
+        const loginErrorMessage = document.getElementById('loginErrorMessage');
+        
+        if (loginBtn) {
+          loginBtn.addEventListener('click', function(event) {
+            // Hide any previous error messages
+            if (loginErrorMessage) {
+              loginErrorMessage.classList.add('d-none');
+            }
+            
+            // Basic validation
+            if (!loginUsername.value || !loginPassword.value) {
+              return; // Let the existing validation handle empty fields
+            }
+            
+            // Check if the user exists in localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => 
+              u.email === loginUsername.value || 
+              (u.firstName && u.firstName.toLowerCase() === loginUsername.value.toLowerCase())
+            );
+            
+            if (!user) {
+              // User not found
+              if (loginErrorMessage) {
+                loginErrorMessage.textContent = 'Usuário não encontrado. Por favor, verifique as credenciais.';
+                loginErrorMessage.classList.remove('d-none');
+              }
+              
+              // Show SweetAlert error
+              Swal.fire({
+                icon: 'error',
+                title: 'Usuário não encontrado',
+                text: 'Por favor, verifique suas credenciais ou crie uma nova conta.',
+                confirmButtonColor: '#8A65DF'
+              });
+              
+              event.preventDefault();
+              return false;
+            }
+            
+            // Check if the password matches
+            if (user.password !== loginPassword.value) {
+              // Password doesn't match
+              if (loginErrorMessage) {
+                loginErrorMessage.textContent = 'Senha incorreta. Por favor, tente novamente.';
+                loginErrorMessage.classList.remove('d-none');
+              }
+              
+              // Show SweetAlert error
+              Swal.fire({
+                icon: 'error',
+                title: 'Senha Incorreta',
+                text: 'A senha fornecida não corresponde ao usuário. Por favor, tente novamente.',
+                confirmButtonColor: '#8A65DF'
+              });
+              
+              event.preventDefault();
+              return false;
+            }
+            
+            // If we get here, login is successful
+            // Store login information and redirect
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            // Show success message
+            Swal.fire({
+              icon: 'success',
+              title: 'Login Bem-sucedido!',
+              text: `Bem-vindo de volta, ${user.firstName}!`,
+              confirmButtonColor: '#8A65DF'
+            }).then(() => {
+              // Redirect to home page after successful login
+              window.location.href = '../index.html';
+            });
           });
         }
         
         // Initialize cart count
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const cartCount = document.querySelector('.cart-count');
-        if (cartCount) {
-          cartCount.textContent = cart.length;
-        }
-        
-        // Check login status and update UI
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        const loginNavItem = document.getElementById('loginNavItem');
-        const logoutNavItem = document.getElementById('logoutNavItem');
-        const userLevelContainer = document.getElementById('userLevelContainer');
-        
-        if (isLoggedIn) {
-          if (loginNavItem) loginNavItem.classList.add('d-none');
-          if (logoutNavItem) logoutNavItem.classList.remove('d-none');
-          if (userLevelContainer) userLevelContainer.classList.remove('d-none');
-          
-          // Update user name
-          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-          if (currentUser) {
-            const userMenuName = document.getElementById('userMenuName');
-            if (userMenuName) {
-              userMenuName.textContent = currentUser.firstName;
-            }
-          }
-          
-          // Update level and XP
-          const currentLevel = parseInt(localStorage.getItem('userLevel')) || 1;
-          const currentXP = parseInt(localStorage.getItem('userXP')) || 0;
-          const xpNeeded = 100 * currentLevel;
-          
-          const userLevelElement = document.getElementById('userLevel');
-          const userXpBar = document.getElementById('userXpBar');
-          const userXpText = document.getElementById('userXpText');
-          
-          if (userLevelElement) userLevelElement.textContent = currentLevel;
-          
-          if (userXpBar) {
-            const percentage = (currentXP / xpNeeded) * 100;
-            userXpBar.style.width = `${percentage}%`;
-          }
-          
-          if (userXpText) {
-            userXpText.textContent = `${xpNeeded - currentXP} XP para o próximo nível`;
-          }
-        }
-        
-        // Initialize back to top button
-        const backToTopButton = document.getElementById('backToTop');
-        if (backToTopButton) {
-          window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-              backToTopButton.classList.add('show');
-            } else {
-              backToTopButton.classList.remove('show');
-            }
-          });
-          
-          backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          });
-        }
+        updateCartCount();
       });
     </script>
     <script src="../assets/js/theme.js"></script>
