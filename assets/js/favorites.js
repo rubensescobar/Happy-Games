@@ -191,6 +191,61 @@ function toggleFavorite(button) {
 }
 
 /**
+ * Shows empty state message in the favorites tab
+ */
+function showEmptyFavoritesState(container) {
+  container.innerHTML = `
+    <div class="empty-collection">
+      <i class="fas fa-heart"></i>
+      <p>Você ainda não adicionou jogos aos favoritos</p>
+      <a href="games.html" class="btn-explore">Explorar jogos</a>
+    </div>
+  `;
+}
+
+/**
+ * Creates a game card for the favorites tab
+ */
+function createFavoriteGameCard(game) {
+  const cardElement = document.createElement('div');
+  cardElement.className = 'favorite-game-card';
+  cardElement.setAttribute('data-game-id', game.id);
+  
+  // Ensure game has proper data or set defaults
+  const title = game.title || `Game #${game.id}`;
+  const imageSrc = game.image || '../assets/images/placeholder-game.jpg';
+  const platforms = game.platforms && Array.isArray(game.platforms) ? game.platforms.join(', ') : '';
+  
+  // Create card with simpler style matching the provided image
+  cardElement.innerHTML = `
+    <div class="favorite-card-content">
+      <div class="favorite-image">
+        <img src="${imageSrc}" alt="${title}" onerror="this.src='../assets/images/placeholder-game.jpg'">
+        <button type="button" class="favorite-remove-btn" data-id="${game.id}">
+          <i class="fas fa-heart"></i>
+        </button>
+      </div>
+      <div class="favorite-details">
+        <h3 class="favorite-title">${title}</h3>
+        <p class="favorite-platforms">${platforms}</p>
+      </div>
+    </div>
+  `;
+  
+  // Add event listener for remove button (unfavorite)
+  const removeBtn = cardElement.querySelector('.favorite-remove-btn');
+  if (removeBtn) {
+    removeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const gameId = this.getAttribute('data-id');
+      toggleFavorite(this); // This removes from wishlist and updates UI
+    });
+  }
+  
+  return cardElement;
+}
+
+/**
  * Updates the Favorites tab in profile.html to display all favorited games
  */
 function updateFavoritesTab() {
@@ -220,30 +275,13 @@ function updateFavoritesTab() {
     return;
   }
   
-  // Create cart-style container with headers
-  const cartContainer = document.createElement('div');
-  cartContainer.className = 'cart-container';
+  // Create grid container for favorite cards
+  const favoriteCardsContainer = document.createElement('div');
+  favoriteCardsContainer.className = 'favorite-cards-grid';
+  favoriteCardsContainer.id = 'favoritesItems';
   
-  // Add cart header matching the grid layout of the cart item
-  const cartHeader = document.createElement('div');
-  cartHeader.className = 'cart-header';
-  cartHeader.innerHTML = `
-    <div class="cart-header-item product" data-theme-color="true">Jogo</div>
-    <div class="cart-header-item" data-theme-color="true"></div>
-    <div class="cart-header-item" data-theme-color="true"></div>
-    <div class="cart-header-item" data-theme-color="true"></div>
-    <div class="cart-header-item" data-theme-color="true"></div>
-  `;
-  
-  cartContainer.appendChild(cartHeader);
-  
-  // Create items container
-  const itemsContainer = document.createElement('div');
-  itemsContainer.id = 'favoritesItems';
-  cartContainer.appendChild(itemsContainer);
-  
-  // Append cart container to wishlist grid
-  wishlistGrid.appendChild(cartContainer);
+  // Append container to wishlist grid
+  wishlistGrid.appendChild(favoriteCardsContainer);
   
   // Fetch game details for each favorited game
   const gameData = [];
@@ -346,75 +384,11 @@ function updateFavoritesTab() {
   // Create and append game cards
   gameData.forEach(game => {
     const gameCard = createFavoriteGameCard(game);
-    itemsContainer.appendChild(gameCard);
+    favoriteCardsContainer.appendChild(gameCard);
   });
   
   // Update summary information
   updateWishlistSummary(favoritedGameIds.length, totalValue, potentialSavings);
-}
-
-/**
- * Shows empty state message in the favorites tab
- */
-function showEmptyFavoritesState(container) {
-  container.innerHTML = `
-    <div class="empty-cart-message">
-      <i class="fas fa-heart"></i>
-      <h3>Você ainda não adicionou jogos aos favoritos</h3>
-      <p>Explore nossa biblioteca e adicione seus jogos favoritos</p>
-      <a href="games.html" class="btn-continue-shopping">Explorar jogos</a>
-    </div>
-  `;
-}
-
-/**
- * Creates a game card for the favorites tab
- */
-function createFavoriteGameCard(game) {
-  const cardElement = document.createElement('div');
-  cardElement.className = 'cart-item';
-  cardElement.setAttribute('data-game-id', game.id);
-  
-  // Ensure game has proper data or set defaults
-  const title = game.title || `Game #${game.id}`;
-  const imageSrc = game.image || '../assets/images/placeholder-game.jpg';
-  const platforms = game.platforms && Array.isArray(game.platforms) ? game.platforms.join(', ') : '';
-  const genres = game.genres && Array.isArray(game.genres) ? game.genres.join(', ') : '';
-  
-  // Create card using the exact same structure as cart items
-  cardElement.innerHTML = `
-    <div class="product">
-      <div class="product-image">
-        <img src="${imageSrc}" alt="${title}" onerror="this.src='../assets/images/placeholder-game.jpg'">
-      </div>
-      <div class="product-details">
-        <a href="#" class="product-title">${title}</a>
-        <div class="product-meta">
-          ${platforms ? `<span class="product-platform"><i class="fas fa-gamepad me-1"></i>${platforms}</span>` : ''}
-          ${genres ? `<span class="product-genre"><i class="fas fa-tags me-1"></i>${genres}</span>` : ''}
-        </div>
-      </div>
-    </div>
-    <div class="cart-item-placeholder"></div>
-    <div class="cart-item-placeholder"></div>
-    <div class="cart-item-placeholder"></div>
-    <div class="remove">
-      <button type="button" class="remove-btn favorite-remove-btn" data-id="${game.id}">
-        <i class="fas fa-heart"></i>
-      </button>
-    </div>
-  `;
-  
-  // Add event listener for remove button (unfavorite)
-  const removeBtn = cardElement.querySelector('.remove-btn');
-  if (removeBtn) {
-    removeBtn.addEventListener('click', function() {
-      const gameId = this.getAttribute('data-id');
-      toggleFavorite(this); // This removes from wishlist and updates UI
-    });
-  }
-  
-  return cardElement;
 }
 
 /**
