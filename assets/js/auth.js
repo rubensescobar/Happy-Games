@@ -31,11 +31,9 @@ function checkLoginStatus() {
   
   // Get UI elements
   const loginNavItem = document.getElementById('loginNavItem');
-  const logoutNavItem = document.getElementById('logoutNavItem');
+  const userDropdownContainer = document.getElementById('userDropdownContainer');
   const userLevelContainer = document.getElementById('userLevelContainer');
-  const nomeUsuarioSpan = document.getElementById('nomeUsuario');
-  const userMenuNameSpan = document.getElementById('userMenuName');
-  const loginIcon = document.getElementById('loginIcon');
+  const userDropdownName = document.getElementById('userDropdownName');
   
   // Check for login expiration
   if (isLoggedIn && localStorage.getItem(AUTH_KEYS.LOGIN_EXPIRATION)) {
@@ -53,25 +51,15 @@ function checkLoginStatus() {
     // User is logged in
     const currentUser = JSON.parse(localStorage.getItem(AUTH_KEYS.CURRENT_USER) || '{}');
     
-    // Update username display in both locations if they exist
-    if (nomeUsuarioSpan) {
-      nomeUsuarioSpan.textContent = currentUser.firstName || currentUser.username || 'Usuário';
-    }
-    
-    if (userMenuNameSpan) {
-      userMenuNameSpan.textContent = currentUser.firstName || currentUser.username || 'Usuário';
+    // Update username display
+    if (userDropdownName) {
+      userDropdownName.textContent = currentUser.firstName || currentUser.username || 'Usuário';
     }
     
     // Show/hide appropriate menu items
     if (loginNavItem) loginNavItem.classList.add('d-none');
-    if (logoutNavItem) logoutNavItem.classList.remove('d-none');
+    if (userDropdownContainer) userDropdownContainer.classList.remove('d-none');
     if (userLevelContainer) userLevelContainer.classList.remove('d-none');
-    
-    // Update icon
-    if (loginIcon) {
-      loginIcon.classList.remove('fa-right-to-bracket');
-      loginIcon.classList.add('fa-user');
-    }
     
     // Load user's XP and level info
     updateUserLevelDisplay();
@@ -81,25 +69,10 @@ function checkLoginStatus() {
   } else {
     // User is not logged in
     
-    // Update menu text
-    if (nomeUsuarioSpan) {
-      nomeUsuarioSpan.textContent = 'Login';
-    }
-    
-    if (userMenuNameSpan) {
-      userMenuNameSpan.textContent = 'Usuário';
-    }
-    
     // Show/hide appropriate menu items
     if (loginNavItem) loginNavItem.classList.remove('d-none');
-    if (logoutNavItem) logoutNavItem.classList.add('d-none');
+    if (userDropdownContainer) userDropdownContainer.classList.add('d-none');
     if (userLevelContainer) userLevelContainer.classList.add('d-none');
-    
-    // Update icon
-    if (loginIcon) {
-      loginIcon.classList.remove('fa-user');
-      loginIcon.classList.add('fa-right-to-bracket');
-    }
   }
 }
 
@@ -107,7 +80,7 @@ function checkLoginStatus() {
  * Set up the logout handler on the logout link
  */
 function setupLogoutHandler() {
-  const logoutLink = document.getElementById('logoutLink');
+  const logoutLink = document.getElementById('userDropdownLogoutLink');
   
   if (logoutLink) {
     logoutLink.addEventListener('click', function(e) {
