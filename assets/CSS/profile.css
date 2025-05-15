@@ -122,6 +122,7 @@
   background: linear-gradient(90deg, var(--color-green), var(--color-green-glow));
   border-radius: 4px;
   position: relative;
+  pointer-events: none;
 }
 
 .level-progress::after {

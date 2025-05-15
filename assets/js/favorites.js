@@ -1,170 +1,251 @@
-/**
- * Favorites/Wishlist Management for Happy-Games
- * This file provides consistent functionality for favorites across the site
- */
-
-// Helper function to get userGameProfile from localStorage, ensuring wishlist exists and contains only IDs
 function getUserGameProfile() {
-  const defaultProfile = { wishlist: [] };
   try {
-    const profile = JSON.parse(localStorage.getItem('userGameProfile')) || defaultProfile;
-    // Ensure wishlist exists and is an array of strings (IDs)
-    if (!profile.wishlist || !Array.isArray(profile.wishlist) || !profile.wishlist.every(item => typeof item === 'string')) {
-      // Attempt to convert old object format to ID array if necessary
-      if (Array.isArray(profile.wishlist) && profile.wishlist.every(item => typeof item === 'object' && item !== null && 'id' in item)) {
-          profile.wishlist = profile.wishlist.map(item => item.id);
-          console.warn("Converted old wishlist format to array of IDs.");
-      } else {
-         profile.wishlist = [];
+    const userGameProfile = JSON.parse(localStorage.getItem('userGameProfile'));
+    if (userGameProfile && userGameProfile.wishlist && Array.isArray(userGameProfile.wishlist)) {
+      if (userGameProfile.wishlist.length > 0 && typeof userGameProfile.wishlist[0] === 'object') {
+        // Caso venha no formato antigo com objetos, extrair só os ids
+        userGameProfile.wishlist = userGameProfile.wishlist.map(item => item.id);
       }
+      return userGameProfile;
     }
-    return profile;
-  } catch (e) {
-    console.error("Error parsing userGameProfile from localStorage:", e);
-    return defaultProfile;
+  } catch (error) {
+    console.error("Erro ao carregar perfil do usuário:", error);
   }
+  return { wishlist: [] };
 }
 
-// Helper function to save userGameProfile to localStorage
 function saveUserGameProfile(profile) {
   try {
     localStorage.setItem('userGameProfile', JSON.stringify(profile));
-  } catch (e) {
-    console.error("Error saving userGameProfile to localStorage:", e);
+  } catch (error) {
+    console.error("Erro ao salvar perfil do usuário:", error);
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize wishlist icons based on localStorage
+document.addEventListener('DOMContentLoaded', () => {
   initializeFavorites();
+
+  const wishlistTab = document.getElementById('wishlist');
+  if (wishlistTab) {
+    updateFavoritesTab();
+
+    const wishlistTabButton = document.querySelector('[data-tab="wishlist"]');
+    if (wishlistTabButton) {
+      wishlistTabButton.addEventListener('click', () => updateFavoritesTab());
+    }
+  }
 });
 
-// Initialize wishlist/favorites UI from localStorage (Updated to check for IDs)
 function initializeFavorites() {
   const userProfile = getUserGameProfile();
-  const gameCards = document.querySelectorAll('.game-card-immersive, .game-card'); // Also target regular game cards
+  const gameCards = document.querySelectorAll('.game-card-immersive, .game-card');
 
   gameCards.forEach(card => {
     const gameId = card.getAttribute('data-game-id');
-    // Find wishlist button within the card, handling different card structures
-    const wishlistBtn = card.querySelector('.wishlist-button, .add-to-wishlist'); // Check for both button classes
+    const wishlistBtn = card.querySelector('.wishlist-button, .add-to-wishlist');
 
     if (wishlistBtn && gameId) {
-      // Check if the gameId exists in the user's wishlist array of IDs
-      const isInWishlist = userProfile.wishlist.includes(gameId); // Use includes for array of IDs
+      const isInWishlist = userProfile.wishlist.includes(gameId);
       const icon = wishlistBtn.querySelector('i');
 
-      if (isInWishlist && icon) {
-        icon.classList.remove('far');
-        icon.classList.add('fas');
-      } else if (!isInWishlist && icon) { // Ensure icon is outline if not in wishlist
-         icon.classList.remove('fas');
-         icon.classList.add('far');
+      if (icon) {
+        icon.classList.toggle('fas', isInWishlist);
+        icon.classList.toggle('far', !isInWishlist);
       }
 
-      // Remove any existing click listeners to prevent duplicates
-      // Clone node is not the most efficient but ensures listeners are removed reliably across different initializations
+      // Remove listeners antigos e adiciona novos para evitar duplicidade
       const newWishlistBtn = wishlistBtn.cloneNode(true);
       wishlistBtn.parentNode.replaceChild(newWishlistBtn, wishlistBtn);
 
-
-      // Add click event listener using the updated toggleFavorite
-      newWishlistBtn.addEventListener('click', function(e) {
+      newWishlistBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleFavorite(this);
+        toggleFavorite(newWishlistBtn);
       });
     }
   });
 }
 
-// Toggle item in favorites/wishlist
 function toggleFavorite(button) {
-  // Check if user is logged in - requireLogin handles redirection/modal
   if (window.auth && !window.auth.isUserLoggedIn()) {
     window.auth.requireLogin(null, true);
     return;
   }
 
   const icon = button.querySelector('i');
-  // const gameCard = button.closest('.game-card-immersive, .game-card'); // Check both card classes - Removed as it causes error in modal
-  let gameId = button.dataset.gameId; // Attempt to get gameId directly from the button's dataset
+  let gameId = button.dataset.gameId || button.getAttribute('data-game-id') || button.dataset.id || button.getAttribute('data-id');
 
-  // If gameId is not on the button, try getting it from the closest parent game card
   if (!gameId) {
-    const gameCard = button.closest('.game-card-immersive, .game-card');
+    const gameCard = button.closest('.game-card-immersive, .game-card, .cart-item');
     if (gameCard) {
-      gameId = gameCard.getAttribute('data-game-id');
+      gameId = gameCard.dataset.gameId || gameCard.getAttribute('data-game-id');
     }
   }
 
   if (!gameId) {
-    console.error("Cannot toggle favorite: game-id attribute not found on the button or parent card.");
+    console.error("Não foi possível identificar o ID do jogo para favoritar.");
     return;
   }
 
-  let userProfile = getUserGameProfile();
-  // Use indexOf for arrays of primitives (IDs)
+  const userProfile = getUserGameProfile();
   const existingIndex = userProfile.wishlist.indexOf(gameId);
 
   if (existingIndex === -1) {
-    // Add to wishlist (only the ID)
     userProfile.wishlist.push(gameId);
-
-    // Change from outline to solid heart
     if (icon) {
-        icon.classList.remove('far');
-        icon.classList.add('fas');
+      icon.classList.remove('far');
+      icon.classList.add('fas');
     }
 
-    // Add XP for adding to wishlist (assuming addUserXP is available globally or via auth module)
     if (window.auth && typeof window.auth.addUserXP === 'function') {
-        window.auth.addUserXP(5, 'Adicionou um jogo à lista de desejos');
-    } else if (typeof addUserXP === 'function') { // Fallback if addUserXP is a global function
-        addUserXP(5, 'Adicionou um jogo à lista de desejos');
+      window.auth.addUserXP(5, 'Adicionou um jogo à lista de desejos');
+    } else if (typeof addUserXP === 'function') {
+      addUserXP(5, 'Adicionou um jogo à lista de desejos');
     }
 
-    // Show notification (assuming showNotification is available globally)
     if (typeof showNotification === 'function') {
       showNotification('Adicionado à lista de desejos', 'success');
     }
 
   } else {
-    // Remove from wishlist
     userProfile.wishlist.splice(existingIndex, 1);
-
-    // Change from solid to outline heart
     if (icon) {
-        icon.classList.remove('fas');
-        icon.classList.add('far');
+      icon.classList.remove('fas');
+      icon.classList.add('far');
     }
 
-    // Show notification (assuming showNotification is available globally)
     if (typeof showNotification === 'function') {
       showNotification('Removido da lista de desejos', 'info');
     }
+
+    if (document.getElementById('wishlist')?.classList.contains('active')) {
+      const wishlistGrid = document.getElementById('wishlistGrid');
+      const cardToRemove = wishlistGrid?.querySelector(`[data-game-id="${gameId}"]`);
+      if (cardToRemove) cardToRemove.remove();
+
+      if (userProfile.wishlist.length === 0) {
+        showEmptyFavoritesState(wishlistGrid);
+        updateWishlistSummary(0, 0, 0);
+      } else {
+        updateWishlistSummary(userProfile.wishlist.length);
+      }
+    }
   }
 
-  // Save updated userGameProfile to localStorage
   saveUserGameProfile(userProfile);
 
-  // Optional: Trigger an event for other parts of the page to react (e.g., updating a wishlist count display)
+  if (document.getElementById('wishlist')) {
+    updateFavoritesTab();
+  }
+
   document.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist: userProfile.wishlist } }));
 }
 
-// Function to check if a game is in the user's wishlist
-function isGameInWishlist(gameId) {
-  if (!gameId) {
-    return false;
-  }
-  const userProfile = getUserGameProfile();
-  // Use includes for arrays of primitives (IDs)
-  return userProfile.wishlist.includes(gameId);
+function showEmptyFavoritesState(container) {
+  container.innerHTML = `
+    <div class="empty-collection">
+      <i class="fas fa-heart"></i>
+      <p>Você ainda não adicionou jogos aos favoritos</p>
+      <a href="games.html" class="btn-explore">Explorar jogos</a>
+    </div>
+  `;
 }
 
-// Expose functions if needed by other modules
-// window.addToWishlist = addToWishlist; // Removed
-// window.removeFromWishlist = removeFromWishlist; // Removed
-// window.toggleWishlist = toggleWishlist; // Removed
-window.isGameInWishlist = isGameInWishlist;
-window.initializeFavorites = initializeFavorites; // Keep initialization exposed if needed externally
-window.toggleFavorite = toggleFavorite; // Expose the main toggle function 
+function createFavoriteGameCard(game) {
+  const card = document.createElement('div');
+  card.className = 'cart-item'; // manter estilo igual ao carrinho
+  card.setAttribute('data-game-id', game.id);
+
+  const title = game.title || `Game #${game.id}`;
+  const imageSrc = game.image || '../assets/images/placeholder-game.jpg';
+  const platforms = game.platforms?.join(', ') || '';
+
+  card.innerHTML = `
+    <div class="cart-item-image">
+      <img src="${imageSrc}" alt="${title}" onerror="this.src='../assets/images/placeholder-game.jpg'">
+    </div>
+    <div class="cart-item-details">
+      <h3 class="cart-item-title">${title}</h3>
+      <p class="cart-item-platforms">${platforms}</p>
+    </div>
+    <button type="button" class="remove-from-favorites" data-id="${game.id}" title="Remover dos favoritos">
+      <i class="fas fa-heart"></i>
+    </button>
+  `;
+
+  card.querySelector('.remove-from-favorites').addEventListener('click', e => {
+    e.stopPropagation();
+    toggleFavorite(card.querySelector('.remove-from-favorites'));
+  });
+
+  return card;
+}
+
+function updateFavoritesTab() {
+  if (!window.location.pathname.includes('profile.html')) return;
+
+  const wishlistContainer = document.getElementById('wishlist');
+  if (!wishlistContainer) return;
+
+  const wishlistGrid = document.getElementById('wishlistGrid');
+  if (!wishlistGrid) return;
+
+  wishlistGrid.innerHTML = '';
+
+  const userProfile = getUserGameProfile();
+  const favoritedGameIds = userProfile.wishlist || [];
+
+  if (favoritedGameIds.length === 0) {
+    showEmptyFavoritesState(wishlistGrid);
+    updateWishlistSummary(0, 0, 0);
+    return;
+  }
+
+  // Create cart-style container instead of grid
+  const cartContainer = document.createElement('div');
+  cartContainer.className = 'cart-container';
+  wishlistGrid.appendChild(cartContainer);
+
+  // Aqui só mudamos para usar window.gamesData ao invés do gamesRepository
+  if (!window.gamesData || !Array.isArray(window.gamesData)) {
+    console.warn("window.gamesData não encontrado ou não é um array.");
+    showEmptyFavoritesState(wishlistGrid);
+    return;
+  }
+
+  favoritedGameIds.forEach(gameId => {
+    // Buscar jogo no array window.gamesData
+    const game = window.gamesData.find(g => String(g.id) === String(gameId));
+
+    if (game) {
+      // Ajustar caminho da imagem para o profile.html
+      if (game.image && !game.image.startsWith('http')) {
+        if (window.location.pathname.includes('profile.html') && !game.image.startsWith('../')) {
+          game.image = '../' + game.image;
+        }
+      }
+      const gameCard = createFavoriteGameCard(game);
+      cartContainer.appendChild(gameCard);
+    } else {
+      // Se não encontrar jogo, criar card genérico
+      const placeholderGame = {
+        id: gameId,
+        title: `Game #${gameId}`,
+        image: '../assets/images/placeholder-game.jpg'
+      };
+      const gameCard = createFavoriteGameCard(placeholderGame);
+      cartContainer.appendChild(gameCard);
+    }
+  });
+
+  updateWishlistSummary(favoritedGameIds.length);
+}
+
+function updateWishlistSummary(itemCount, totalValue = 0, potentialSavings = 0) {
+  const wishlistTotal = document.getElementById('wishlistTotal');
+  const wishlistValue = document.getElementById('wishlistValue');
+  const wishlistSavings = document.getElementById('wishlistSavings');
+
+  if (wishlistTotal) wishlistTotal.textContent = itemCount;
+  if (wishlistValue) wishlistValue.textContent = totalValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  if (wishlistSavings) wishlistSavings.textContent = potentialSavings.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}

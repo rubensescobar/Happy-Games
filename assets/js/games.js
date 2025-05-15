@@ -1181,6 +1181,8 @@ const gamesData = [
   tags: ['new', 'featured']
 }
 ];
+window.gamesData = gamesData;
+
 
 // Function to get all games
 function getAllGames() {
