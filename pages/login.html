@@ -74,6 +74,41 @@
       .form-floating .is-valid ~ label {
         color: #198754;
       }
+      
+      /* Password validation styles */
+      .password-requirements ul {
+        list-style-type: none;
+        padding-left: 0.5rem;
+      }
+      
+      .password-requirements li {
+        color: var(--color-purpledark);
+        margin-bottom: 0.25rem;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+      
+      .password-requirements li::before {
+        content: "×";
+        font-weight: bold;
+        font-size: 1.2rem;
+        position: absolute;
+        left: 0;
+        top: -0.25rem;
+      }
+      
+      .password-requirements li.valid {
+        color: var(--color-green);
+      }
+      
+      .password-requirements li.valid::before {
+        content: "✓";
+      }
+      
+      /* Dark mode specific styles for password requirements */
+      :root[data-theme="dark"] .password-requirements li {
+        color: var(--color-white-cottom);
+      }
 
       /* Light mode specific styles */
       :root:not([data-theme="dark"]) .bloco.card {
@@ -348,6 +383,17 @@
                         <div class="invalid-feedback">
                           A senha deve ter pelo menos 6 caracteres.
                         </div>
+                        <!-- Password requirements list -->
+                        <div class="password-requirements mt-2">
+                          <p class="mb-1 small">Sua senha deve conter:</p>
+                          <ul class="small ps-3 mb-0">
+                            <li id="length-check">Mínimo de 8 caracteres</li>
+                            <li id="uppercase-check">Pelo menos uma letra maiúscula</li>
+                            <li id="lowercase-check">Pelo menos uma letra minúscula</li>
+                            <li id="number-check">Pelo menos um número</li>
+                            <li id="special-check">Pelo menos um caractere especial (@, $, !, %, *, ?, &, #)</li>
+                          </ul>
+                        </div>
                       </div>
                       
                       <!-- Confirm Password input -->
@@ -501,6 +547,41 @@
           }
         }
         
+        // Password validation elements
+        const lengthCheck = document.getElementById('length-check');
+        const uppercaseCheck = document.getElementById('uppercase-check');
+        const lowercaseCheck = document.getElementById('lowercase-check');
+        const numberCheck = document.getElementById('number-check');
+        const specialCheck = document.getElementById('special-check');
+        
+        // Password validation function
+        function validatePassword(password) {
+          const minLength = 8;
+          const hasUppercase = /[A-Z]/.test(password);
+          const hasLowercase = /[a-z]/.test(password);
+          const hasNumber = /[0-9]/.test(password);
+          const hasSpecial = /[@$!%*?&#]/.test(password);
+          
+          // Update validation UI
+          toggleValidClass(lengthCheck, password.length >= minLength);
+          toggleValidClass(uppercaseCheck, hasUppercase);
+          toggleValidClass(lowercaseCheck, hasLowercase);
+          toggleValidClass(numberCheck, hasNumber);
+          toggleValidClass(specialCheck, hasSpecial);
+          
+          // Return overall validation status
+          return password.length >= minLength && hasUppercase && hasLowercase && hasNumber && hasSpecial;
+        }
+        
+        // Helper function to toggle valid class
+        function toggleValidClass(element, isValid) {
+          if (isValid) {
+            element.classList.add('valid');
+          } else {
+            element.classList.remove('valid');
+          }
+        }
+        
         // Add event listeners for password toggles
         if (toggleLoginPassword && loginPassword) {
           toggleLoginPassword.addEventListener('click', function() {
@@ -512,11 +593,37 @@
           toggleSignupPassword.addEventListener('click', function() {
             togglePasswordVisibility(signupPassword, toggleSignupPassword);
           });
+          
+          // Add real-time password validation
+          signupPassword.addEventListener('input', function() {
+            validatePassword(this.value);
+          });
         }
         
         if (toggleConfirmPassword && confirmPassword) {
           toggleConfirmPassword.addEventListener('click', function() {
             togglePasswordVisibility(confirmPassword, toggleConfirmPassword);
+          });
+          
+          // Validate confirm password matches
+          confirmPassword.addEventListener('input', function() {
+            const isMatch = this.value === signupPassword.value;
+            this.classList.toggle('is-valid', isMatch && this.value.length > 0);
+            this.classList.toggle('is-invalid', !isMatch && this.value.length > 0);
+          });
+        }
+        
+        // Also validate password when signup form is submitted
+        const signupBtn = document.getElementById('signupBtn');
+        if (signupBtn) {
+          signupBtn.addEventListener('click', function() {
+            const isPasswordValid = validatePassword(signupPassword.value);
+            if (!isPasswordValid) {
+              signupPassword.classList.add('is-invalid');
+            } else {
+              signupPassword.classList.remove('is-invalid');
+              signupPassword.classList.add('is-valid');
+            }
           });
         }
         
