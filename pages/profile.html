@@ -269,11 +269,409 @@
           </div>
         </div>
         
-        <!-- Empty tabs to be filled with JavaScript -->
-        <div class="tab-pane" id="library"></div>
-        <div class="tab-pane" id="wishlist"></div>
-        <div class="tab-pane" id="achievements"></div>
-        <div class="tab-pane" id="settings"></div>
+        <!-- Library Tab -->
+        <div class="tab-pane" id="library">
+          <div class="row">
+            <div class="col-lg-8">
+              <!-- My Games -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Minha Biblioteca de Jogos</h3>
+                  <a href="games.html" class="card-link">Explorar mais jogos</a>
+                </div>
+                <div class="card-body">
+                  <div class="game-library-grid" id="gameLibraryGrid">
+                    <!-- Library will be populated by JavaScript -->
+                    <div class="empty-collection">
+                      <i class="fas fa-gamepad"></i>
+                      <p>Você ainda não possui jogos na sua biblioteca</p>
+                      <a href="games.html" class="btn-explore">Explorar jogos</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Recently Played -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Jogados Recentemente</h3>
+                </div>
+                <div class="card-body">
+                  <div class="recently-played" id="recentlyPlayed">
+                    <div class="empty-collection">
+                      <i class="fas fa-history"></i>
+                      <p>Nenhum jogo jogado recentemente</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+              <!-- Library Stats -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Estatísticas da Biblioteca</h3>
+                </div>
+                <div class="card-body">
+                  <div class="library-stats">
+                    <div class="stat-group">
+                      <div class="stat-item">
+                        <div class="stat-value" id="totalGames">0</div>
+                        <div class="stat-label">Total de Jogos</div>
+                      </div>
+                      <div class="stat-item">
+                        <div class="stat-value" id="totalPlayed">0</div>
+                        <div class="stat-label">Jogos Jogados</div>
+                      </div>
+                      <div class="stat-item">
+                        <div class="stat-value" id="totalCompleted">0</div>
+                        <div class="stat-label">Jogos Completados</div>
+                      </div>
+                    </div>
+                    <div class="genre-distribution mt-4">
+                      <h4 class="mb-3">Distribuição por Gênero</h4>
+                      <div class="empty-stats">
+                        <p>Adicione jogos à sua biblioteca para ver estatísticas</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Favorites Tab -->
+        <div class="tab-pane" id="wishlist">
+          <div class="row">
+            <div class="col-lg-8">
+              <!-- Wishlist Games -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Meus Jogos Favoritos</h3>
+                </div>
+                <div class="card-body">
+                  <div class="wishlist-grid" id="wishlistGrid">
+                    <!-- Wishlist will be populated by JavaScript -->
+                    <div class="empty-collection">
+                      <i class="fas fa-heart"></i>
+                      <p>Você ainda não adicionou jogos aos favoritos</p>
+                      <a href="games.html" class="btn-explore">Explorar jogos</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Price Alerts -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Alertas de Preço</h3>
+                </div>
+                <div class="card-body">
+                  <div class="price-alerts" id="priceAlerts">
+                    <div class="empty-collection">
+                      <i class="fas fa-bell"></i>
+                      <p>Você não configurou alertas de preço</p>
+                      <p class="text-muted">Adicione jogos aos favoritos e configure alertas para receber notificações quando os preços baixarem</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+              <!-- Wishlist Summary -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Resumo da Lista</h3>
+                </div>
+                <div class="card-body">
+                  <div class="wishlist-summary">
+                    <div class="summary-item">
+                      <div class="summary-label">Total de Jogos:</div>
+                      <div class="summary-value" id="wishlistTotal">0</div>
+                    </div>
+                    <div class="summary-item">
+                      <div class="summary-label">Valor Total:</div>
+                      <div class="summary-value" id="wishlistValue">R$ 0,00</div>
+                    </div>
+                    <div class="summary-item">
+                      <div class="summary-label">Economia Potencial:</div>
+                      <div class="summary-value" id="potentialSavings">R$ 0,00</div>
+                    </div>
+                    <div class="mt-4">
+                      <h4 class="mb-3">Dicas</h4>
+                      <ul class="wishlist-tips">
+                        <li><i class="fas fa-info-circle me-2"></i> Adicione jogos aos favoritos para receber notificações de descontos</li>
+                        <li><i class="fas fa-info-circle me-2"></i> Configure alertas de preço para ser notificado quando o jogo atingir seu orçamento</li>
+                        <li><i class="fas fa-info-circle me-2"></i> Ganhe XP ao adicionar jogos aos favoritos</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Achievements Tab -->
+        <div class="tab-pane" id="achievements">
+          <div class="row">
+            <div class="col-lg-8">
+              <!-- All Achievements -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Minhas Conquistas</h3>
+                </div>
+                <div class="card-body">
+                  <div class="achievements-grid" id="achievementsGrid">
+                    <div class="achievement-item">
+                      <div class="achievement-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                      </div>
+                      <div class="achievement-info">
+                        <h4>Primeiro Jogo</h4>
+                        <p>Comprou seu primeiro jogo</p>
+                        <div class="achievement-date">01/06/2025</div>
+                      </div>
+                    </div>
+                    
+                    <div class="achievement-item locked">
+                      <div class="achievement-icon">
+                        <i class="fas fa-heart"></i>
+                      </div>
+                      <div class="achievement-info">
+                        <h4>Colecionador Iniciante</h4>
+                        <p>Adicione 5 jogos aos favoritos</p>
+                        <div class="achievement-progress">
+                          <div class="progress-bar" style="width: 20%"></div>
+                          <div class="progress-text">1/5</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="achievement-item locked">
+                      <div class="achievement-icon">
+                        <i class="fas fa-star"></i>
+                      </div>
+                      <div class="achievement-info">
+                        <h4>Crítico</h4>
+                        <p>Avalie 3 jogos na plataforma</p>
+                        <div class="achievement-progress">
+                          <div class="progress-bar" style="width: 0%"></div>
+                          <div class="progress-text">0/3</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+              <!-- Achievement Summary -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Resumo de Conquistas</h3>
+                </div>
+                <div class="card-body">
+                  <div class="achievement-summary">
+                    <div class="achievement-progress-circle">
+                      <svg viewBox="0 0 36 36" class="circular-chart">
+                        <path class="circle-bg" d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <path class="circle" stroke-dasharray="15, 100" d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <text x="18" y="20.35" class="percentage">15%</text>
+                      </svg>
+                    </div>
+                    <div class="achievement-stats">
+                      <div class="stats-item">
+                        <div class="stats-value" id="completedAchievements">1</div>
+                        <div class="stats-label">Conquistas Desbloqueadas</div>
+                      </div>
+                      <div class="stats-item">
+                        <div class="stats-value" id="totalAchievements">10</div>
+                        <div class="stats-label">Total de Conquistas</div>
+                      </div>
+                      <div class="stats-item">
+                        <div class="stats-value" id="totalXP">100</div>
+                        <div class="stats-label">XP Total Ganho</div>
+                      </div>
+                    </div>
+                    <div class="achievement-tips mt-4">
+                      <h4>Próximas Conquistas</h4>
+                      <ul class="next-achievements">
+                        <li>
+                          <span class="achievement-name">Colecionador Iniciante</span>
+                          <span class="achievement-reward">+50 XP</span>
+                        </li>
+                        <li>
+                          <span class="achievement-name">Crítico</span>
+                          <span class="achievement-reward">+75 XP</span>
+                        </li>
+                        <li>
+                          <span class="achievement-name">Comprador Frequente</span>
+                          <span class="achievement-reward">+100 XP</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Settings Tab -->
+        <div class="tab-pane" id="settings">
+          <div class="row">
+            <div class="col-lg-8">
+              <!-- Account Settings -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Informações da Conta</h3>
+                </div>
+                <div class="card-body">
+                  <form id="accountSettingsForm">
+                    <div class="mb-3 row">
+                      <label for="fullName" class="col-sm-3 col-form-label">Nome Completo</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="fullName" placeholder="Seu nome completo">
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="username" class="col-sm-3 col-form-label">Nome de Usuário</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="username" placeholder="Seu nome de usuário">
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="email" class="col-sm-3 col-form-label">Email</label>
+                      <div class="col-sm-9">
+                        <input type="email" class="form-control" id="email" placeholder="Seu email">
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="phone" class="col-sm-3 col-form-label">Telefone</label>
+                      <div class="col-sm-9">
+                        <input type="tel" class="form-control" id="phone" placeholder="Seu telefone">
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="birthdate" class="col-sm-3 col-form-label">Data de Nascimento</label>
+                      <div class="col-sm-9">
+                        <input type="date" class="form-control" id="birthdate">
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+              <!-- Security Settings -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Segurança</h3>
+                </div>
+                <div class="card-body">
+                  <form id="securitySettingsForm">
+                    <div class="mb-3 row">
+                      <label for="currentPassword" class="col-sm-3 col-form-label">Senha Atual</label>
+                      <div class="col-sm-9">
+                        <input type="password" class="form-control" id="currentPassword" placeholder="Sua senha atual">
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="newPassword" class="col-sm-3 col-form-label">Nova Senha</label>
+                      <div class="col-sm-9">
+                        <input type="password" class="form-control" id="newPassword" placeholder="Nova senha">
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="confirmPassword" class="col-sm-3 col-form-label">Confirmar Senha</label>
+                      <div class="col-sm-9">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirme a nova senha">
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <button type="submit" class="btn btn-primary">Atualizar Senha</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-lg-4">
+              <!-- Preferences -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Preferências</h3>
+                </div>
+                <div class="card-body">
+                  <div class="settings-preferences">
+                    <div class="mb-4">
+                      <h4 class="mb-3">Notificações</h4>
+                      <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                        <label class="form-check-label" for="emailNotifications">Notificações por Email</label>
+                      </div>
+                      <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="priceAlertNotifications" checked>
+                        <label class="form-check-label" for="priceAlertNotifications">Alertas de Preço</label>
+                      </div>
+                      <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="newReleaseNotifications">
+                        <label class="form-check-label" for="newReleaseNotifications">Novos Lançamentos</label>
+                      </div>
+                      <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="marketingNotifications">
+                        <label class="form-check-label" for="marketingNotifications">Ofertas e Promoções</label>
+                      </div>
+                    </div>
+                    <div class="mb-4">
+                      <h4 class="mb-3">Aparência</h4>
+                      <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                        <label class="form-check-label" for="darkModeToggle">Modo Escuro</label>
+                      </div>
+                    </div>
+                    <div class="mb-4">
+                      <h4 class="mb-3">Privacidade</h4>
+                      <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="publicProfile" checked>
+                        <label class="form-check-label" for="publicProfile">Perfil Público</label>
+                      </div>
+                      <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="showActivity" checked>
+                        <label class="form-check-label" for="showActivity">Mostrar Atividade Recente</label>
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <button type="button" class="btn btn-primary" id="savePreferences">Salvar Preferências</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Delete Account -->
+              <div class="profile-card danger-zone">
+                <div class="card-header danger-header">
+                  <h3>Zona de Perigo</h3>
+                </div>
+                <div class="card-body">
+                  <p class="text-danger mb-4">Atenção: Esta ação não pode ser desfeita.</p>
+                  <button type="button" class="btn btn-danger w-100" id="deleteAccount">Excluir Conta</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
