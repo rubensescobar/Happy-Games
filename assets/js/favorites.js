@@ -194,8 +194,16 @@ function toggleFavorite(button) {
  * Updates the Favorites tab in profile.html to display all favorited games
  */
 function updateFavoritesTab() {
+  // Check if we're on the profile page (based on URL)
+  const isProfilePage = window.location.pathname.includes('profile.html');
+  if (!isProfilePage) return;
+  
   // Only run on profile page when wishlist tab exists
-  const wishlistGrid = document.getElementById('wishlistGrid');
+  const wishlistContainer = document.getElementById('wishlist');
+  if (!wishlistContainer) return;
+  
+  // Find or create the wishlistGrid container
+  let wishlistGrid = document.getElementById('wishlistGrid');
   if (!wishlistGrid) return;
   
   // Clear the current content
@@ -212,44 +220,133 @@ function updateFavoritesTab() {
     return;
   }
   
+  // Create cart-style container with headers
+  const cartContainer = document.createElement('div');
+  cartContainer.className = 'cart-container';
+  
+  // Add cart header
+  const cartHeader = document.createElement('div');
+  cartHeader.className = 'cart-header';
+  cartHeader.innerHTML = `
+    <div class="cart-header-item product" data-theme-color="true">Jogo</div>
+    <div class="cart-header-item" data-theme-color="true">Plataforma</div>
+    <div class="cart-header-item" data-theme-color="true">Gênero</div>
+    <div class="cart-header-item" data-theme-color="true">Status</div>
+    <div class="cart-header-item" data-theme-color="true"></div>
+  `;
+  
+  cartContainer.appendChild(cartHeader);
+  
+  // Create items container
+  const itemsContainer = document.createElement('div');
+  itemsContainer.id = 'favoritesItems';
+  cartContainer.appendChild(itemsContainer);
+  
+  // Append cart container to wishlist grid
+  wishlistGrid.appendChild(cartContainer);
+  
   // Fetch game details for each favorited game
   const gameData = [];
   let totalValue = 0;
   let potentialSavings = 0;
   
-  // Try to get game details from any available source
+  // Determine which games array to use - try multiple sources
+  let gamesArray = [];
+  
+  // First priority: game-repository.js (newer implementation)
+  if (window.gameRepository && typeof window.gameRepository.getAllGames === 'function') {
+    gamesArray = window.gameRepository.getAllGames();
+    console.log("Using window.gameRepository.getAllGames(): Found", gamesArray.length, "games");
+  } 
+  // Second priority: games.js global gamesData array
+  else if (window.gamesData && Array.isArray(window.gamesData)) {
+    gamesArray = window.gamesData;
+    console.log("Using window.gamesData: Found", gamesArray.length, "games");
+  }
+  // Third priority: Check for other known data sources
+  else if (typeof getAllGames === 'function') {
+    gamesArray = getAllGames();
+    console.log("Using getAllGames(): Found", gamesArray.length, "games");
+  }
+  // Fallback: hardcoded minimal game data
+  else {
+    console.warn("No game repository found. Using fallback game data.");
+    // Minimal hardcoded fallback data
+    gamesArray = [
+      {
+        id: '1',
+        title: 'God of War Ragnarok',
+        image: '../assets/images/game12.png',
+        platforms: ['PlayStation', 'PC'],
+        genres: ['Ação', 'Aventura', 'RPG'],
+        price: 124.95,
+        originalPrice: 249.90
+      },
+      {
+        id: '2',
+        title: 'Ghost of Tsushima',
+        image: '../assets/images/game13.png',
+        platforms: ['PlayStation', 'PC'],
+        genres: ['Ação', 'Mundo Aberto', 'Samurai'],
+        price: 49.99,
+        originalPrice: 199.99
+      },
+      {
+        id: '3',
+        title: 'The Witcher 3: Wild Hunt',
+        image: '../assets/images/game4.png',
+        platforms: ['PC', 'PlayStation', 'Xbox'],
+        genres: ['RPG', 'Fantasia', 'Aventura'],
+        price: 79.99,
+        originalPrice: 199.99
+      }
+    ];
+  }
+
+  // Print all game IDs in the array to debug
+  console.log("Available game IDs:", gamesArray.map(g => g.id));
+  
+  // Debug which game IDs we're looking for
+  console.log("Looking for game IDs:", favoritedGameIds);
+  
+  // Find full game details for each favorited game ID
   favoritedGameIds.forEach(gameId => {
-    let gameDetails = null;
+    // Find the game in our array (using string comparison to be safe)
+    let gameDetails = gamesArray.find(g => String(g.id) === String(gameId));
     
-    // Try window.gameRepository first
-    if (window.gameRepository && typeof window.gameRepository.getGameById === 'function') {
-      gameDetails = window.gameRepository.getGameById(gameId);
-    }
-    
-    // Try gamesData array if available in window scope
-    if (!gameDetails && window.gamesData && Array.isArray(window.gamesData)) {
-      gameDetails = window.gamesData.find(g => g.id === gameId);
-    }
-    
-    // If no details found, create minimal object with ID
-    if (!gameDetails) {
-      gameDetails = { id: gameId };
-    }
-    
-    // Add to game data array
-    gameData.push(gameDetails);
-    
-    // Update summary values if price information is available
-    if (gameDetails.price !== undefined && gameDetails.originalPrice !== undefined) {
-      totalValue += gameDetails.originalPrice;
-      potentialSavings += (gameDetails.originalPrice - gameDetails.price);
+    if (gameDetails) {
+      console.log(`Found game details for ID ${gameId}:`, gameDetails.title);
+      
+      // Fix image path if we're in profile.html which is in the pages directory
+      if (gameDetails.image && !gameDetails.image.startsWith('http') && !gameDetails.image.includes('assets/')) {
+        if (isProfilePage && !gameDetails.image.startsWith('../')) {
+          gameDetails.image = '../' + gameDetails.image;
+        }
+      }
+      
+      // Add to game data array
+      gameData.push(gameDetails);
+      
+      // Update summary values if price information is available
+      if (gameDetails.price !== undefined && gameDetails.originalPrice !== undefined) {
+        totalValue += gameDetails.originalPrice;
+        potentialSavings += (gameDetails.originalPrice - gameDetails.price);
+      }
+    } else {
+      console.warn(`No game details found for ID ${gameId}`);
+      // Create minimal object with ID if we can't find the game
+      gameData.push({ 
+        id: gameId,
+        title: `Game #${gameId}`,
+        image: '../assets/images/placeholder-game.jpg'
+      });
     }
   });
   
   // Create and append game cards
   gameData.forEach(game => {
     const gameCard = createFavoriteGameCard(game);
-    wishlistGrid.appendChild(gameCard);
+    itemsContainer.appendChild(gameCard);
   });
   
   // Update summary information
@@ -261,10 +358,11 @@ function updateFavoritesTab() {
  */
 function showEmptyFavoritesState(container) {
   container.innerHTML = `
-    <div class="empty-collection">
+    <div class="empty-cart-message">
       <i class="fas fa-heart"></i>
-      <p>Você ainda não adicionou jogos aos favoritos</p>
-      <a href="games.html" class="btn-explore">Explorar jogos</a>
+      <h3>Você ainda não adicionou jogos aos favoritos</h3>
+      <p>Explore nossa biblioteca e adicione seus jogos favoritos</p>
+      <a href="games.html" class="btn-continue-shopping">Explorar jogos</a>
     </div>
   `;
 }
@@ -274,81 +372,50 @@ function showEmptyFavoritesState(container) {
  */
 function createFavoriteGameCard(game) {
   const cardElement = document.createElement('div');
-  cardElement.className = 'wishlist-card';
+  cardElement.className = 'cart-item favorite-item';
   cardElement.setAttribute('data-game-id', game.id);
   
-  // Handle if we have full game data
-  if (game.image && game.title && game.price !== undefined) {
-    const discount = game.originalPrice > game.price 
-      ? Math.round(((game.originalPrice - game.price) / game.originalPrice) * 100)
-      : 0;
-      
-    const discountBadge = discount > 0 
-      ? `<div class="discount-badge">-${discount}%</div>` 
-      : '';
-      
-    const originalPriceDisplay = discount > 0 
-      ? `<span class="original-price">R$ ${game.originalPrice.toFixed(2)}</span>` 
-      : '';
-    
-    cardElement.innerHTML = `
-      <div class="wishlist-card-image">
-        <img src="${game.image}" alt="${game.title}">
-        ${discountBadge}
-      </div>
-      <div class="wishlist-card-content">
-        <h3 class="game-title">${game.title}</h3>
-        <div class="wishlist-card-price">
-          ${originalPriceDisplay}
-          <span class="game-price">R$ ${game.price.toFixed(2)}</span>
-        </div>
-        <div class="wishlist-card-actions">
-          <button class="favorite-btn active" data-game-id="${game.id}">
-            <i class="fas fa-heart"></i>
-          </button>
-          <button class="add-to-cart-btn" data-game-id="${game.id}">
-            <i class="fas fa-shopping-cart"></i> Adicionar
-          </button>
-        </div>
-      </div>
-    `;
-  } 
-  // Simplified display if we only have game ID
-  else {
-    cardElement.innerHTML = `
-      <div class="wishlist-card-content">
-        <h3 class="game-title">Jogo #${game.id}</h3>
-        <div class="wishlist-card-actions">
-          <button class="favorite-btn active" data-game-id="${game.id}">
-            <i class="fas fa-heart"></i>
-          </button>
-        </div>
-      </div>
-    `;
-  }
+  // Ensure game has proper data or set defaults
+  const title = game.title || `Game #${game.id}`;
+  const imageSrc = game.image || '../assets/images/placeholder-game.jpg';
+  const platforms = game.platforms && Array.isArray(game.platforms) ? game.platforms.join(', ') : 'N/A';
+  const genres = game.genres && Array.isArray(game.genres) ? game.genres.join(', ') : 'N/A';
   
-  // Add event listener for favorite button
-  const favoriteBtn = cardElement.querySelector('.favorite-btn');
-  if (favoriteBtn) {
-    favoriteBtn.addEventListener('click', function() {
-      // Use the existing toggle function
-      toggleFavorite(this);
-    });
-  }
+  cardElement.innerHTML = `
+    <div class="product">
+      <div class="product-image">
+        <img src="${imageSrc}" alt="${title}" onerror="this.src='../assets/images/placeholder-game.jpg'">
+      </div>
+      <div class="product-details">
+        <a href="#" class="product-title">${title}</a>
+        <div class="product-meta">
+          ${platforms !== 'N/A' ? `<span class="product-platform">${platforms}</span>` : ''}
+          ${genres !== 'N/A' ? `<span class="product-genre">${genres}</span>` : ''}
+        </div>
+      </div>
+    </div>
+    <div class="quantity">
+      ${platforms !== 'N/A' ? `<span class="product-platform">${platforms}</span>` : '<span>-</span>'}
+    </div>
+    <div class="price">
+      ${genres !== 'N/A' ? `<span class="product-genre">${genres}</span>` : '<span>-</span>'}
+    </div>
+    <div class="total">
+      <span class="status">Favorito</span>
+    </div>
+    <div class="remove">
+      <button type="button" class="remove-btn" data-game-id="${game.id}">
+        <i class="fas fa-heart"></i>
+      </button>
+    </div>
+  `;
   
-  // Add event listener for add to cart button
-  const addToCartBtn = cardElement.querySelector('.add-to-cart-btn');
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener('click', function() {
+  // Add event listener for remove button (unfavorite)
+  const removeBtn = cardElement.querySelector('.remove-btn');
+  if (removeBtn) {
+    removeBtn.addEventListener('click', function() {
       const gameId = this.getAttribute('data-game-id');
-      if (window.addToCart) {
-        window.addToCart(gameId);
-      } else if (typeof addToCart === 'function') {
-        addToCart(gameId);
-      } else {
-        console.log('Adding to cart:', gameId);
-        showNotification('Jogo adicionado ao carrinho!', 'success');
-      }
+      toggleFavorite(this); // This removes from wishlist and updates UI
     });
   }
   

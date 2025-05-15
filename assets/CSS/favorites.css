@@ -228,4 +228,179 @@
   .wishlist-card-content {
     padding: 10px;
   }
+}
+
+/* Favorite Item (Cart Style) */
+.favorite-item {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1fr 40px;
+  gap: 1rem;
+  padding: 1.5rem;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* Light theme styling for favorite items */
+:root:not([data-theme="dark"]) .favorite-item {
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+.favorite-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Light theme hover for favorite items */
+:root:not([data-theme="dark"]) .favorite-item:hover {
+  background-color: rgba(90, 46, 152, 0.05);
+}
+
+/* Heart remove button */
+.favorite-item .remove-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(231, 76, 60, 0.1);
+  border: none;
+  color: #e74c3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.favorite-item .remove-btn:hover {
+  background-color: rgba(231, 76, 60, 0.2);
+  transform: scale(1.1);
+}
+
+.favorite-item .remove-btn i {
+  font-size: 16px;
+}
+
+/* Cart Container in Favorites Tab */
+#wishlist .cart-container {
+  background: linear-gradient(145deg, #232323, #1a1a1a);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(74, 144, 226, 0.1);
+}
+
+/* Light theme styling for cart container in wishlist tab */
+body.light-theme #wishlist .cart-container,
+:root:not([data-theme="dark"]) #wishlist .cart-container {
+  background-color: var(--color-white-cottom);
+  background-image: none;
+  border: 1px solid var(--accent-secondary);
+}
+
+#wishlist .cart-header {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1fr 40px;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Media query for responsive layout */
+@media (max-width: 768px) {
+  .favorite-item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .favorite-item .remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .favorite-item .product {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .favorite-item .quantity,
+  .favorite-item .price,
+  .favorite-item .total {
+    display: none;
+  }
+}
+
+/* Status indicator in favorites */
+.favorite-item .status {
+  padding: 3px 8px;
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+/* Platform and genre text in columns */
+.favorite-item .quantity .product-platform,
+.favorite-item .price .product-genre {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  display: block;
+}
+
+/* Error handling for missing images */
+.favorite-item .product-image img[src=""],
+.favorite-item .product-image img:not([src]) {
+  content: url('../images/placeholder-game.jpg');
+}
+
+/* Adjust title styles for better readability */
+.favorite-item .product-details .product-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+/* Improve product meta display */
+.favorite-item .product-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.favorite-item .product-meta .product-platform,
+.favorite-item .product-meta .product-genre {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #666);
+  opacity: 0.8;
+}
+
+/* Additional responsive adjustments */
+@media (max-width: 768px) {
+  .favorite-item .status {
+    position: absolute;
+    top: 10px;
+    right: 50px;
+  }
+
+  .favorite-item .product-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .favorite-item .product-meta .product-platform:after {
+    content: '•';
+    margin-left: 10px;
+  }
 } 
