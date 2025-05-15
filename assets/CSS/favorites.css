@@ -403,4 +403,115 @@ body.light-theme #wishlist .cart-container,
     content: '•';
     margin-left: 10px;
   }
+}
+
+/* Cart Item Style in Favorites Tab */
+.cart-item-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+/* Remove Button with Heart Icon */
+.favorite-remove-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(231, 76, 60, 0.1) !important;
+  border: 1px solid rgba(231, 76, 60, 0.3) !important;
+  border-radius: 5px;
+  color: rgba(231, 76, 60, 0.7) !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.favorite-remove-btn:hover {
+  background: rgba(231, 76, 60, 0.3) !important;
+  color: rgba(231, 76, 60, 1) !important;
+  transform: scale(1.1);
+}
+
+.favorite-remove-btn i {
+  font-size: 14px;
+}
+
+/* Match cart product image styles */
+.cart-item .product-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cart-item .product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Match cart item styles */
+#wishlist .cart-container .cart-item {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1fr 40px;
+  gap: 1rem;
+  padding: 1.5rem;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* Light theme styling for favorite items */
+:root:not([data-theme="dark"]) #wishlist .cart-container .cart-item {
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+#wishlist .cart-container .cart-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Light theme hover for favorite items */
+:root:not([data-theme="dark"]) #wishlist .cart-container .cart-item:hover {
+  background-color: rgba(90, 46, 152, 0.05);
+}
+
+/* Media query for responsive layout */
+@media (max-width: 768px) {
+  #wishlist .cart-container .cart-item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    position: relative;
+  }
+  
+  #wishlist .cart-container .cart-item .remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  #wishlist .cart-container .cart-item .product {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .cart-item-placeholder {
+    display: none;
+  }
+  
+  /* Add label for Favorited status on mobile */
+  #wishlist .cart-container .cart-item .product::after {
+    content: "Favorito";
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 3px 8px;
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border-radius: 12px;
+    font-size: 0.8rem;
+  }
 } 

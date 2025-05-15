@@ -100,19 +100,19 @@ function toggleFavorite(button) {
   }
 
   const icon = button.querySelector('i');
-  // const gameCard = button.closest('.game-card-immersive, .game-card'); // Check both card classes - Removed as it causes error in modal
-  let gameId = button.dataset.gameId; // Attempt to get gameId directly from the button's dataset
+  // Try to get gameId from various possible attribute locations
+  let gameId = button.dataset.gameId || button.getAttribute('data-game-id') || button.dataset.id || button.getAttribute('data-id');
 
-  // If gameId is not on the button, try getting it from the closest parent game card
+  // If still no gameId, try getting it from the closest parent game card
   if (!gameId) {
-    const gameCard = button.closest('.game-card-immersive, .game-card');
+    const gameCard = button.closest('.game-card-immersive, .game-card, .cart-item');
     if (gameCard) {
-      gameId = gameCard.getAttribute('data-game-id');
+      gameId = gameCard.dataset.gameId || gameCard.getAttribute('data-game-id');
     }
   }
 
   if (!gameId) {
-    console.error("Cannot toggle favorite: game-id attribute not found on the button or parent card.");
+    console.error("Cannot toggle favorite: game ID attribute not found on the button or parent card.");
     return;
   }
 
@@ -224,14 +224,14 @@ function updateFavoritesTab() {
   const cartContainer = document.createElement('div');
   cartContainer.className = 'cart-container';
   
-  // Add cart header
+  // Add cart header matching the grid layout of the cart item
   const cartHeader = document.createElement('div');
   cartHeader.className = 'cart-header';
   cartHeader.innerHTML = `
     <div class="cart-header-item product" data-theme-color="true">Jogo</div>
-    <div class="cart-header-item" data-theme-color="true">Plataforma</div>
-    <div class="cart-header-item" data-theme-color="true">Gênero</div>
-    <div class="cart-header-item" data-theme-color="true">Status</div>
+    <div class="cart-header-item" data-theme-color="true"></div>
+    <div class="cart-header-item" data-theme-color="true"></div>
+    <div class="cart-header-item" data-theme-color="true"></div>
     <div class="cart-header-item" data-theme-color="true"></div>
   `;
   
@@ -372,15 +372,16 @@ function showEmptyFavoritesState(container) {
  */
 function createFavoriteGameCard(game) {
   const cardElement = document.createElement('div');
-  cardElement.className = 'cart-item favorite-item';
+  cardElement.className = 'cart-item';
   cardElement.setAttribute('data-game-id', game.id);
   
   // Ensure game has proper data or set defaults
   const title = game.title || `Game #${game.id}`;
   const imageSrc = game.image || '../assets/images/placeholder-game.jpg';
-  const platforms = game.platforms && Array.isArray(game.platforms) ? game.platforms.join(', ') : 'N/A';
-  const genres = game.genres && Array.isArray(game.genres) ? game.genres.join(', ') : 'N/A';
+  const platforms = game.platforms && Array.isArray(game.platforms) ? game.platforms.join(', ') : '';
+  const genres = game.genres && Array.isArray(game.genres) ? game.genres.join(', ') : '';
   
+  // Create card using the exact same structure as cart items
   cardElement.innerHTML = `
     <div class="product">
       <div class="product-image">
@@ -389,22 +390,16 @@ function createFavoriteGameCard(game) {
       <div class="product-details">
         <a href="#" class="product-title">${title}</a>
         <div class="product-meta">
-          ${platforms !== 'N/A' ? `<span class="product-platform">${platforms}</span>` : ''}
-          ${genres !== 'N/A' ? `<span class="product-genre">${genres}</span>` : ''}
+          ${platforms ? `<span class="product-platform"><i class="fas fa-gamepad me-1"></i>${platforms}</span>` : ''}
+          ${genres ? `<span class="product-genre"><i class="fas fa-tags me-1"></i>${genres}</span>` : ''}
         </div>
       </div>
     </div>
-    <div class="quantity">
-      ${platforms !== 'N/A' ? `<span class="product-platform">${platforms}</span>` : '<span>-</span>'}
-    </div>
-    <div class="price">
-      ${genres !== 'N/A' ? `<span class="product-genre">${genres}</span>` : '<span>-</span>'}
-    </div>
-    <div class="total">
-      <span class="status">Favorito</span>
-    </div>
+    <div class="cart-item-placeholder"></div>
+    <div class="cart-item-placeholder"></div>
+    <div class="cart-item-placeholder"></div>
     <div class="remove">
-      <button type="button" class="remove-btn" data-game-id="${game.id}">
+      <button type="button" class="remove-btn favorite-remove-btn" data-id="${game.id}">
         <i class="fas fa-heart"></i>
       </button>
     </div>
@@ -414,7 +409,7 @@ function createFavoriteGameCard(game) {
   const removeBtn = cardElement.querySelector('.remove-btn');
   if (removeBtn) {
     removeBtn.addEventListener('click', function() {
-      const gameId = this.getAttribute('data-game-id');
+      const gameId = this.getAttribute('data-id');
       toggleFavorite(this); // This removes from wishlist and updates UI
     });
   }
