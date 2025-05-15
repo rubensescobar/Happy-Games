@@ -1,0 +1,231 @@
+/* Favorites functionality styles */
+
+/* Favorite button styles */
+.favorite-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--card-bg, #ffffff);
+  color: var(--text-secondary, #666);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.favorite-btn.active {
+  color: #e74c3c;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}
+
+.favorite-btn i {
+  font-size: 1.2rem;
+}
+
+/* For floating favorite button */
+.position-absolute.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Wishlist Grid Styles */
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Wishlist Card Styles */
+.wishlist-card {
+  background: var(--card-bg, #ffffff);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.wishlist-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.wishlist-card-image {
+  position: relative;
+  height: 150px;
+  overflow: hidden;
+}
+
+.wishlist-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.wishlist-card:hover .wishlist-card-image img {
+  transform: scale(1.05);
+}
+
+.wishlist-card-content {
+  padding: 15px;
+}
+
+.wishlist-card .game-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-primary, #333);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wishlist-card-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.wishlist-card .game-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent, #4f46e5);
+}
+
+.wishlist-card .original-price {
+  font-size: 0.9rem;
+  text-decoration: line-through;
+  color: var(--text-secondary, #666);
+  opacity: 0.7;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--accent, #4f46e5);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.wishlist-card-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.add-to-cart-btn {
+  flex: 1;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  background: var(--accent, #4f46e5);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: var(--accent-hover, #3c35b5);
+}
+
+/* Empty collection styles */
+.empty-collection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.empty-collection i {
+  font-size: 3rem;
+  color: var(--text-secondary, #666);
+  opacity: 0.5;
+  margin-bottom: 15px;
+}
+
+.empty-collection p {
+  color: var(--text-secondary, #666);
+  margin-bottom: 20px;
+}
+
+.btn-explore {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--accent, #4f46e5);
+  color: #fff;
+  border-radius: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.btn-explore:hover {
+  background: var(--accent-hover, #3c35b5);
+  color: #fff;
+}
+
+/* Wishlist summary styling */
+.wishlist-summary {
+  padding: 10px 0;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.summary-label {
+  color: var(--text-secondary, #666);
+}
+
+.summary-value {
+  font-weight: 600;
+  color: var(--text-primary, #333);
+}
+
+.wishlist-tips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wishlist-tips li {
+  margin-bottom: 10px;
+  color: var(--text-secondary, #666);
+  font-size: 0.9rem;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 767px) {
+  .wishlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  
+  .wishlist-card-image {
+    height: 120px;
+  }
+  
+  .wishlist-card-content {
+    padding: 10px;
+  }
+} 

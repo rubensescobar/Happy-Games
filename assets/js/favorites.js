@@ -37,6 +37,20 @@ function saveUserGameProfile(profile) {
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize wishlist icons based on localStorage
   initializeFavorites();
+  
+  // Update the favorites tab if we're on the profile page
+  const wishlistTab = document.getElementById('wishlist');
+  if (wishlistTab) {
+    updateFavoritesTab();
+    
+    // Add event listener for tab click to refresh content
+    const wishlistTabButton = document.querySelector('[data-tab="wishlist"]');
+    if (wishlistTabButton) {
+      wishlistTabButton.addEventListener('click', function() {
+        updateFavoritesTab();
+      });
+    }
+  }
 });
 
 // Initialize wishlist/favorites UI from localStorage (Updated to check for IDs)
@@ -142,13 +156,220 @@ function toggleFavorite(button) {
     if (typeof showNotification === 'function') {
       showNotification('Removido da lista de desejos', 'info');
     }
+    
+    // If we're on profile page in the wishlist tab, remove the card from display
+    if (document.getElementById('wishlist') && document.getElementById('wishlist').classList.contains('active')) {
+      const wishlistGrid = document.getElementById('wishlistGrid');
+      if (wishlistGrid) {
+        const cardToRemove = wishlistGrid.querySelector(`[data-game-id="${gameId}"]`);
+        if (cardToRemove) {
+          cardToRemove.remove();
+          
+          // Show empty state if no more favorites
+          if (userProfile.wishlist.length === 0) {
+            showEmptyFavoritesState(wishlistGrid);
+            updateWishlistSummary(0, 0, 0);
+          } else {
+            updateWishlistSummary(userProfile.wishlist.length);
+          }
+        }
+      }
+    }
   }
 
   // Save updated userGameProfile to localStorage
   saveUserGameProfile(userProfile);
 
+  // Update the favorites tab if we're on the profile page
+  const wishlistTab = document.getElementById('wishlist');
+  if (wishlistTab) {
+    updateFavoritesTab();
+  }
+
   // Optional: Trigger an event for other parts of the page to react (e.g., updating a wishlist count display)
   document.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: { wishlist: userProfile.wishlist } }));
+}
+
+/**
+ * Updates the Favorites tab in profile.html to display all favorited games
+ */
+function updateFavoritesTab() {
+  // Only run on profile page when wishlist tab exists
+  const wishlistGrid = document.getElementById('wishlistGrid');
+  if (!wishlistGrid) return;
+  
+  // Clear the current content
+  wishlistGrid.innerHTML = '';
+  
+  // Get favorited game IDs from user profile
+  const userProfile = getUserGameProfile();
+  const favoritedGameIds = userProfile.wishlist || [];
+  
+  // If no favorited games, show empty state
+  if (favoritedGameIds.length === 0) {
+    showEmptyFavoritesState(wishlistGrid);
+    updateWishlistSummary(0, 0, 0);
+    return;
+  }
+  
+  // Fetch game details for each favorited game
+  const gameData = [];
+  let totalValue = 0;
+  let potentialSavings = 0;
+  
+  // Try to get game details from any available source
+  favoritedGameIds.forEach(gameId => {
+    let gameDetails = null;
+    
+    // Try window.gameRepository first
+    if (window.gameRepository && typeof window.gameRepository.getGameById === 'function') {
+      gameDetails = window.gameRepository.getGameById(gameId);
+    }
+    
+    // Try gamesData array if available in window scope
+    if (!gameDetails && window.gamesData && Array.isArray(window.gamesData)) {
+      gameDetails = window.gamesData.find(g => g.id === gameId);
+    }
+    
+    // If no details found, create minimal object with ID
+    if (!gameDetails) {
+      gameDetails = { id: gameId };
+    }
+    
+    // Add to game data array
+    gameData.push(gameDetails);
+    
+    // Update summary values if price information is available
+    if (gameDetails.price !== undefined && gameDetails.originalPrice !== undefined) {
+      totalValue += gameDetails.originalPrice;
+      potentialSavings += (gameDetails.originalPrice - gameDetails.price);
+    }
+  });
+  
+  // Create and append game cards
+  gameData.forEach(game => {
+    const gameCard = createFavoriteGameCard(game);
+    wishlistGrid.appendChild(gameCard);
+  });
+  
+  // Update summary information
+  updateWishlistSummary(favoritedGameIds.length, totalValue, potentialSavings);
+}
+
+/**
+ * Shows empty state message in the favorites tab
+ */
+function showEmptyFavoritesState(container) {
+  container.innerHTML = `
+    <div class="empty-collection">
+      <i class="fas fa-heart"></i>
+      <p>Você ainda não adicionou jogos aos favoritos</p>
+      <a href="games.html" class="btn-explore">Explorar jogos</a>
+    </div>
+  `;
+}
+
+/**
+ * Creates a game card for the favorites tab
+ */
+function createFavoriteGameCard(game) {
+  const cardElement = document.createElement('div');
+  cardElement.className = 'wishlist-card';
+  cardElement.setAttribute('data-game-id', game.id);
+  
+  // Handle if we have full game data
+  if (game.image && game.title && game.price !== undefined) {
+    const discount = game.originalPrice > game.price 
+      ? Math.round(((game.originalPrice - game.price) / game.originalPrice) * 100)
+      : 0;
+      
+    const discountBadge = discount > 0 
+      ? `<div class="discount-badge">-${discount}%</div>` 
+      : '';
+      
+    const originalPriceDisplay = discount > 0 
+      ? `<span class="original-price">R$ ${game.originalPrice.toFixed(2)}</span>` 
+      : '';
+    
+    cardElement.innerHTML = `
+      <div class="wishlist-card-image">
+        <img src="${game.image}" alt="${game.title}">
+        ${discountBadge}
+      </div>
+      <div class="wishlist-card-content">
+        <h3 class="game-title">${game.title}</h3>
+        <div class="wishlist-card-price">
+          ${originalPriceDisplay}
+          <span class="game-price">R$ ${game.price.toFixed(2)}</span>
+        </div>
+        <div class="wishlist-card-actions">
+          <button class="favorite-btn active" data-game-id="${game.id}">
+            <i class="fas fa-heart"></i>
+          </button>
+          <button class="add-to-cart-btn" data-game-id="${game.id}">
+            <i class="fas fa-shopping-cart"></i> Adicionar
+          </button>
+        </div>
+      </div>
+    `;
+  } 
+  // Simplified display if we only have game ID
+  else {
+    cardElement.innerHTML = `
+      <div class="wishlist-card-content">
+        <h3 class="game-title">Jogo #${game.id}</h3>
+        <div class="wishlist-card-actions">
+          <button class="favorite-btn active" data-game-id="${game.id}">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+  
+  // Add event listener for favorite button
+  const favoriteBtn = cardElement.querySelector('.favorite-btn');
+  if (favoriteBtn) {
+    favoriteBtn.addEventListener('click', function() {
+      // Use the existing toggle function
+      toggleFavorite(this);
+    });
+  }
+  
+  // Add event listener for add to cart button
+  const addToCartBtn = cardElement.querySelector('.add-to-cart-btn');
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener('click', function() {
+      const gameId = this.getAttribute('data-game-id');
+      if (window.addToCart) {
+        window.addToCart(gameId);
+      } else if (typeof addToCart === 'function') {
+        addToCart(gameId);
+      } else {
+        console.log('Adding to cart:', gameId);
+        showNotification('Jogo adicionado ao carrinho!', 'success');
+      }
+    });
+  }
+  
+  return cardElement;
+}
+
+/**
+ * Updates the wishlist summary section in the profile page
+ */
+function updateWishlistSummary(itemCount, totalValue = 0, potentialSavings = 0) {
+  const wishlistTotal = document.getElementById('wishlistTotal');
+  const wishlistValue = document.getElementById('wishlistValue');
+  const potentialSavingsEl = document.getElementById('potentialSavings');
+  
+  if (wishlistTotal) wishlistTotal.textContent = itemCount;
+  if (wishlistValue) wishlistValue.textContent = `R$ ${totalValue.toFixed(2)}`;
+  if (potentialSavingsEl) potentialSavingsEl.textContent = `R$ ${potentialSavings.toFixed(2)}`;
+  
+  // Update user profile stats counter if available
+  const wishlistCount = document.getElementById('wishlistCount');
+  if (wishlistCount) wishlistCount.textContent = itemCount;
 }
 
 // Function to check if a game is in the user's wishlist
@@ -161,10 +382,28 @@ function isGameInWishlist(gameId) {
   return userProfile.wishlist.includes(gameId);
 }
 
+/**
+ * Shows a notification message
+ */
+function showNotification(message, type = 'info') {
+  // Use SweetAlert2 if available
+  if (typeof Swal !== 'undefined') {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: type,
+      title: message,
+      showConfirmButton: false,
+      timer: 3000
+    });
+  } else {
+    // Fallback to alert
+    alert(message);
+  }
+}
+
 // Expose functions if needed by other modules
-// window.addToWishlist = addToWishlist; // Removed
-// window.removeFromWishlist = removeFromWishlist; // Removed
-// window.toggleWishlist = toggleWishlist; // Removed
 window.isGameInWishlist = isGameInWishlist;
 window.initializeFavorites = initializeFavorites; // Keep initialization exposed if needed externally
 window.toggleFavorite = toggleFavorite; // Expose the main toggle function 
+window.updateFavoritesTab = updateFavoritesTab; // Expose the favorites tab update function 
