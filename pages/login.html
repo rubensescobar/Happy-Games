@@ -104,6 +104,11 @@
       .password-requirements li.valid::before {
         content: "✓";
       }
+      
+      /* Dark mode specific styles for password requirements */
+      :root[data-theme="dark"] .password-requirements li {
+        color: var(--color-white-cottom);
+      }
 
       /* Light mode specific styles */
       :root:not([data-theme="dark"]) .bloco.card {
