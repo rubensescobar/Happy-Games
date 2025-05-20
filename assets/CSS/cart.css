@@ -1,4 +1,4 @@
-/* CART STYLES */
+/* CART STYLES - Consolidated from multiple cart CSS files */
 
 /* Page Header */
 .page-header {
@@ -98,6 +98,7 @@ body.light-theme .cart-header {
   border-bottom: 1px solid rgba(90, 46, 152, 0.1);
 }
 
+/* Cart header items - consolidated from multiple fix files */
 .cart-header-item {
   color: var(--color-white-cottom);
   font-weight: 600;
@@ -106,16 +107,38 @@ body.light-theme .cart-header {
   text-transform: uppercase;
 }
 
-/* Light theme styling for cart head item */
-body.light-theme .cart-header-item {
-  color: var(--color-purpledark);
-  opacity: 0.9;
+/* Dark theme - explicitly force white color */
+html body .cart-header,
+html body .cart-header-item,
+html[data-theme="dark"] body .cart-header-item,
+#cartItems .cart-header .cart-header-item {
+  color: #f8f8f8 !important; /* Using hex instead of var to avoid any variable issues */
+  opacity: 1 !important;
 }
 
-/* Alternative light theme selector for cart head item */
+/* Light theme - explicitly force purple color with maximum specificity */
+html:not([data-theme="dark"]) body .cart-header-item,
+html:not([data-theme="dark"]) #cartItems .cart-header .cart-header-item,
+html body.light-theme .cart-header-item,
+body.light-theme #cartItems .cart-header .cart-header-item,
+body.light-theme .cart-header-item,
+html body.light-theme .cart-header-item,
+html:root:not([data-theme="dark"]) .cart-header-item,
+html body:not([data-theme="dark"]) .cart-header-item,
+body:not([data-theme="dark"]) .cart-header-item,
 :root:not([data-theme="dark"]) .cart-header-item {
-  color: var(--color-purpledark);
-  opacity: 0.9;
+  color: #2D004D !important; /* Using hex instead of var to avoid any variable issues */
+  opacity: 0.9 !important;
+}
+
+/* Target individual cart header items for maximum specificity */
+body.light-theme .cart-header-item.product,
+body.light-theme .cart-header-item.price,
+body.light-theme .cart-header-item.quantity,
+body.light-theme .cart-header-item.total,
+body.light-theme .cart-header-item.remove {
+  color: var(--color-purpledark) !important;
+  opacity: 0.9 !important;
 }
 
 .cart-item {
@@ -198,247 +221,266 @@ body.light-theme .cart-header-item {
 
 .product-meta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
+  gap: 1rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
 }
 
 .product-platform, .product-genre {
-  color: var(--color-white-cottom);
-  font-size: 0.75rem;
-  opacity: 0.7;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  color: var(--color-white-cottom);
 }
 
-/* Light theme styling for product metadata */
+.product-platform i, .product-genre i {
+  margin-right: 0.25rem;
+}
+
 :root:not([data-theme="dark"]) .product-platform,
 :root:not([data-theme="dark"]) .product-genre {
   color: var(--color-purpledark);
-  opacity: 0.8;
 }
 
-/* Price Column */
 .price {
-  color: var(--blue-light);
+  color: var(--color-white-cottom);
   font-weight: 600;
 }
 
-/* Light theme styling for price */
 :root:not([data-theme="dark"]) .price {
-  color: var(--accent-primary);
+  color: var(--color-purpledark);
 }
 
 .original-price {
   text-decoration: line-through;
   color: var(--color-white-cottom);
   opacity: 0.5;
-  font-size: 0.875rem;
+  font-size: 0.85em;
   display: block;
 }
 
-/* Light theme styling for original price */
 :root:not([data-theme="dark"]) .original-price {
   color: var(--color-purpledark);
-  opacity: 0.6;
 }
 
-/* Quantity Column */
 .quantity {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  color: var(--color-white-cottom);
+}
+
+:root:not([data-theme="dark"]) .quantity {
+  color: var(--color-purpledark);
 }
 
 .quantity-control {
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   overflow: hidden;
+  width: fit-content;
 }
 
 .quantity-btn {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: var(--color-white-cottom);
   width: 30px;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  border: none;
-  color: var(--color-white-cottom);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-/* Light theme styling for quantity buttons */
 :root:not([data-theme="dark"]) .quantity-btn {
-  background: rgba(90, 46, 152, 0.1);
+  background-color: rgba(90, 46, 152, 0.1);
   color: var(--color-purpledark);
 }
 
 .quantity-btn:hover {
-  background: rgba(74, 144, 226, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Light theme hover for quantity buttons */
 :root:not([data-theme="dark"]) .quantity-btn:hover {
-  background: rgba(90, 46, 152, 0.2);
+  background-color: rgba(90, 46, 152, 0.2);
 }
 
 .quantity-input {
   width: 40px;
   height: 30px;
   border: none;
-  background: transparent;
+  background-color: rgba(0, 0, 0, 0.2);
   color: var(--color-white-cottom);
   text-align: center;
   font-weight: 600;
+  -moz-appearance: textfield;
 }
 
-/* Light theme styling for quantity input */
 :root:not([data-theme="dark"]) .quantity-input {
+  background-color: rgba(90, 46, 152, 0.05);
   color: var(--color-purpledark);
 }
 
-/* Total Column */
 .total {
   color: var(--color-white-cottom);
-  font-weight: 600;
+  font-weight: 700;
 }
 
-/* Light theme styling for total */
 :root:not([data-theme="dark"]) .total {
   color: var(--color-purpledark);
 }
 
-/* Remove Column */
 .remove {
-  display: flex;
-  justify-content: center;
-}
-
-.remove-btn {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(220, 53, 69, 0.1);
-  border: 1px solid rgba(220, 53, 69, 0.3);
-  border-radius: 5px;
-  color: rgba(220, 53, 69, 0.7);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.remove-btn:hover {
-  background: rgba(220, 53, 69, 0.3);
-  color: rgba(220, 53, 69, 1);
-}
-
-/* Empty Cart Message */
-.empty-cart-message {
-  padding: 3rem;
   text-align: center;
 }
 
-.empty-cart-message i {
-  font-size: 4rem;
-  color: rgba(255, 255, 255, 0.1);
-  margin-bottom: 1.5rem;
+.remove-btn {
+  background: none;
+  border: none;
+  color: #ff5e5e;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* Light theme styling for empty cart icon with higher specificity */
+.remove-btn:hover {
+  background-color: rgba(255, 94, 94, 0.1);
+  transform: scale(1.1);
+}
+
+/* Empty cart message - consolidated from multiple files */
+.empty-cart-message {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.empty-cart-message i {
+  font-size: 3rem;
+  color: var(--color-white-cottom);
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
 html body:not([data-theme="dark"]) .empty-cart-message i,
-html:root:not([data-theme="dark"]) .empty-cart-message i,
 body.light-theme .empty-cart-message i {
-  color: var(--bg-tertiary) !important;
+  color: var(--color-purpledark);
 }
 
 .empty-cart-message h3 {
-  color: var(--color-white-cottom);
   font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: var(--color-white-cottom);
+  margin-bottom: 1rem;
 }
 
-/* Light theme styling for empty cart heading with higher specificity */
 html body:not([data-theme="dark"]) .empty-cart-message h3,
-html:root:not([data-theme="dark"]) .empty-cart-message h3,
 body.light-theme .empty-cart-message h3 {
-  color: var(--color-purpledark) !important;
+  color: var(--color-purpledark);
 }
 
 .empty-cart-message p {
+  font-size: 1rem;
   color: var(--color-white-cottom);
   opacity: 0.7;
   margin-bottom: 1.5rem;
 }
 
-/* Light theme styling for empty cart text with higher specificity */
 html body:not([data-theme="dark"]) .empty-cart-message p,
-html:root:not([data-theme="dark"]) .empty-cart-message p,
 body.light-theme .empty-cart-message p {
-  color: var(--color-purpledark) !important;
-  opacity: 0.8;
+  color: var(--color-purpledark);
 }
 
-/* Cart Actions */
+/* Empty cart message - theme appropriate colors */
+/* Dark theme - use light colors */
+html[data-theme="dark"] .empty-cart-message i,
+html[data-theme="dark"] .empty-cart-message h3,
+html[data-theme="dark"] .empty-cart-message p,
+html[data-theme="dark"] .empty-cart-message a {
+  color: var(--color-white-cottom) !important;
+  border-color: var(--color-white-cottom) !important;
+}
+
+/* Light theme - use purple dark */
+.empty-cart-message i,
+.empty-cart-message h3,
+.empty-cart-message p,
+.empty-cart-message a,
+:root:not([data-theme="dark"]) .empty-cart-message i,
+:root:not([data-theme="dark"]) .empty-cart-message h3,
+:root:not([data-theme="dark"]) .empty-cart-message p,
+:root:not([data-theme="dark"]) .empty-cart-message a,
+body.light-theme .empty-cart-message i,
+body.light-theme .empty-cart-message h3,
+body.light-theme .empty-cart-message p,
+body.light-theme .empty-cart-message a {
+  color: var(--color-purpledark) !important;
+  border-color: var(--color-purpledark) !important;
+}
+
+/* Apply purple color only in light theme for these elements */
+:root:not([data-theme="dark"]) .product-title,
+:root:not([data-theme="dark"]) .product-platform, 
+:root:not([data-theme="dark"]) .product-genre,
+:root:not([data-theme="dark"]) .total,
+:root:not([data-theme="dark"]) .quantity,
+body.light-theme .product-title,
+body.light-theme .product-platform, 
+body.light-theme .product-genre,
+body.light-theme .total,
+body.light-theme .quantity {
+  color: #2D004D !important;
+}
+
 .cart-actions {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 
 .btn-continue-shopping {
-  padding: 0.75rem 1.5rem;
-  background: transparent;
+  background: none;
+  border: 1px solid var(--color-white-cottom);
   color: var(--color-white-cottom);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 1.5rem;
   border-radius: 5px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
 }
 
 .btn-continue-shopping:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--color-white-cottom);
-  border-color: rgba(74, 144, 226, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .btn-clear-cart {
+  background: none;
+  border: 1px solid #ff5e5e;
+  color: #ff5e5e;
   padding: 0.75rem 1.5rem;
-  background: rgba(220, 53, 69, 0.1);
-  color: rgba(220, 53, 69, 0.9);
-  border: 1px solid rgba(220, 53, 69, 0.3);
   border-radius: 5px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
 }
 
 .btn-clear-cart:hover {
-  background: rgba(220, 53, 69, 0.2);
+  background-color: rgba(255, 94, 94, 0.1);
 }
 
-/* Cart Summary */
 .cart-summary {
   background: linear-gradient(145deg, #232323, #1a1a1a);
   border-radius: 10px;
   padding: 1.5rem;
   border: 1px solid rgba(74, 144, 226, 0.1);
-  margin-bottom: 1.5rem;
+  height: fit-content;
 }
 
-/* Light theme styling for cart summary */
 :root:not([data-theme="dark"]) .cart-summary {
   background-color: var(--color-white-cottom);
   background-image: none;
@@ -448,13 +490,13 @@ body.light-theme .empty-cart-message p {
 .summary-title {
   color: var(--color-white-cottom);
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Light theme styling for summary title */
 :root:not([data-theme="dark"]) .summary-title {
   color: var(--color-purpledark);
   border-bottom: 1px solid rgba(90, 46, 152, 0.1);
@@ -465,39 +507,38 @@ body.light-theme .empty-cart-message p {
   justify-content: space-between;
   margin-bottom: 1rem;
   color: var(--color-white-cottom);
+  font-size: 0.9rem;
 }
 
-/* Light theme styling for summary rows */
 :root:not([data-theme="dark"]) .summary-row {
   color: var(--color-purpledark);
 }
 
 .summary-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   margin: 1rem 0;
 }
 
 .summary-row.total {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
 }
 
 .summary-row.total span:last-child {
   color: var(--blue-light);
 }
 
-/* Promo Code */
 .promo-code {
-  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .promo-code label {
-  color: var(--color-white-cottom);
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
   display: block;
+  color: var(--color-white-cottom);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .promo-input {
@@ -507,77 +548,73 @@ body.light-theme .empty-cart-message p {
 
 .promo-input input {
   flex-grow: 1;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--color-white-cottom);
   padding: 0.75rem 1rem;
   border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--color-white-cottom);
 }
 
 .promo-input input:focus {
   outline: none;
-  border-color: rgba(74, 144, 226, 0.5);
+  border-color: var(--blue-light);
 }
 
 .btn-apply-promo {
-  background: var(--color-green-glow);
-  color: var(--color-dark);
+  background-color: var(--blue-light);
+  color: var(--color-white-cottom);
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem;
   border-radius: 5px;
   font-weight: 600;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .btn-apply-promo:hover {
-  background: var(--color-green-glow);
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
-  color: var(--color-dark);
+  background-color: var(--blue-dark);
+  transform: translateY(-2px);
 }
 
-/* Checkout Button */
 .btn-checkout {
-  background: var(--color-green-glow);
-  color: var(--color-dark);
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, var(--color-acai), var(--color-blue));
+  color: var(--color-white-cottom);
   border: none;
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   border-radius: 5px;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  width: 100%;
+  margin-top: 1.5rem;
+  cursor: pointer;
   transition: all 0.3s ease;
+  text-align: center;
 }
 
 .btn-checkout:hover:not(:disabled) {
-  background: var(--color-green-glow);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(20, 133, 58, 0.3);
-  color: var(--color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-checkout:disabled {
-  background: #444;
+  opacity: 0.5;
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
-/* Payment Methods */
 .payment-methods {
-  text-align: center;
+  margin-top: 1.5rem;
 }
 
 .payment-methods p {
   color: var(--color-white-cottom);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   opacity: 0.7;
   margin-bottom: 0.5rem;
 }
 
 .payment-icons {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
@@ -590,63 +627,63 @@ body.light-theme .empty-cart-message p {
 
 .payment-icons i:hover {
   opacity: 1;
-  color: var(--blue-light);
+  transform: scale(1.1);
 }
 
-/* Rewards Card */
 .rewards-card {
-  background: linear-gradient(145deg, #261136, #1E0D29);
+  background: linear-gradient(145deg, var(--color-acai), var(--color-blue));
   border-radius: 10px;
   padding: 1.5rem;
-  border: 1px solid rgba(107, 63, 160, 0.3);
+  margin-top: 1.5rem;
 }
 
 .rewards-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 1rem;
 }
 
 .rewards-header i {
   font-size: 1.5rem;
-  color: var(--color-yellow);
+  color: var(--color-white-cottom);
 }
 
 .rewards-header h3 {
   color: var(--color-white-cottom);
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
 }
 
 .rewards-card p {
   color: var(--color-white-cottom);
   opacity: 0.8;
-  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
 }
 
 .rewards-progress {
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
 }
 
 .rewards-level {
-  color: var(--color-white-cottom);
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 0.5rem;
 }
 
 .rewards-bar {
   height: 8px;
-  background: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 0.5rem;
+  position: relative;
 }
 
 .rewards-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-green), var(--color-green-glow));
+  background: linear-gradient(90deg, #FFD700, #FFA500);
   border-radius: 4px;
+  width: 65%;
   position: relative;
 }
 
@@ -654,55 +691,54 @@ body.light-theme .empty-cart-message p {
   content: '';
   position: absolute;
   top: 0;
-  left: -50%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: progressShine 2s infinite;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+  background-size: 200% 100%;
+  animation: shine 1.5s infinite;
 }
 
 .rewards-xp {
+  text-align: center;
   color: var(--color-white-cottom);
-  font-size: 0.875rem;
-  opacity: 0.7;
-  text-align: right;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
 }
 
 .btn-view-quests {
+  display: block;
   width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.3);
   color: var(--color-white-cottom);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem;
   border-radius: 5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  font-weight: 600;
   text-align: center;
-  display: block;
   text-decoration: none;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
 }
 
 .btn-view-quests:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--color-white-cottom);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Related Products */
 .related-products {
-  padding: 4rem 0;
-  background-color: var(--color-dark);
+  margin-top: 3rem;
 }
 
 .section-title {
   color: var(--color-white-cottom);
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 2rem;
-  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Responsive Styles */
 @media (max-width: 992px) {
   .cart-summary, .rewards-card {
     margin-top: 2rem;
@@ -717,17 +753,16 @@ body.light-theme .empty-cart-message p {
   .cart-item {
     grid-template-columns: 1fr;
     gap: 1rem;
-    padding: 1.5rem;
   }
   
   .product {
-    grid-column: 1 / -1;
+    flex-direction: column;
   }
   
   .price, .quantity, .total {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   
   .price::before, .quantity::before, .total::before {
@@ -750,7 +785,8 @@ body.light-theme .empty-cart-message p {
   }
   
   .btn-continue-shopping, .btn-clear-cart {
-    justify-content: center;
+    width: 100%;
+    text-align: center;
   }
   
   .promo-input {
