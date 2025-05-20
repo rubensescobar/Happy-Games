@@ -23,10 +23,6 @@
   <link rel="stylesheet" href="../assets/CSS/theme.css">
   <link rel="stylesheet" href="../assets/CSS/immersive-cards.css">
   <link rel="stylesheet" href="../assets/CSS/cart.css">
-  <link rel="stylesheet" href="../assets/CSS/cart-header-fix.css">
-  <link rel="stylesheet" href="../assets/CSS/cart-colors-override.css">
-  <link rel="stylesheet" href="../assets/CSS/cart-header-fix-final.css">
-  <link rel="stylesheet" href="../assets/CSS/cart-theme-fix.css">
   <link rel="stylesheet" href="../assets/CSS/userDropdown.css">
   
   <!-- Direct inline style for cart header items -->
@@ -412,36 +408,6 @@
   <script src="../assets/js/immersive.js"></script>
   <script src="../assets/js/cart.js"></script>
   <script src="../assets/js/theme.js"></script>
-  <script>
-    // Function to apply correct colors based on theme
-    function applyHeaderColors() {
-      // Check if we're in light theme
-      const isLightTheme = !document.documentElement.hasAttribute('data-theme') || 
-                          document.documentElement.getAttribute('data-theme') !== 'dark';
-      
-      // Get all header items with the data attribute
-      const headerItems = document.querySelectorAll('[data-theme-color="true"]');
-      
-      // Apply the appropriate color based on theme
-      headerItems.forEach(item => {
-        if (isLightTheme) {
-          item.style.color = '#2D004D';
-        } else {
-          item.style.color = '#f8f8f8';
-        }
-        item.style.opacity = '1';
-      });
-    }
-    
-    // Run immediately
-    applyHeaderColors();
-    
-    // Also run when theme changes
-    document.addEventListener('themeChanged', applyHeaderColors);
-    
-    // Check periodically
-    setInterval(applyHeaderColors, 1000);
-  </script>
   <script src="../assets/js/userDropdown.js"></script>
 </body>
 
