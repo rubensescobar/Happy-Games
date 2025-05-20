@@ -1,13 +1,19 @@
 body {
-    background:var(--color-white-cottom) ;
+    background: var(--color-white-cottom);
 }
 
 /* .bloco {
     box-shadow: 1px 1px 20px var(--color-yellow);
 } */
+
+.corpo {
+    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.7), rgb(0,0,0,0.9)),
+    url(../images/freepik__expand__92115.png);
+}
 h1 {
     color: var(--color-blue);
 }
+
 .txtSpan {
     color: var(--color-purple);
 }
@@ -21,6 +27,7 @@ h1 {
     background: var(--red-land);
     color: var(--color-white-cottom);
 }
+
 .registrar:hover {
     background: var(--red-land);
     color: var(--color-white-cottom);
@@ -29,10 +36,194 @@ h1 {
 }
 
 .btn-link {
-    color: var(--red-land);
+    color: var(--blue-light);
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
+
 .btn-link:hover {
-    background: var(--red-land);
+    background: var(--blue-light);
     color: var(--color-white-cottom);
     transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+body {
+    background: var(--color-acai);
+}
+
+.bloco {
+    background-color: rgba(28, 28, 28, 0.95);
+    border-radius: 15px;
+    border: 1px solid var(--color-purple);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+h1 {
+    color: var(--color-white-cottom);
+}
+
+.txtSpan {
+    color: var(--blue-light);
+    text-shadow: 0 0 10px rgba(74, 144, 226, 0.7);
+}
+
+.cadastro,
+.login {
+    color: var(--blue-light);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cadastro:hover,
+.login:hover {
+    text-shadow: 0 0 8px rgba(74, 144, 226, 0.6);
+}
+
+.registrar {
+    background: var(--red-land);
+    color: var(--color-white-cottom);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(139, 26, 26, 0.4);
+    transition: all 0.3s ease;
+}
+
+.registrar:hover {
+    background: var(--red-land);
+    color: var(--color-white-cottom);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(139, 26, 26, 0.6);
+}
+
+.icon-social {
+    font-size: 1.2rem;
+    color: var(--blue-light);
+    transition: all 0.3s ease;
+}
+
+.btn-link:hover .icon-social {
+    color: var(--color-white-cottom);
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Tab Navigation Styling */
+.nav-tabs {
+    border-bottom: 1px solid var(--color-purple);
+}
+
+.nav-tabs .nav-link {
+    color: var(--color-white-cottom);
+    font-weight: 600;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: rgba(107, 63, 160, 0.1);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--blue-light);
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--blue-light);
+}
+
+/* Form controls styling */
+.form-control {
+    background-color: rgba(28, 28, 28, 0.7);
+    border: 1px solid rgba(107, 63, 160, 0.3);
+    color: var(--color-white-cottom);
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: rgba(28, 28, 28, 0.9);
+    border-color: var(--color-purple);
+    box-shadow: 0 0 8px rgba(107, 63, 160, 0.5);
+    color: var(--color-white-cottom);
+}
+
+.input-group-text {
+    background-color: rgba(28, 28, 28, 0.7);
+    border: 1px solid rgba(107, 63, 160, 0.3);
+    color: var(--color-white-cottom);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-group-text:hover {
+    background-color: rgba(107, 63, 160, 0.2);
+}
+
+/* Achievement card adjustments for login page */
+.achievement-card {
+    margin-top: 30px;
+    transition: all 0.3s ease;
+}
+
+.achievement-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Form label styling */
+.form-label {
+    color: var(--color-white-cottom);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Checkbox styling */
+.form-check-input {
+    border: 1px solid rgba(74, 144, 226, 0.5);
+    background-color: rgba(28, 28, 28, 0.7);
+}
+
+.form-check-input:checked {
+    background-color: var(--blue-light);
+    border-color: var(--blue-light);
+}
+
+.form-check-label {
+    color: var(--color-white-cottom);
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .bloco {
+        margin-top: 20px;
+    }
+
+    .social-login {
+        gap: 10px;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+.txtOpcoes {
+    color: var(--color-white-cottom);
+    margin-bottom: 15px;
 }

@@ -1,0 +1,1299 @@
+/* PROFILE STYLES */
+
+/* Profile Header */
+.profile-header {
+  background: linear-gradient(135deg, var(--color-acai), var(--color-blue));
+  padding: 8rem 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/grid-pattern.png');
+  background-size: 100px 100px;
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.profile-header-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.profile-avatar {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-edit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white-cottom);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avatar-edit:hover {
+  background: var(--blue-light);
+}
+
+.profile-info {
+  flex-grow: 1;
+}
+
+.profile-name {
+  color: var(--color-white-cottom);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.profile-level {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.level-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.level-title {
+  color: var(--color-white-cottom);
+  opacity: 0.8;
+}
+
+.level-number {
+  width: 30px;
+  height: 30px;
+  background: var(--color-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white-cottom);
+  font-weight: 600;
+}
+
+.level-bar {
+  flex-grow: 1;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  min-width: 150px;
+}
+
+.level-progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-green), var(--color-green-glow));
+  border-radius: 4px;
+  position: relative;
+  pointer-events: none;
+}
+
+.level-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: progressShine 2s infinite;
+}
+
+.level-xp {
+  color: var(--color-white-cottom);
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  color: var(--color-white-cottom);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  color: var(--color-white-cottom);
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* Profile Content */
+.profile-content {
+  padding: 3rem 0;
+  background: var(--color-dark);
+  min-height: 60vh;
+}
+
+/* Light theme override for profile content */
+body.light-theme .profile-content {
+  background-color: var(--border-color);
+}
+
+/* Alternative light theme selector for profile content to match other CSS files */
+:root:not([data-theme="dark"]) .profile-content {
+  background-color: var(--border-color);
+}
+
+.profile-tabs {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.profile-tab {
+  background: transparent;
+  border: none;
+  color: var(--color-white-cottom);
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.profile-tab.active {
+  background: rgba(74, 144, 226, 0.1);
+  color: var(--blue-light);
+  opacity: 1;
+  box-shadow: 0 0 0 1px rgba(74, 144, 226, 0.3);
+}
+
+.profile-tab:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.05);
+  opacity: 0.9;
+}
+
+.tab-pane {
+  display: none;
+}
+
+/* Light theme override for tab content */
+body.light-theme .tab-pane {
+  background-color: var(--color-white-cottom);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+/* Alternative selector for light theme tab content */
+:root:not([data-theme="dark"]) .tab-pane {
+  background-color: var(--color-white-cottom);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.tab-pane.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Profile Cards */
+.profile-card {
+  background: linear-gradient(145deg, #232323, #1a1a1a);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(74, 144, 226, 0.1);
+}
+
+/* Light theme override for profile card */
+body.light-theme .profile-card {
+  background-color: var(--color-white-cottom);
+  background-image: none;
+}
+
+/* Alternative selector for light theme profile card */
+:root:not([data-theme="dark"]) .profile-card {
+  background-color: var(--color-white-cottom);
+  background-image: none;
+}
+
+.card-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Light theme override for card header */
+body.light-theme .profile-card .card-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+/* Alternative selector for light theme card header */
+:root:not([data-theme="dark"]) .profile-card .card-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+/* Light theme override for card header text */
+body.light-theme .card-header h3 {
+  color: var(--color-purpledark);
+}
+
+/* Alternative selector for light theme card header text */
+:root:not([data-theme="dark"]) .card-header h3 {
+  color: var(--color-purpledark);
+}
+
+.card-header h3 {
+  color: var(--color-white-cottom);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-link {
+  color: var(--blue-light);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.card-link:hover {
+  color: var(--blue-light);
+  text-decoration: underline;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Activity Timeline */
+.activity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+.timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  width: 2px;
+  height: calc(100% + 1.5rem);
+  background: rgba(74, 144, 226, 0.2);
+  z-index: 1;
+}
+
+.timeline-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(74, 144, 226, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-light);
+  font-size: 1rem;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.timeline-content {
+  flex-grow: 1;
+}
+
+.timeline-content h4 {
+  color: var(--color-white-cottom);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.timeline-content p {
+  color: var(--color-white-cottom);
+  opacity: 0.7;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeline-content .highlight {
+  color: var(--blue-light);
+  font-weight: 500;
+}
+
+.timeline-time {
+  color: var(--color-white-cottom);
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+/* Game Collection Preview */
+.game-collection-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.collection-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.collection-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.collection-image {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
+.collection-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease;
+}
+
+.collection-item:hover .collection-overlay {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.collection-title {
+  color: var(--color-white-cottom);
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty-collection {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.empty-collection i {
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+}
+
+/* Light theme override for empty collection icon */
+:root:not([data-theme="dark"]) .empty-collection i,
+body.light-theme .empty-collection i {
+  color: var(--bg-tertiary);
+}
+
+.empty-collection p {
+  color: var(--color-white-cottom);
+  opacity: 0.7;
+  margin-bottom: 1rem;
+}
+
+/* Light theme override for empty collection text */
+:root:not([data-theme="dark"]) .empty-collection p,
+body.light-theme .empty-collection p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+.btn-explore {
+  background: var(--color-green-glow);
+  color: var(--color-dark);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-explore:hover {
+  background: var(--color-green-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
+}
+
+/* Achievements Preview */
+.achievements-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.achievement-item {
+  display: flex;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+  background: rgba(74, 144, 226, 0.05);
+}
+
+.achievement-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(74, 144, 226, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-light);
+  flex-shrink: 0;
+}
+
+.achievement-info {
+  flex-grow: 1;
+}
+
+.achievement-info h4 {
+  color: var(--color-white-cottom);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+/* Light theme override for achievement info heading */
+:root:not([data-theme="dark"]) .achievement-info h4,
+body.light-theme .achievement-info h4 {
+  color: var(--color-purpledark);
+}
+
+.achievement-info p {
+  color: var(--color-white-cottom);
+  opacity: 0.7;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Light theme override for achievement info description */
+:root:not([data-theme="dark"]) .achievement-info p,
+body.light-theme .achievement-info p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+.achievement-date {
+  color: var(--color-white-cottom);
+  font-size: 0.7rem;
+  opacity: 0.5;
+}
+
+/* Light theme override for achievement date */
+:root:not([data-theme="dark"]) .achievement-date,
+body.light-theme .achievement-date {
+  color: var(--color-purpledark);
+  opacity: 0.7;
+}
+
+/* Profile Completion */
+.profile-completion {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.completion-progress {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.completion-progress .progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-purple), var(--blue-light));
+  border-radius: 4px;
+}
+
+.completion-text {
+  color: var(--color-white-cottom);
+  font-size: 0.875rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+.completion-tasks {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+
+.completion-tasks li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+/* Light theme override for completion tasks */
+:root:not([data-theme="dark"]) .completion-tasks li,
+body.light-theme .completion-tasks li {
+  color: var(--color-purpledark);
+}
+
+.completion-tasks li:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Light theme override for completion task hover */
+:root:not([data-theme="dark"]) .completion-tasks li:hover,
+body.light-theme .completion-tasks li:hover {
+  background: rgba(90, 46, 152, 0.05);
+}
+
+.completion-tasks li i {
+  margin-right: 10px;
+  font-size: 1rem;
+}
+
+.task-complete i {
+  color: var(--color-green-glow);
+}
+
+.task-incomplete i {
+  color: var(--color-blue);
+}
+
+/* Light theme override for task icons */
+:root:not([data-theme="dark"]) .task-incomplete i,
+body.light-theme .task-incomplete i {
+  color: var(--accent-primary);
+}
+
+/* Settings Form */
+.settings-form {
+  max-width: 600px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  color: var(--color-white-cottom);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.form-control {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-white-cottom);
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.form-control:focus {
+  border-color: var(--blue-light);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+.form-text {
+  color: var(--color-white-cottom);
+  opacity: 0.5;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.form-button {
+  background: var(--color-green-glow);
+  color: var(--color-dark);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.form-button:hover {
+  background: var(--color-green-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(20, 133, 58, 0.3);
+  color: var(--color-dark);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .profile-header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .profile-avatar {
+    margin: 0 auto;
+  }
+  
+  .profile-level {
+    justify-content: center;
+  }
+  
+  .profile-stats {
+    justify-content: center;
+  }
+  
+  .profile-tabs {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .profile-tab {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .timeline-item {
+    flex-direction: column;
+  }
+  
+  .timeline-item:not(:last-child)::after {
+    display: none;
+  }
+  
+  .timeline-icon {
+    margin: 0 auto;
+  }
+  
+  .timeline-content {
+    text-align: center;
+  }
+}
+
+/* Achievement cards */
+.achievement-card {
+  display: flex;
+  background: rgba(20, 20, 30, 0.7);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(80, 80, 120, 0.2);
+}
+
+/* Light theme override for achievement cards */
+body.light-theme .achievement-card {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+/* Alternative light theme selector for achievement cards */
+:root:not([data-theme="dark"]) .achievement-card {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+.achievement-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: var(--color-blue);
+}
+
+.achievement-card.locked {
+  opacity: 0.7;
+  filter: grayscale(0.5);
+}
+
+.achievement-card.unlocked {
+  border-color: var(--color-green-forest);
+}
+
+.achievement-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--color-acai), var(--color-blue));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.achievement-icon i {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.achievement-details {
+  flex: 1;
+}
+
+.achievement-details h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  color: white;
+}
+
+/* Light theme override for achievement details */
+body.light-theme .achievement-details h3 {
+  color: var(--color-purpledark);
+}
+
+/* Alternative light theme selector for achievement details */
+:root:not([data-theme="dark"]) .achievement-details h3 {
+  color: var(--color-purpledark);
+}
+
+.achievement-details p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Light theme override for achievement description */
+body.light-theme .achievement-details p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+/* Alternative light theme selector for achievement description */
+:root:not([data-theme="dark"]) .achievement-details p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+.achievement-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Wish list item cards */
+.wishlist-game-card {
+  display: flex;
+  background: rgba(20, 20, 30, 0.7);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(80, 80, 120, 0.2);
+}
+
+/* Light theme override for wishlist cards */
+body.light-theme .wishlist-game-card {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+/* Alternative light theme selector for wishlist cards */
+:root:not([data-theme="dark"]) .wishlist-game-card {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+.wishlist-game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: var(--color-blue);
+}
+
+.wishlist-game-card .game-image {
+  width: 150px;
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.wishlist-game-card .game-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.wishlist-game-card:hover .game-image img {
+  transform: scale(1.1);
+}
+
+.wishlist-game-card .game-details {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.wishlist-game-card .game-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+/* Light theme override for game title */
+body.light-theme .wishlist-game-card .game-title {
+  color: var(--color-purpledark);
+}
+
+/* Alternative light theme selector for game title */
+:root:not([data-theme="dark"]) .wishlist-game-card .game-title {
+  color: var(--color-purpledark);
+}
+
+.wishlist-game-card .game-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-green-glow);
+  margin-bottom: 0.5rem;
+}
+
+.wishlist-game-card .game-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.wishlist-game-card .btn-add-cart {
+  background: var(--color-green-glow);
+  color: var(--color-dark);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.wishlist-game-card .btn-add-cart:hover {
+  background: var(--color-green-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(20, 133, 58, 0.2);
+  color: var(--color-dark);
+}
+
+.wishlist-game-card .btn-remove-wishlist {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wishlist-game-card .btn-remove-wishlist:hover {
+  background: rgba(220, 53, 69, 0.2);
+}
+
+/* Wishlisted items */
+.wishlisted {
+  color: #ff6b6b !important;
+}
+
+.wishlist-button.wishlisted i.fas.fa-heart {
+  color: #ff6b6b;
+}
+
+/* Level up notification */
+.level-up-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--color-acai), var(--color-blue));
+  color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateX(120%);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.level-up-notification.show {
+  transform: translateX(0);
+}
+
+.level-up-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.level-up-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.level-up-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Empty states */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-white-cottom);
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+}
+
+.btn-primary, .btn-explore {
+  background: linear-gradient(90deg, var(--color-acai), var(--color-blue));
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-explore:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(107, 63, 160, 0.4);
+}
+
+/* Settings tab */
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.settings-section {
+  background: rgba(30, 30, 40, 0.5);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(80, 80, 120, 0.2);
+}
+
+/* Light theme override for settings sections */
+body.light-theme .settings-section {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+.settings-section h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  color: var(--color-white-cottom);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.75rem;
+}
+
+/* Light theme override for settings headings */
+body.light-theme .settings-section h3 {
+  color: var(--color-purpledark);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+/* Alternative light theme selector for settings headings */
+:root:not([data-theme="dark"]) .settings-section h3 {
+  color: var(--color-purpledark);
+  border-bottom: 1px solid rgba(90, 46, 152, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--color-white-cottom);
+}
+
+.settings-form .form-control {
+  background: rgba(20, 20, 30, 0.6);
+  border: 1px solid rgba(80, 80, 120, 0.3);
+  color: var(--color-white-cottom);
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.settings-form .form-control:focus {
+  outline: none;
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.form-check {
+  margin-bottom: 1rem;
+}
+
+.form-check-input {
+  margin-right: 0.5rem;
+}
+
+.btn-save {
+  background: var(--color-blue);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+  background: var(--color-acai);
+  transform: translateY(-2px);
+}
+
+.danger-zone {
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+.danger-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.danger-text h4 {
+  color: #dc3545;
+  margin-bottom: 0.5rem;
+}
+
+.danger-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.btn-danger {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .wishlist-game-card {
+    flex-direction: column;
+  }
+  
+  .wishlist-game-card .game-image {
+    width: 100%;
+    height: 150px;
+  }
+  
+  .danger-action {
+    flex-direction: column;
+  }
+  
+  .danger-text {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .achievement-card {
+    flex-direction: column;
+  }
+  
+  .achievement-icon {
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+  
+  .achievement-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Adding light theme styles for timeline items */
+body.light-theme .timeline-item {
+  color: var(--color-purpledark);
+}
+
+/* Light theme for profile tabs */
+body.light-theme .profile-tab {
+  color: var(--color-purpledark);
+}
+
+:root:not([data-theme="dark"]) .profile-tab {
+  color: var(--color-purpledark);
+}
+
+body.light-theme .profile-tab.active {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+  box-shadow: 0 0 0 1px rgba(90, 46, 152, 0.3);
+}
+
+:root:not([data-theme="dark"]) .profile-tab.active {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+  box-shadow: 0 0 0 1px rgba(90, 46, 152, 0.3);
+}
+
+/* Light theme styles for card link */
+body.light-theme .card-link {
+  color: var(--accent-primary);
+}
+
+:root:not([data-theme="dark"]) .card-link {
+  color: var(--accent-primary);
+}
+
+/* Light theme styles for timeline elements */
+body.light-theme .timeline-item:not(:last-child)::after {
+  background: var(--accent-secondary);
+}
+
+:root:not([data-theme="dark"]) .timeline-item:not(:last-child)::after {
+  background: var(--accent-secondary);
+}
+
+body.light-theme .timeline-icon {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+}
+
+:root:not([data-theme="dark"]) .timeline-icon {
+  background: rgba(90, 46, 152, 0.1);
+  color: var(--accent-primary);
+}
+
+body.light-theme .timeline-content h4 {
+  color: var(--color-purpledark);
+}
+
+:root:not([data-theme="dark"]) .timeline-content h4 {
+  color: var(--color-purpledark);
+}
+
+body.light-theme .timeline-content p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+:root:not([data-theme="dark"]) .timeline-content p {
+  color: var(--color-purpledark);
+  opacity: 0.8;
+}
+
+body.light-theme .timeline-time {
+  color: var(--accent-primary);
+}
+
+:root:not([data-theme="dark"]) .timeline-time {
+  color: var(--accent-primary);
+}
+
+/* Light theme override for settings sections */
+body.light-theme .settings-section {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+}
+
+:root:not([data-theme="dark"]) .settings-section {
+  background-color: var(--color-white-cottom);
+  border: 1px solid var(--accent-secondary);
+} 
